@@ -1,0 +1,61 @@
+<div class="flight-search">
+
+  <div class="search-fields">
+
+    <div class="field-group">
+      <label for="fromAirport">From</label>
+      <input
+        type="text"
+        id="fromAirport"
+        name="fromAirport"
+        placeholder="Origin airport"
+        [(ngModel)]="searchCriteria.fromAirport"
+      />
+    </div>
+
+    <div class="field-group">
+      <label for="toAirport">To</label>
+      <input
+        type="text"
+        id="toAirport"
+        name="toAirport"
+        placeholder="Destination airport"
+        [(ngModel)]="searchCriteria.toAirport"
+      />
+    </div>
+
+    <div class="field-group">
+      <label for="departureDate">Depart</label>
+      <input
+        type="date"
+        id="departureDate"
+        name="departureDate"
+        [(ngModel)]="searchCriteria.departureDate"
+      />
+    </div>
+
+    <div class="field-group">
+      <label for="passengers">Travelers</label>
+      <input
+        type="number"
+        id="passengers"
+        name="passengers"
+        placeholder="1"
+        min="1"
+        [(ngModel)]="searchCriteria.passengers"
+      />
+    </div>
+
+    <button class="search-button" (click)="searchFlights()">Search Flights</button>
+
+  </div>
+
+  @if (loading) {
+    <div class="loading-message">Searching the skies for the best fares...</div>
+  } @else {
+    <app-flight-results
+        [flightResults]="flightResults"
+    ></app-flight-results>
+  }
+
+</div>
