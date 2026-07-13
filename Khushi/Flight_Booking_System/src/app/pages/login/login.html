@@ -1,0 +1,85 @@
+<div class="auth-container">
+  <div class="hero-section">
+   <img
+      src="images/flight.avif"
+      alt="Flight Booking"
+      class="hero-image"
+    />
+    <div class="hero-overlay">
+      <div class="hero-content">
+
+        <h1>
+          Discover the World
+          <br>
+          With Confidence
+        </h1>
+
+        <p>
+          Book flights, manage reservations, and explore destinations
+          around the globe with a seamless travel experience.
+        </p>        
+      </div>
+    </div>
+  </div>
+  <div class="auth-card">
+
+    <h1>Welcome Back</h1>
+
+    <p class="subtitle">
+      Sign in to continue your journey.
+    </p>
+
+    <form (ngSubmit)="onLogin()">
+
+      <div class="input-group">
+
+        <label>Email Address</label>
+
+        <input type="email" name="email" [(ngModel)]="email" placeholder="Enter your email"  required   />
+
+      </div>
+
+      <div class="input-group">
+
+        <label>Password</label>
+
+        <input type="password" name="password" [(ngModel)]="password" placeholder="Enter your password" required/>
+
+      </div>
+      <div class="input-group">
+
+        <label>Login As</label>
+
+        <select name="role" [(ngModel)]="role" required>
+          <option [ngValue]="null"> Select Role</option>
+
+          <option [ngValue]="UserRole.USER">
+            User
+          </option>
+
+          <option [ngValue]="UserRole.ADMIN">
+            Admin
+          </option>
+
+        </select>
+
+      </div>
+
+      <button type="submit" class="btn-login"> Login </button>
+
+    </form>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <p class="bottom-text">
+      Don't have an account?
+      <a routerLink="/signup">
+        Create Account
+      </a>
+    </p>
+
+  </div>
+
+</div>
