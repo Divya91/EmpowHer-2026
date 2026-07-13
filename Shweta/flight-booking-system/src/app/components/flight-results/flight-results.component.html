@@ -1,0 +1,16 @@
+@if (flightResults.length === 0) {
+  <p class="empty-message">No flights found</p>
+} @else {
+  <div class="results-list">
+    @for (result of flightResults; track $index) {
+      <div class="flight-card">
+        <div class="airline-name">{{ result.airlineName }}</div>
+        <div class="flight-details">
+          <span>Departure: {{ result.departureTs }}</span>
+          <span>Arrival: {{ result.arrivalTs }}</span>
+          <span>Price: {{ result.basePrice }}</span>
+        </div>
+      </div>
+    }
+  </div>
+}
