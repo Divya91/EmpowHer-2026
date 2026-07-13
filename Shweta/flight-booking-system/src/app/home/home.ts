@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FlightSearchComponent } from '../components/flight-search/flight-search.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FlightSearchComponent],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
