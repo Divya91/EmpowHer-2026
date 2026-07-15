@@ -1,0 +1,36 @@
+<div class="flight-results">
+
+  @if (flightResults.length === 0) {
+    <p class="empty-message">No flights found. Try a different search.</p>
+  } @else {
+    <div class="results-list">
+      @for (result of flightResults; track $index) {
+        <div class="flight-card">
+
+          <div class="flight-card-main">
+            <span class="airline-name">{{ result.airlineName }}</span>
+            <span class="flight-route">{{ result.fromAirport }} &#8594; {{ result.toAirport }}</span>
+          </div>
+
+          <div class="flight-card-times">
+            <div class="time-block">
+              <span class="time-label">Departure</span>
+              <span class="time-value">{{ result.departureTs | date: 'MMM d, h:mm a' }}</span>
+            </div>
+            <div class="time-block">
+              <span class="time-label">Arrival</span>
+              <span class="time-value">{{ result.arrivalTs | date: 'MMM d, h:mm a' }}</span>
+            </div>
+          </div>
+
+          <div class="flight-card-price">
+            <span class="price-value">&#8377;{{ result.basePrice }}</span>
+            <span class="price-label">per traveler</span>
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+
+</div>
