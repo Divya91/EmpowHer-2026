@@ -1,0 +1,169 @@
+.details-page {
+  min-height: 100vh;
+  padding: 40px 7%;
+  background: #f7f8fc;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #4d68c9;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.details-card,
+.metadata-grid article,
+.fare-card {
+  background: white;
+  border: 1px solid #e8eaf2;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(39, 48, 89, 0.08);
+}
+
+.details-card {
+  padding: 28px;
+}
+
+.details-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  color: #7365df;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.details-top h1 {
+  margin: 6px 0;
+  font-size: 34px;
+}
+
+.price {
+  text-align: right;
+}
+
+.price span {
+  display: block;
+  color: #777d8e;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.price strong {
+  font-size: 30px;
+}
+
+.journey {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 24px;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid #eceef4;
+}
+
+.journey > div {
+  display: grid;
+  gap: 5px;
+}
+
+.journey > div:last-child {
+  text-align: right;
+}
+
+.journey strong {
+  font-size: 28px;
+}
+
+.journey span {
+  font-weight: 700;
+}
+
+.journey small {
+  color: #7b8190;
+}
+
+.journey-line {
+  align-content: center;
+  text-align: center;
+}
+
+.journey-line div {
+  height: 1px;
+  margin: 8px 0;
+  background: #c7cada;
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.metadata-grid article,
+.fare-card {
+  padding: 24px;
+}
+
+.metadata-grid h3,
+.fare-card h3 {
+  margin-bottom: 18px;
+}
+
+.metadata-grid p {
+  display: grid;
+  gap: 4px;
+  margin: 14px 0;
+}
+
+.metadata-grid span {
+  color: #7d8291;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.fare-card {
+  margin-top: 18px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.badges span {
+  padding: 8px 13px;
+  background: #f1f3f8;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.empty-state {
+  padding: 70px 20px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .details-top,
+  .metadata-grid {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .price,
+  .journey > div:last-child {
+    text-align: left;
+  }
+
+  .journey {
+    grid-template-columns: 1fr;
+  }
+}
