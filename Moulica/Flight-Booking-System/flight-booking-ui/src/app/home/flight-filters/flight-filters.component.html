@@ -1,0 +1,33 @@
+<div class="filter-card">
+  <h2>Filters</h2>
+
+  <label>Airline</label>
+
+  <select [(ngModel)]="filters.airline" (ngModelChange)="applyFilters()">
+    <option value="">All Airlines</option>
+    <option value="DL">Delta Air Lines</option>
+    <option value="EK">Emirates</option>
+    <option value="AI">Air India</option>
+  </select>
+
+  <label>Maximum Price</label>
+
+  <input
+    type="number"
+    [(ngModel)]="filters.maxPrice"
+    placeholder="₹ Maximum Price"
+    (ngModelChange)="applyFilters()"
+  />
+
+  <label>Sort By</label>
+
+  <select [(ngModel)]="filters.sortBy" (ngModelChange)="applyFilters()">
+    <option value="priceLow">Lowest Price</option>
+    <option value="priceHigh">Highest Price</option>
+    <option value="departure">Earliest Departure</option>
+    <option value="duration">Shortest Duration</option>
+  </select>
+
+  <!-- Remove this button once instant filters work -->
+  <!-- <button (click)="applyFilters()">Apply Filters</button> -->
+</div>

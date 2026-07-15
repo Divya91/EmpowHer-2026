@@ -1,0 +1,30 @@
+<header class="navbar">
+  <div class="logo">✈ <span>Let's Fly</span></div>
+
+  <div class="user-section">
+    <span class="welcome">
+      Welcome,
+      <strong>{{ userName }}</strong>
+    </span>
+
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</header>
+
+<div class="page-container">
+  <!-- Search Section -->
+  <app-flight-search (flightsFound)="onFlightsFound($event)">
+  </app-flight-search>
+
+  <!-- Main Content -->
+  <div class="content">
+    <!-- Left Filters -->
+    <app-flight-filters (filterChanged)="onFilterChanged($event)">
+    </app-flight-filters>
+
+    <!-- Right Flight Results -->
+    <div class="results">
+      <app-flight-results [flights]="flights"> </app-flight-results>
+    </div>
+  </div>
+</div>

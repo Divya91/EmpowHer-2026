@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eef4ff;
+}
+
+.login-card {
+  width: 420px;
+
+  background: white;
+
+  padding: 40px;
+
+  border-radius: 15px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  font-size: 50px;
+
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+
+  margin-top: 10px;
+}
+
+.subtitle {
+  text-align: center;
+
+  color: gray;
+
+  margin-bottom: 30px;
+}
+
+label {
+  display: block;
+
+  margin-top: 15px;
+
+  margin-bottom: 5px;
+
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+
+  padding: 12px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+}
+
+.password-box {
+  display: flex;
+
+  gap: 10px;
+}
+
+.eye-btn {
+  width: 55px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  background: #1976d2;
+
+  color: white;
+}
+
+.options {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 18px;
+
+  font-size: 14px;
+}
+
+.options a {
+  text-decoration: none;
+}
+
+.login-btn {
+  width: 100%;
+
+  margin-top: 25px;
+
+  padding: 12px;
+
+  background: linear-gradient(135deg, #1976d2, #4facfe);
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 17px;
+}
+
+.login-btn:hover {
+  background: linear-gradient(135deg, #1565c0, #2196f3);
+}
+
+.signup {
+  text-align: center;
+
+  margin-top: 25px;
+}
+
+.options {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 18px;
+}
+
+.remember {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.remember input {
+  width: auto;
+}
+
+.remember label {
+  margin: 0;
+
+  font-weight: 500;
+}
+
+.error {
+  color: red;
+
+  font-size: 13px;
+
+  margin-top: 5px;
+}

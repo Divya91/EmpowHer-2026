@@ -1,0 +1,40 @@
+<div class="search-card">
+  <h2>Find Your Flight ✈</h2>
+
+  <div class="search-grid">
+    <div class="form-group">
+      <label>From</label>
+      <input type="text" placeholder="From Airport" [(ngModel)]="search.from" />
+    </div>
+
+    <div class="form-group">
+      <label>To</label>
+      <input type="text" placeholder="To Airport" [(ngModel)]="search.to" />
+    </div>
+
+    <div class="form-group">
+      <label>Departure Date</label>
+      <input type="date" [(ngModel)]="search.date" />
+    </div>
+
+    <div class="form-group">
+      <label>Passengers</label>
+      <input type="number" min="1" [(ngModel)]="search.passengers" />
+    </div>
+
+    <div class="form-group">
+      <label>Stops</label>
+      <select [(ngModel)]="search.stops">
+        <option value="">Any</option>
+
+        <option value="0">Non Stop</option>
+
+        <option value="1">1 Stop</option>
+
+        <option value="2">2 Stops</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="search-btn" (click)="searchFlights()">Search Flights</button>
+</div>

@@ -1,0 +1,49 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo">✈</div>
+
+    <h1>Let's Fly</h1>
+
+    <p class="subtitle">Welcome Back! Ready for your next journey?</p>
+
+    <label>Email</label>
+
+    <input type="email" placeholder="Enter your email" [(ngModel)]="email" />
+
+    <label>Password</label>
+
+    <div class="password-box">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Enter your password"
+        [(ngModel)]="password"
+      />
+
+      <button
+        class="eye-btn"
+        type="button"
+        (click)="showPassword = !showPassword"
+      >
+        {{ showPassword ? "🙈" : "👁" }}
+      </button>
+    </div>
+
+    <div class="options">
+      <div class="remember">
+        <input type="checkbox" id="remember" [(ngModel)]="rememberMe" />
+
+        <label for="remember"> Remember Me </label>
+      </div>
+
+      <a href="#"> Forgot Password? </a>
+    </div>
+
+    <button class="login-btn" (click)="login()">Login</button>
+
+    <p class="signup">
+      New User?
+
+      <a routerLink="/signup"> Sign Up </a>
+    </p>
+  </div>
+</div>
