@@ -1,0 +1,75 @@
+<section class="register-page">
+
+  <div class="register-card">
+
+    <div class="brand-mark">✈</div>
+
+    <p class="eyebrow">Join Flyora</p>
+
+    <h1>Create your travel account</h1>
+
+    <p class="subtitle">
+      Save bookings and manage your journeys in one place.
+    </p>
+
+    <form (ngSubmit)="register()">
+
+      <label for="fullName">Full name</label>
+
+      <input
+        id="fullName"
+        type="text"
+        name="fullName"
+        [(ngModel)]="fullName"
+        placeholder="Enter your full name"
+      >
+
+      <label for="email">Email address</label>
+
+      <input
+        id="email"
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="you@example.com"
+      >
+
+      <label for="password">Password</label>
+
+      <input
+        id="password"
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Minimum 8 characters"
+      >
+
+      @if (errorMessage) {
+        <p class="message error">
+          {{ errorMessage }}
+        </p>
+      }
+
+      @if (successMessage) {
+        <p class="message success">
+          {{ successMessage }}
+        </p>
+      }
+
+      <button
+        type="submit"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Creating account...' : 'Create account' }}
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already registered?
+      <a routerLink="/login">Login here</a>
+    </p>
+
+  </div>
+
+</section>

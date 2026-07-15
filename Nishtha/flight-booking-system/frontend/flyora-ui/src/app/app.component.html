@@ -1,0 +1,11 @@
+@if (!hideLayout()) {
+  <app-navbar></app-navbar>
+}
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+@if (!hideLayout()) {
+  <app-footer></app-footer>
+}

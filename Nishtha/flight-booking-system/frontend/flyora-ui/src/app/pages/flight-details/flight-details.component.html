@@ -1,0 +1,122 @@
+<section class="details-page">
+
+  <a
+    routerLink="/flights"
+    class="back-link"
+  >
+    ← Back to search
+  </a>
+
+  @if (flight) {
+
+    <div class="details-card">
+
+      <div class="details-top">
+
+        <div>
+          <p class="eyebrow">Flight details</p>
+          <h1>
+            {{ flight.airline }}
+            {{ flight.flightNumber }}
+          </h1>
+
+          <p>
+            {{ flight.fromAirport }}
+            →
+            {{ flight.toAirport }}
+          </p>
+        </div>
+
+        <div class="price">
+          <span>From</span>
+          <strong>₹{{ flight.price }}</strong>
+        </div>
+
+      </div>
+
+      <div class="journey">
+
+        <div>
+          <strong>{{ flight.departureTime }}</strong>
+          <span>{{ flight.fromAirport }}</span>
+          <small>{{ flight.travelDate }}</small>
+        </div>
+
+        <div class="journey-line">
+          <span>Direct</span>
+          <div></div>
+          <small>{{ flight.cabinClass }}</small>
+        </div>
+
+        <div>
+          <strong>{{ flight.arrivalTime }}</strong>
+          <span>{{ flight.toAirport }}</span>
+          <small>{{ flight.travelDate }}</small>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="metadata-grid">
+
+      <article>
+        <h3>Trip metadata</h3>
+
+        <p>
+          <span>Cabin</span>
+          <strong>{{ flight.cabinClass }}</strong>
+        </p>
+
+        <p>
+          <span>Seats left</span>
+          <strong>{{ flight.availableSeats }}</strong>
+        </p>
+
+        <p>
+          <span>Refundable</span>
+          <strong>No</strong>
+        </p>
+      </article>
+
+      <article>
+        <h3>Passenger details</h3>
+
+        <p>
+          <span>Baggage</span>
+          <strong>1 carry-on, 1 checked bag</strong>
+        </p>
+
+        <p>
+          <span>Meal</span>
+          <strong>Available</strong>
+        </p>
+
+        <p>
+          <span>On-time performance</span>
+          <strong>82%</strong>
+        </p>
+      </article>
+
+    </div>
+
+    <article class="fare-card">
+      <h3>Fare metadata</h3>
+
+      <div class="badges">
+        <span>Wi-Fi</span>
+        <span>Power outlet</span>
+        <span>Meal available</span>
+      </div>
+    </article>
+
+  } @else {
+
+    <div class="empty-state">
+      <h2>Flight details unavailable</h2>
+      <p>Please return to search and select a flight again.</p>
+    </div>
+
+  }
+
+</section>
