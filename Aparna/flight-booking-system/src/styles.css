@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette - Luxury / Premium / Modern / Clean */
+  --color-navy-950: #070f1f;
+  --color-navy-900: #0b1830;
+  --color-navy-800: #10213f;
+  --color-navy-700: #172c50;
+  --color-navy-600: #223a63;
+  --color-navy-500: #2f4a7a;
+
+  --color-cream-50: #fffefb;
+  --color-cream-100: #fbf8f1;
+  --color-cream-200: #f5efe2;
+  --color-cream-300: #ece2ca;
+
+  --color-gold-400: #d9b968;
+  --color-gold-500: #c9a227;
+  --color-gold-600: #a8841c;
+
+  --font-display: "Playfair Display", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream-50);
+  color: var(--color-navy-900);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-gold-500);
+  color: var(--color-navy-950);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-600);
+  border-radius: 999px;
+}
