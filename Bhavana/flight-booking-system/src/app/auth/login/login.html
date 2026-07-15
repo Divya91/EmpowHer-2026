@@ -1,0 +1,33 @@
+<div class="page">
+
+  <div class="login-card">
+
+    <h1>Flight Booking System</h1>
+
+    <h2>Login</h2>
+
+    <input
+      type="email"
+      placeholder="Email"
+      [(ngModel)]="email">
+
+    <input
+      type="password"
+      placeholder="Password"
+      [(ngModel)]="password">
+
+    <button
+      (click)="login()"
+      [disabled]="loading">
+
+      {{ loading ? 'Logging in...' : 'Login' }}
+
+    </button>
+
+    <p class="error">
+      {{ errorMessage }}
+    </p>
+
+  </div>
+
+</div>
