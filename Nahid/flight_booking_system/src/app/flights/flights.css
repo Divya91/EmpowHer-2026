@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.flights-page {
+  padding: 64px 32px 96px;
+  background: #fffbf5;
+  min-height: calc(100vh - 76px);
+}
+
+.flights-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.flights-header {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.flights-eyebrow {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #d9541f;
+}
+
+.flights-title {
+  margin: 0 0 12px;
+  font-size: 38px;
+  font-weight: 600;
+  color: #0b2b26;
+}
+
+.flights-subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #4a5568;
+}
+
+@media (max-width: 640px) {
+  .flights-page {
+    padding: 40px 20px 64px;
+  }
+
+  .flights-title {
+    font-size: 28px;
+  }
+}
