@@ -1,0 +1,366 @@
+:host {
+  display: block;
+  width: 100%;
+  background: #f9f7f3;
+  min-height: 100vh;
+}
+
+.search-with-filters-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 20px;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #0b1830;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.search-container {
+  margin-bottom: 28px;
+  background: #ffffff;
+  border: 1px solid #f0e9d8;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(11, 24, 48, 0.05);
+}
+
+.search-inputs {
+  display: grid;
+  grid-template-columns: 1.2fr 40px 1.2fr 140px 80px auto auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.search-input {
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #172c50;
+  background: #fafbfc;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.swap-icon {
+  text-align: center;
+  font-size: 18px;
+  color: #9aa5b5;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.swap-icon:hover {
+  color: #7c3aed;
+  transform: rotateY(180deg);
+}
+
+.btn-search {
+  background: #4f46e5;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.btn-search:hover {
+  background: #4338ca;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-reset {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-reset:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.results-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+}
+
+.filters-sidebar {
+  background: #ffffff;
+  border: 1px solid #f0e9d8;
+  border-radius: 12px;
+  padding: 20px;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.filter-section {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0e9d8;
+}
+
+.filter-section:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.filter-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b1830;
+  margin: 0 0 14px 0;
+}
+
+.filter-group {
+  display: grid;
+  gap: 10px;
+}
+
+.filter-option {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.filter-option:hover {
+  background: #f9f7f3;
+}
+
+.filter-option input[type="radio"],
+.filter-option input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #7c3aed;
+}
+
+.option-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #172c50;
+}
+
+.option-price {
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #9aa5b5;
+}
+
+.option-time {
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #9aa5b5;
+}
+
+.price-slider-container {
+  position: relative;
+  padding: 12px 0 24px 0;
+}
+
+.price-slider {
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.price-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #7c3aed;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+}
+
+.price-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #7c3aed;
+  cursor: pointer;
+  pointer-events: auto;
+  border: none;
+  box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+}
+
+.price-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.airlines-list {
+  display: grid;
+  gap: 8px;
+}
+
+.airline-option {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.airline-option:hover {
+  background: #f9f7f3;
+}
+
+.airline-option input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #7c3aed;
+}
+
+.airline-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #172c50;
+}
+
+.airline-count {
+  font-size: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: #9aa5b5;
+}
+
+.results-main {
+  background: #ffffff;
+  border: 1px solid #f0e9d8;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.results-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.results-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0b1830;
+  margin: 0;
+}
+
+.results-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 6px 0 0 0;
+}
+
+.sort-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.sort-label {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fafbfc;
+  font-size: 13px;
+  color: #172c50;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.sort-select:hover,
+.sort-select:focus {
+  border-color: #7c3aed;
+  outline: none;
+}
+
+@media (max-width: 1024px) {
+  .results-container {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-inputs {
+    grid-template-columns: 1fr;
+  }
+
+  .swap-icon {
+    display: none;
+  }
+
+  .page-header h1 {
+    font-size: 24px;
+  }
+
+  .results-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

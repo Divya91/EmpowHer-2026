@@ -20,6 +20,12 @@
         (click)="closeMenu()">
         Flights
       </a>
+      <a
+        routerLink="/flights/search-with-filters"
+        routerLinkActive="active"
+        (click)="closeMenu()">
+        Search with Filters
+      </a>
       @if (authService.isLoggedIn()) {
         <a
           routerLink="/dashboard"

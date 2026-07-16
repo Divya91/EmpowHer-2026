@@ -1,0 +1,176 @@
+<div class="search-with-filters-page">
+  <div class="page-header">
+    <h1>Search With Filters</h1>
+    <p class="subtitle">Component communication, route parameters, and flight detail metadata in one sample.</p>
+  </div>
+
+  <div class="search-container">
+    <div class="search-box">
+      <div class="search-inputs">
+        <input type="text" placeholder="New York (JFK)" readonly class="search-input">
+        <span class="swap-icon">⇄</span>
+        <input type="text" placeholder="London (LHR)" readonly class="search-input">
+        <input type="date" value="2026-07-14" class="search-input">
+        <input type="number" value="1" min="1" class="search-input">
+        <button class="btn-search">Search</button>
+        <button class="btn-reset" (click)="resetFilters()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-container">
+    <div class="filters-sidebar">
+      <div class="filter-section">
+        <h3 class="filter-title">Stops</h3>
+        <div class="filter-group">
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="stops" 
+              value="any"
+              [checked]="filters().stops === 'any'"
+              (change)="onStopsChange('any')"
+            >
+            <span class="option-text">Any stops</span>
+            <span class="option-price">₹28,000+</span>
+          </label>
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="stops" 
+              value="nonstop"
+              [checked]="filters().stops === 'nonstop'"
+              (change)="onStopsChange('nonstop')"
+            >
+            <span class="option-text">Nonstop</span>
+            <span class="option-price">₹35,000+</span>
+          </label>
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="stops" 
+              value="up-to-1"
+              [checked]="filters().stops === 'up-to-1'"
+              (change)="onStopsChange('up-to-1')"
+            >
+            <span class="option-text">Up to 1 stop</span>
+            <span class="option-price">₹28,000+</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Price</h3>
+        <div class="price-slider-container">
+          <input 
+            type="range" 
+            min="28000" 
+            max="55000" 
+            [value]="filters().priceRange[0]"
+            (change)="onPriceChange($event.target.valueAsNumber, filters().priceRange[1])"
+            class="price-slider"
+          >
+          <input 
+            type="range" 
+            min="28000" 
+            max="55000" 
+            [value]="filters().priceRange[1]"
+            (change)="onPriceChange(filters().priceRange[0], $event.target.valueAsNumber)"
+            class="price-slider"
+          >
+          <div class="price-labels">
+            <span class="price-min">₹{{ filters().priceRange[0].toLocaleString('en-IN') }}</span>
+            <span class="price-max">₹{{ filters().priceRange[1].toLocaleString('en-IN') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Departure Time</h3>
+        <div class="filter-group">
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="departure" 
+              value="any"
+              [checked]="filters().departureTime === 'any'"
+              (change)="onDepartureTimeChange('any')"
+            >
+            <span class="option-text">Any time</span>
+            <span class="option-time">All day</span>
+          </label>
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="departure" 
+              value="morning"
+              [checked]="filters().departureTime === 'morning'"
+              (change)="onDepartureTimeChange('morning')"
+            >
+            <span class="option-text">Morning</span>
+            <span class="option-time">5a - 12p</span>
+          </label>
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="departure" 
+              value="afternoon"
+              [checked]="filters().departureTime === 'afternoon'"
+              (change)="onDepartureTimeChange('afternoon')"
+            >
+            <span class="option-text">Afternoon</span>
+            <span class="option-time">12p - 5p</span>
+          </label>
+          <label class="filter-option">
+            <input 
+              type="radio" 
+              name="departure" 
+              value="evening"
+              [checked]="filters().departureTime === 'evening'"
+              (change)="onDepartureTimeChange('evening')"
+            >
+            <span class="option-text">Evening</span>
+            <span class="option-time">5p - 11p</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3 class="filter-title">Airlines</h3>
+        <div class="airlines-list">
+          @for (airline of availableAirlines; track airline.code) {
+            <label class="airline-option">
+              <input 
+                type="checkbox"
+                [checked]="isAirlineSelected(airline.code)"
+                (change)="onAirlineToggle(airline.code)"
+              >
+              <span class="airline-name">{{ airline.name }}</span>
+              <span class="airline-count">{{ (flights() | slice:(flights().length - 1)).length }}</span>
+            </label>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="results-main">
+      <div class="results-header">
+        <h2 class="results-title">{{ filteredFlights.length }} flights found</h2>
+        <p class="results-subtitle">Showing results for New York (JFK) to London (LHR)</p>
+        <div class="sort-container">
+          <label class="sort-label">Sort by</label>
+          <select class="sort-select">
+            <option>Lowest price</option>
+            <option>Earliest departure</option>
+            <option>Shortest duration</option>
+          </select>
+        </div>
+      </div>
+
+      <app-flight-results 
+        [flightResults]="filteredFlights"
+        (flightSelected)="onFlightSelected($event)"
+      ></app-flight-results>
+    </div>
+  </div>
+</div>

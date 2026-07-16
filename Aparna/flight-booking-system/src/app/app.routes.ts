@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./flights/flights').then(m => m.FlightsComponent)
   },
   {
+    path: 'flights/search-with-filters',
+    loadComponent: () =>
+      import('./components/search-with-filters/search-with-filters').then(m => m.SearchWithFilters)
+  },
+  {
     path: 'auth',
     loadComponent: () =>
       import('./auth/auth').then(m => m.AuthComponent)
