@@ -1,0 +1,8 @@
+@if (flightResults.length === 0) {
+  No Flights found
+} @else {
+  @for (result of flightResults; track $index) {
+    {{ result.airlineName }} - {{ result.airlineName }} -
+    {{ result.arrivalTs }} - {{ result.departureTs }} - {{ result.basePrice }}
+  }
+}

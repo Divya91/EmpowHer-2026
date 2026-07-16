@@ -1,0 +1,17 @@
+
+<div class="auth-container">
+    <h2>Flight Booking - Login</h2>
+    <form (ngSubmit)="onSubmit()">
+        <div class="form-group" >
+            <label>Email</label>
+            <input type = "email" [(ngModel)]="email" name="email" required />
+        </div>
+        <div class="form-group" >
+            <label>Password</label>
+            <input type = "password" [(ngModel)]="password" name="password" required />
+        </div>
+        <button type="submit" [disabled]="isLoading">
+            {{ isLoading ? 'Logging in...' : 'Login'}}
+        </button>
+    </form>
+</div>
