@@ -1,0 +1,68 @@
+# Node
+**/node_modules/
+**/dist/
+
+# Angular
+**/.angular/
+**/dist/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Java
+**/build/
+**/.gradle/
+
+# IntelliJ
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.history/
+
+# Spring Boot
+**/build/
+**/.gradle/
+
+# IntelliJ
+**/.idea/
+
+# VS Code
+.vscode/
+
+
+# Node
+**/node_modules/
+**/dist/
+**/.angular/
+
+# Java
+**/build/
+**/.gradle/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
