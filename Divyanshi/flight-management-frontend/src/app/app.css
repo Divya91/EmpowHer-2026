@@ -1,0 +1,43 @@
+.app-header {
+  background: linear-gradient(135deg, #0b3d91, #1e5fbf);
+  padding: 20px 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  font-size: 26px;
+  color: #ffffff;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.tagline {
+  color: #cfe0ff;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.app-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 40px;
+}
