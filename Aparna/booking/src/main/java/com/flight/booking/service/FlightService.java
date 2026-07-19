@@ -2,6 +2,7 @@ package com.flight.booking.service;
 
 import com.flight.booking.dto.FlightResponse;
 import com.flight.booking.entity.Flight;
+import com.flight.booking.exception.ApiException;
 import com.flight.booking.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

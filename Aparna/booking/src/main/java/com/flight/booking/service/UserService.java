@@ -5,6 +5,7 @@ import com.flight.booking.dto.SignupRequest;
 import com.flight.booking.dto.UserResponse;
 import com.flight.booking.entity.Role;
 import com.flight.booking.entity.User;
+import com.flight.booking.exception.ApiException;
 import com.flight.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
