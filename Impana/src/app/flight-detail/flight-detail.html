@@ -1,0 +1,21 @@
+<div *ngIf="flight" class="detail-container">
+  <h2>Flight Reservation Confirmation</h2>
+  <hr />
+  <p><strong>Flight Code:</strong> {{ flight.code }}</p>
+  <p><strong>Route:</strong> {{ flight.departureLocation }} ➔ {{ flight.arrivalLocation }}</p>
+  <p><strong>Departure Date:</strong> {{ flight.departureDate }}</p>
+  <p><strong>Price:</strong> ${{ flight.price }}</p>
+  <p><strong>Available Seats Left:</strong> {{ flight.availableSeats }}</p>
+
+  <div class="actions">
+    <button (click)="back()" class="btn-secondary">Back to Search</button>
+    <button (click)="confirmBooking()" [disabled]="flight.availableSeats <= 0" class="btn-primary">
+      {{ flight.availableSeats > 0 ? 'Confirm Booking' : 'Sold Out' }}
+    </button>
+  </div>
+
+  <!-- Status banner to display booking confirmation or errors -->
+  <div *ngIf="bookingMessage" class="status-banner">
+    {{ bookingMessage }}
+  </div>
+</div>
