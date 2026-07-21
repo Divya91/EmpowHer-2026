@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+  background-color: #f4f6f9;
+  color: #1a1a2e;
+}
+
+:root {
+  --primary: #0b3d91;
+  --primary-light: #1e5fbf;
+  --accent: #ff6b35;
+  --success: #2e7d32;
+  --danger: #d32f2f;
+  --gray-light: #f4f6f9;
+  --gray-mid: #e0e4eb;
+  --gray-dark: #6b7280;
+  --white: #ffffff;
+  --radius: 10px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}

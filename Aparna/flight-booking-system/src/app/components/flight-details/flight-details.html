@@ -1,0 +1,9 @@
+<div class="flight-details">
+  <p class="details-line">
+    {{ flight.flightId }} &middot; {{ flight.airlineCode }} &middot; {{ durationLabel }}
+    &middot; {{ flight.stops === 0 ? 'Non-stop' : flight.stops + ' stop' }}
+  </p>
+  <p class="details-line seats">
+    {{ flight.availableSeats }} seat{{ flight.availableSeats === 1 ? '' : 's' }} left at this price
+  </p>
+</div>

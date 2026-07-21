@@ -4,29 +4,45 @@
     <p class="empty-message">No flights found. Try a different search.</p>
   } @else {
     <div class="results-list">
-      @for (result of flightResults; track $index) {
+      @for (result of flightResults; track result.flightId) {
         <div class="flight-card">
 
-          <div class="flight-card-main">
-            <span class="airline-name">{{ result.airlineName }}</span>
-            <span class="flight-route">{{ result.fromAirport }} &#8594; {{ result.toAirport }}</span>
+          <div class="flight-card-row">
+            <div class="flight-card-main">
+              <span class="airline-name">{{ result.airlineCode }}</span>
+              <span class="flight-number">{{ result.flightId }}</span>
+              <span class="flight-route">{{ result.fromAirport }} &#8594; {{ result.toAirport }}</span>
+            </div>
+
+            <div class="flight-card-times">
+              <div class="time-block">
+                <span class="time-label">Departure</span>
+                <span class="time-value">{{ result.departureTs | date: 'MMM d, h:mm a' }}</span>
+              </div>
+              <div class="time-block">
+                <span class="time-label">Arrival</span>
+                <span class="time-value">{{ result.arrivalTs | date: 'MMM d, h:mm a' }}</span>
+              </div>
+            </div>
+
+            <div class="flight-card-price">
+              <span class="price-value">₹{{ result.basePrice }}</span>
+              <span class="price-label">per traveler</span>
+            </div>
+
+            <div class="flight-card-actions">
+              <button class="btn-select" (click)="onSelectFlight(result)">Select</button>
+              <button class="btn-details" (click)="onViewDetails(result)">
+                {{ isExpanded(result) ? 'Hide Details' : 'Details' }}
+              </button>
+            </div>
           </div>
 
-          <div class="flight-card-times">
-            <div class="time-block">
-              <span class="time-label">Departure</span>
-              <span class="time-value">{{ result.departureTs | date: 'MMM d, h:mm a' }}</span>
+          @if (isExpanded(result)) {
+            <div class="details-panel">
+              <app-flight-details [flight]="result"></app-flight-details>
             </div>
-            <div class="time-block">
-              <span class="time-label">Arrival</span>
-              <span class="time-value">{{ result.arrivalTs | date: 'MMM d, h:mm a' }}</span>
-            </div>
-          </div>
-
-          <div class="flight-card-price">
-            <span class="price-value">&#8377;{{ result.basePrice }}</span>
-            <span class="price-label">per traveler</span>
-          </div>
+          }
 
         </div>
       }

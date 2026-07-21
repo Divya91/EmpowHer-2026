@@ -1,0 +1,71 @@
+<section class="login-page">
+
+  <div class="login-card">
+
+    <div class="brand-mark">
+      ✈
+    </div>
+
+    <p class="eyebrow">
+      Welcome back to Flyora
+    </p>
+
+    <h1>Ready for your next journey?</h1>
+
+    <p class="subtitle">
+      Log in to view your bookings and continue exploring.
+    </p>
+
+    <form (ngSubmit)="login()">
+
+      <label for="email">Email address</label>
+
+      <input
+        id="email"
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+      >
+
+      <label for="password">Password</label>
+
+      <input
+        id="password"
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+      >
+
+      @if (errorMessage) {
+        <p class="message error">
+          {{ errorMessage }}
+        </p>
+      }
+
+      @if (successMessage) {
+        <p class="message success">
+          {{ successMessage }}
+        </p>
+      }
+
+      <button
+        type="submit"
+        [disabled]="isLoading"
+      >
+        {{ isLoading ? 'Logging in...' : 'Login to Flyora' }}
+      </button>
+
+    </form>
+
+    <p class="register-link">
+      New to Flyora?
+      <a routerLink="/register">Create an account</a>
+    </p>
+
+  </div>
+
+</section>

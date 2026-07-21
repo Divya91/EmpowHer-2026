@@ -1,0 +1,39 @@
+<div class="search-container">
+  <h2>Search Flights</h2>
+  
+  <!-- Form Inputs -->
+  <div class="search-form">
+    <div>
+      <input type="text" name="from" [(ngModel)]="from" placeholder="From (e.g., JFK)" />
+    </div>
+    <div>
+      <input type="text" name="to" [(ngModel)]="to" placeholder="To (e.g., LAX)" />
+    </div>
+    <div>
+      <input type="date" name="date" [(ngModel)]="date" />
+    </div>
+    <button (click)="search()">Search</button>
+  </div>
+
+  <!-- Results Section -->
+  <div class="results-section" *ngIf="flights.length > 0">
+    <h3>Available Flights</h3>
+    <div class="flight-card" *ngFor="let flight of flights">
+      <div class="flight-info">
+        <strong>Airline:</strong> {{ flight.airlineCode }} | 
+        <strong>Route:</strong> {{ flight.fromAirport }} ➔ {{ flight.toAirport }}
+      </div>
+      <div class="flight-details">
+        <span><strong>Departure:</strong> {{ flight.departureTs | date:'short' }}</span>
+        <span><strong>Price:</strong> ${{ flight.basePrice }}</span>
+        <span><strong>Seats Left:</strong> {{ flight.availableSeats }}</span>
+      </div>
+      <button (click)="viewDetail(flight.id)">View Details & Book</button>
+    </div>
+  </div>
+
+  <!-- No Results Fallback -->
+  <div class="no-results" *ngIf="flights.length === 0">
+    <p>No flights found. Try searching for JFK to LAX on 2026-06-15!</p>
+  </div>
+</div>

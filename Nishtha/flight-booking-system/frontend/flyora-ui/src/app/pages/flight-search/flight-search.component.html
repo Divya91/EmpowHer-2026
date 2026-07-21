@@ -1,0 +1,315 @@
+<section class="search-page">
+
+  <div class="search-hero">
+    <p class="eyebrow">Fly smarter with Flyora</p>
+    <h1>Find your perfect flight</h1>
+    <p class="subtitle">
+      Search available flights by route, travel date and cabin class.
+    </p>
+  </div>
+
+  <form
+    class="search-card"
+    (ngSubmit)="searchFlights()"
+  >
+
+    <div class="field">
+      <label>From</label>
+
+      <select
+        name="from"
+        [(ngModel)]="from"
+      >
+        <option value="">Select departure</option>
+
+        @for (airport of airports; track airport) {
+          <option [value]="airport">
+            {{ airport }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label>To</label>
+
+      <select
+        name="to"
+        [(ngModel)]="to"
+      >
+        <option value="">Select destination</option>
+
+        @for (airport of airports; track airport) {
+          <option [value]="airport">
+            {{ airport }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Travel date</label>
+
+      <input
+        type="date"
+        name="travelDate"
+        [(ngModel)]="travelDate"
+      >
+    </div>
+
+    <div class="field">
+      <label>Cabin class</label>
+
+      <select
+        name="cabinClass"
+        [(ngModel)]="cabinClass"
+      >
+        <option value="ECONOMY">Economy</option>
+        <option value="PREMIUM_ECONOMY">
+          Premium Economy
+        </option>
+        <option value="BUSINESS">Business</option>
+        <option value="FIRST">First</option>
+      </select>
+    </div>
+
+    <button type="submit">
+      {{ isLoading ? 'Searching...' : 'Search flights' }}
+    </button>
+
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-message">
+      {{ errorMessage }}
+    </p>
+  }
+
+  @if (searched) {
+
+    <section class="results-layout">
+
+      <aside class="filters">
+
+        <div class="filter-header">
+          <h3>Filters</h3>
+
+          <button
+            type="button"
+            (click)="resetFilters()"
+          >
+            Reset
+          </button>
+        </div>
+
+        <div class="filter-group">
+          <h4>Price</h4>
+
+          <input
+    type="range"
+    min="1000"
+    [max]="selectedMaxPrice"
+    step="500"
+    [(ngModel)]="selectedMaxPrice"
+    [ngModelOptions]="{ standalone: true }"
+    (input)="applyFilters()"
+>
+
+<div class="price-range">
+
+    <span>
+
+        ₹1000
+
+    </span>
+
+    <strong>
+
+        Under ₹{{selectedMaxPrice}}
+
+    </strong>
+
+</div>
+
+          <div class="price-range">
+            <span>₹1000</span>
+            <strong>₹{{ selectedMaxPrice }}</strong>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h4>Departure time</h4>
+
+          <label class="option">
+            <input
+              type="radio"
+              name="time"
+              value="ANY"
+              [(ngModel)]="selectedTime"
+              (change)="applyFilters()"
+            >
+            Any time
+          </label>
+
+          <label class="option">
+            <input
+              type="radio"
+              name="time"
+              value="MORNING"
+              [(ngModel)]="selectedTime"
+              (change)="applyFilters()"
+            >
+            Morning
+          </label>
+
+          <label class="option">
+            <input
+              type="radio"
+              name="time"
+              value="AFTERNOON"
+              [(ngModel)]="selectedTime"
+              (change)="applyFilters()"
+            >
+            Afternoon
+          </label>
+
+          <label class="option">
+            <input
+              type="radio"
+              name="time"
+              value="EVENING"
+              [(ngModel)]="selectedTime"
+              (change)="applyFilters()"
+            >
+            Evening
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <h4>Airlines</h4>
+
+          @for (airline of airlines; track airline) {
+            <label class="option">
+              <input
+                type="checkbox"
+                [checked]="selectedAirlines.includes(airline)"
+                (change)="toggleAirline(airline)"
+              >
+              {{ airline }}
+            </label>
+          }
+        </div>
+
+      </aside>
+
+      <main class="results">
+
+        <div class="results-header">
+
+          <div>
+            <h2>
+              {{ filteredFlights.length }} flights found
+            </h2>
+
+            <p>
+              {{ from }} to {{ to }} on {{ travelDate }}
+            </p>
+          </div>
+
+          <div class="sort-box">
+            <label>Sort by</label>
+
+            <select
+              [(ngModel)]="sortBy"
+              [ngModelOptions]="{ standalone: true }"
+              (change)="applyFilters()"
+            >
+              <option value="LOWEST_PRICE">
+                Lowest price
+              </option>
+
+              <option value="EARLIEST_DEPARTURE">
+                Earliest departure
+              </option>
+
+              <option value="LATEST_DEPARTURE">
+                Latest departure
+              </option>
+            </select>
+          </div>
+
+        </div>
+
+        @if (filteredFlights.length === 0) {
+          <div class="empty-state">
+            <h3>No flights match your filters</h3>
+            <p>Try resetting or changing the filters.</p>
+          </div>
+        }
+
+        @for (flight of filteredFlights; track flight.id) {
+
+          <article class="flight-card">
+
+            <div class="airline">
+              <div class="airline-logo">✈</div>
+
+              <div>
+                <h3>{{ flight.airline }}</h3>
+                <p>{{ flight.flightNumber }}</p>
+              </div>
+            </div>
+
+            <div class="timing">
+
+              <div>
+                <strong>{{ flight.departureTime }}</strong>
+                <span>{{ flight.fromAirport }}</span>
+              </div>
+
+              <div class="route-line">
+                <span>Direct</span>
+                <div></div>
+                <small>{{ flight.cabinClass }}</small>
+              </div>
+
+              <div>
+                <strong>{{ flight.arrivalTime }}</strong>
+                <span>{{ flight.toAirport }}</span>
+              </div>
+
+            </div>
+
+            <div class="flight-meta">
+              <span>{{ flight.travelDate }}</span>
+              <span>{{ flight.availableSeats }} seats left</span>
+            </div>
+
+            <div class="price-box">
+              <p>Starting from</p>
+              <strong>₹{{ flight.price }}</strong>
+
+              <div class="actions">
+                <button type="button">
+                  Select
+                </button>
+
+                <button
+                  type="button"
+                  class="secondary"
+                  (click)="viewDetails(flight)"
+                >
+                  Details
+                </button>
+              </div>
+            </div>
+
+          </article>
+        }
+
+      </main>
+
+    </section>
+  }
+
+</section>

@@ -1,0 +1,63 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 7%;
+  background: rgba(255, 255, 255, 0.86);
+  border-bottom: 1px solid rgba(230, 226, 242, 0.9);
+  backdrop-filter: blur(18px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #2d2842;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: #eeeaff;
+  border-radius: 13px;
+}
+
+.nav-links,
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.nav-links a,
+.login-link {
+  color: #696478;
+  font-weight: 600;
+}
+
+.register-btn {
+  padding: 11px 18px;
+  color: white;
+  font-weight: 700;
+  background: linear-gradient(135deg, #7768dc, #9d79e6);
+  border-radius: 12px;
+}
+
+@media (max-width: 760px) {
+  .nav-links {
+    display: none;
+  }
+
+  .navbar {
+    padding: 14px 20px;
+  }
+}

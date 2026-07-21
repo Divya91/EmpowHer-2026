@@ -1,0 +1,331 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f4f8ff;
+}
+
+.search-page{
+    width:100%;
+    min-height:100vh;
+    padding:40px;
+    background:#f4f8ff;
+}
+
+/* Search Box */
+
+.search-box{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:20px;
+
+    align-items:end;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    margin-bottom:35px;
+
+}
+
+.field{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.field label{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:#1e293b;
+
+    margin-bottom:8px;
+
+}
+
+.field input{
+
+    height:48px;
+
+    border:1px solid #dbe4f3;
+
+    border-radius:12px;
+
+    padding:0 15px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+    background:#fafcff;
+
+}
+
+.field input:focus{
+
+    border-color:#3b82f6;
+
+    box-shadow:0 0 8px rgba(59,130,246,.2);
+
+}
+
+.search-btn{
+
+    height:48px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#3b82f6;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.search-btn:hover{
+
+    background:#2563eb;
+
+    transform:translateY(-2px);
+
+}
+
+/* Flight Results */
+
+.results{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+/* Flight Card */
+
+.flight-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+    border-left:6px solid #3b82f6;
+
+}
+
+.flight-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 25px rgba(0,0,0,.12);
+
+}
+
+/* Left */
+
+.left{
+
+    flex:2;
+
+}
+
+.left h2{
+
+    color:#1e3a8a;
+
+    margin-bottom:8px;
+
+    font-size:24px;
+
+}
+
+.left p{
+
+    color:#64748b;
+
+    margin:5px 0;
+
+}
+
+/* Center */
+
+.center{
+
+    flex:1;
+
+    text-align:center;
+
+}
+
+.center h3{
+
+    color:#1e293b;
+
+    font-size:22px;
+
+}
+
+.center p{
+
+    color:#64748b;
+
+    margin:8px 0;
+
+}
+
+/* Right */
+
+.right{
+
+    flex:1;
+
+    text-align:right;
+
+}
+
+.right h2{
+
+    color:#ec4899;
+
+    font-size:28px;
+
+    margin-bottom:10px;
+
+}
+
+.right p{
+
+    color:#64748b;
+
+    margin-bottom:18px;
+
+}
+
+/* Details Button */
+
+.details-btn{
+
+    background:#ec4899;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 24px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.details-btn:hover{
+
+    background:#db2777;
+
+    transform:translateY(-2px);
+
+}
+
+/* Responsive */
+
+@media(max-width:1100px){
+
+.search-box{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.search-page{
+
+padding:20px;
+
+}
+
+.search-box{
+
+grid-template-columns:1fr;
+
+}
+
+.flight-card{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.center{
+
+text-align:left;
+
+}
+
+.right{
+
+text-align:left;
+
+}
+
+.search-btn{
+
+width:100%;
+
+}
+
+}

@@ -1,0 +1,115 @@
+.page {
+
+    height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background-image: url('/background.jpg');
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+}
+
+.login-card{
+
+    width:250px;
+    
+    height: 400px;
+
+    padding:35px;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    border: 1px solid rgba(255,255,255,0.3);
+
+    border-radius:20px;
+
+    backdrop-filter: blur(15px);
+
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+
+    color: white;
+}
+input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin:12px 0;
+
+    border:1px solid rgba(255,255,255,.5);
+
+    border-radius:8px;
+
+    background: rgba(255,255,255,.15);
+
+    color:white;
+
+    font-size:16px;
+
+    outline:none;
+}
+
+input::placeholder{
+
+    color:#e6e6e6;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#2196F3;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+button:hover{
+
+    background:#1976D2;
+
+}
+
+.error {
+
+    color: red;
+
+    text-align: center;
+}
+
+h1,h2{
+
+    color:white;
+
+    text-align:center;
+
+}
+
+p,strong{
+
+    color:white;
+
+}

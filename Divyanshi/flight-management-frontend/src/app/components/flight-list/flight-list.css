@@ -1,0 +1,130 @@
+.flight-list-container {
+  font-family: inherit;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  font-size: 22px;
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+.flight-count {
+  background: var(--gray-mid);
+  color: var(--gray-dark);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.state-message {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  color: var(--gray-dark);
+  box-shadow: var(--shadow);
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 500;
+}
+
+.flight-table-wrapper {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #0b3d91;
+}
+
+th {
+  color: #ffffff;
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-mid);
+  font-size: 14px;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: #f8faff;
+}
+
+.flight-number {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #1a1a2e;
+}
+
+.route-arrow {
+  color: var(--gray-dark);
+}
+
+.seats-badge {
+  background: #e8f5e9;
+  color: var(--success);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.seats-badge.low {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.price {
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.btn-delete {
+  background-color: var(--danger);
+  color: white;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+
+.btn-delete:hover {
+  background-color: #b71c1c;
+}

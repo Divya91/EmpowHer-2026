@@ -1,0 +1,9 @@
+# Backend (Spring Boot / Maven)
+flight-management-system/target/
+flight-management-system/.idea/
+flight-management-system/*.iml
+
+# Frontend (Angular)
+flight-management-frontend/node_modules/
+flight-management-frontend/.angular/
+flight-management-frontend/dist/
