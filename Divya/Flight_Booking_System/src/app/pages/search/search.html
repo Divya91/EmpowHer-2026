@@ -1,0 +1,71 @@
+<div class="search-page">
+  <div class="search-box">
+    <div class="field">
+      <label>From</label>
+
+      <input type="text" placeholder="Departure Airport" [(ngModel)]="searchCriteria.fromAirport" />
+    </div>
+
+    <div class="field">
+      <label>To</label>
+
+      <input type="text" placeholder="Arrival Airport" [(ngModel)]="searchCriteria.toAirport" />
+    </div>
+
+    <div class="field">
+      <label>Travel Date</label>
+
+      <input type="date" [(ngModel)]="searchCriteria.departureDate" />
+    </div>
+
+    <div class="field">
+      <label>Passengers</label>
+
+      <input type="number" min="1" [(ngModel)]="searchCriteria.passengers" />
+    </div>
+
+    <button class="search-btn" (click)="searchFlights()">
+      {{ loading ? 'Searching...' : 'Search Flights' }}
+    </button>
+  </div>
+
+  <div class="results">
+    <div class="flight-card" *ngFor="let flight of flights">
+      <div class="left">
+        <h2>{{ flight.airlineCode }}</h2>
+
+        <p>{{ flight.flightid }}</p>
+
+        <p>
+          {{ flight.fromAirport }}
+
+          →
+
+          {{ flight.toAirport }}
+        </p>
+      </div>
+
+      <div class="center">
+        <h3>
+          {{ flight.departureTs | date: 'HH:mm' }}
+        </h3>
+
+        <p>{{ flight.durationMins }} mins</p>
+
+        <h3>
+          {{ flight.arrivalTs | date: 'HH:mm' }}
+        </h3>
+      </div>
+
+      <div class="right">
+        <h2>₹{{ flight.basePrice }}</h2>
+
+        <p>
+          {{ flight.stops == 0 ? 'Non Stop' : flight.stops + ' Stop' }}
+        </p>
+
+        <button class="details-btn" (click)="viewDetails(flight.flightid)">Details</button>
+      </div>
+    </div>
+  </div>
+</div>
