@@ -1,4 +1,5 @@
 package com.flight.booking.service;
+import com.flight.booking.util.FlightNumberGenerator;
 
 import com.flight.booking.dto.request.FlightRequestDTO;
 import com.flight.booking.dto.response.FlightResponseDTO;
@@ -32,6 +33,8 @@ public class FlightServiceImpl {
     public FlightResponseDTO createFlight(FlightRequestDTO dto) {
 
         Flight flight = mapper.toEntity(dto);
+
+        flight.setFlightNumber(FlightNumberGenerator.generateFlightNumber());
 
         Flight savedFlight = repository.save(flight);
 
@@ -88,4 +91,5 @@ public class FlightServiceImpl {
                 .map(mapper::toResponseDTO);
 
     }
+
 }
