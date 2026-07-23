@@ -20,9 +20,6 @@ public class Flight {
     @Column(name = "flight_id")
     private Long flightId;
 
-    @Column(name = "flight_number", unique = true)
-    private String flightNumber;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airline_code", nullable = false)
     private Airline airline;

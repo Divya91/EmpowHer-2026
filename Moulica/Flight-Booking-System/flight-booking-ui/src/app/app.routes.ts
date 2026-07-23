@@ -26,13 +26,13 @@ export const routes: Routes = [
   },
 
   {
-    path: '**',
-    redirectTo: 'login',
-  },
-
-  {
     path: 'booking/:flightId',
     loadComponent: () =>
       import('./booking/booking.component').then((m) => m.BookingComponent),
+  },
+
+  {
+    path: '**',
+    redirectTo: 'login',
   },
 ];

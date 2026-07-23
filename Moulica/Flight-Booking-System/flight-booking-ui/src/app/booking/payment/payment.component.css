@@ -1,0 +1,138 @@
+.payment-form {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.subtitle {
+  color: #666;
+
+  margin-bottom: 25px;
+}
+
+.row {
+  display: flex;
+
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+  margin-bottom: 20px;
+}
+
+.field label {
+  margin-bottom: 8px;
+
+  font-weight: 600;
+}
+
+.field input {
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+}
+
+.field input:focus {
+  outline: none;
+
+  border-color: #2563eb;
+}
+
+.button-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 30px;
+}
+
+.back-btn {
+  padding: 12px 24px;
+
+  border: none;
+
+  background: #6b7280;
+
+  color: white;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.pay-btn {
+  padding: 12px 28px;
+
+  border: none;
+
+  background: #2563eb;
+
+  color: white;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #4b5563;
+}
+
+.pay-btn:hover {
+  background: #1d4ed8;
+}
+.fare-summary {
+  background: #f8fafc;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 10px;
+
+  padding: 20px;
+
+  margin-bottom: 30px;
+}
+
+.fare-summary h3 {
+  margin-bottom: 15px;
+}
+
+.fare-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin: 10px 0;
+}
+
+.total {
+  font-size: 18px;
+
+  font-weight: bold;
+
+  color: #2563eb;
+}
+
+select {
+  padding: 12px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+}

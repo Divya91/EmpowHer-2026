@@ -64,7 +64,7 @@ export class HomeComponent {
     // Price
     if (filters.maxPrice) {
       filteredFlights = filteredFlights.filter(
-        (flight) => flight.basePrice <= Number(filters.maxPrice),
+        (flight) => flight.basePrice <= filters.maxPrice,
       );
     }
 

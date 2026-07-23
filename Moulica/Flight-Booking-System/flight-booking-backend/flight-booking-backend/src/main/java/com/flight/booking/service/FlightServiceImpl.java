@@ -1,5 +1,4 @@
 package com.flight.booking.service;
-import com.flight.booking.util.FlightNumberGenerator;
 
 import com.flight.booking.dto.request.FlightRequestDTO;
 import com.flight.booking.dto.response.FlightResponseDTO;
@@ -9,17 +8,11 @@ import com.flight.booking.repository.FlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.math.BigDecimal;
 import com.flight.booking.dto.search.FlightSearchCriteria;
 import com.flight.booking.specification.FlightSpecification;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -33,8 +26,6 @@ public class FlightServiceImpl {
     public FlightResponseDTO createFlight(FlightRequestDTO dto) {
 
         Flight flight = mapper.toEntity(dto);
-
-        flight.setFlightNumber(FlightNumberGenerator.generateFlightNumber());
 
         Flight savedFlight = repository.save(flight);
 
