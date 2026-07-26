@@ -1,4 +1,9 @@
 package com.flight.booking.service;
 
-public class PaymentService {
+import com.flight.booking.entity.Payment;
+
+public interface PaymentService {
+
+    Payment savePayment(Payment payment);
+
 }

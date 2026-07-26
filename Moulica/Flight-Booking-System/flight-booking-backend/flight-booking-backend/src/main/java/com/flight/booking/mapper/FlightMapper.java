@@ -1,12 +1,11 @@
 package com.flight.booking.mapper;
-
+import com.flight.booking.repository.AirportRepository;
 import com.flight.booking.dto.request.FlightRequestDTO;
 import com.flight.booking.dto.response.FlightResponseDTO;
 import com.flight.booking.entity.Airline;
 import com.flight.booking.entity.Airport;
 import com.flight.booking.entity.Flight;
 import com.flight.booking.repository.AirlineRepository;
-import com.flight.booking.repository.AirportRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
