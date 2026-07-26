@@ -1,4 +1,4 @@
 package com.flight.booking.repository;
 
-public class FlightRepository {
+public class PassengerRepository {
 }

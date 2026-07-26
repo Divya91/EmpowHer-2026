@@ -1,4 +1,4 @@
 package com.flight.booking.service;
 
-public class AuthService {
+public class PaymentService {
 }
