@@ -23,7 +23,7 @@ public class Passengers {
 
     @ManyToOne
     @JoinColumn(name = "booking_id", nullable = false)
-    private Booking booking;
+    //private Booking booking;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
