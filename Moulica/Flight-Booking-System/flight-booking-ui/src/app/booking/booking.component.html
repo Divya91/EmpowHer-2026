@@ -1,0 +1,73 @@
+<div class="booking-container">
+  <!-- Flight Summary -->
+  <div class="flight-summary">
+    <h2>✈ Flight Summary</h2>
+
+    <div class="summary-card">
+      <div class="airline">
+        <h3>IndiGo</h3>
+        <span>6E 2451</span>
+      </div>
+
+      <div class="route">
+        <div class="airport">
+          <h2>BLR</h2>
+          <small>08:30 AM</small>
+        </div>
+
+        <div class="path">─────── ✈ ───────</div>
+
+        <div class="airport">
+          <h2>DEL</h2>
+          <small>11:15 AM</small>
+        </div>
+      </div>
+
+      <div class="price">₹4,599</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-container">
+    <div
+      class="step"
+      [class.active]="currentStep === 1"
+      [class.completed]="currentStep > 1"
+    >
+      1
+      <span>Passenger Details</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div
+      class="step"
+      [class.active]="currentStep === 2"
+      [class.completed]="currentStep > 2"
+    >
+      2
+      <span>Payment</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="step" [class.active]="currentStep === 3">
+      3
+      <span>Success</span>
+    </div>
+  </div>
+
+  @if (currentStep === 1) {
+    <app-passenger-details (continueBooking)="goToPayment($event)">
+    </app-passenger-details>
+  }
+
+  @if (currentStep === 2) {
+    <app-payment (back)="goBack()" (paymentComplete)="completeBooking($event)">
+    </app-payment>
+  }
+
+  @if (currentStep === 3) {
+    <app-booking-success> </app-booking-success>
+  }
+</div>

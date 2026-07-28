@@ -5,7 +5,10 @@
 } @else {
   <div class="flight-list">
     @for (flight of flights; track flight.flightId) {
-      <div class="flight-card" [class.best-flight]="flight.basePrice === cheapestPrice">
+      <div
+        class="flight-card"
+        [class.best-flight]="flight.basePrice === cheapestPrice"
+      >
         @if (flight.basePrice === cheapestPrice) {
           <div class="best-deal">⭐ Best Deal</div>
         }
@@ -48,7 +51,9 @@
             🛑 {{ flight.stops == 0 ? "Non Stop" : flight.stops + " Stop" }}
           </span>
 
-          <button>Book Now</button>
+          <button class="book-btn" (click)="bookFlight(flight)">
+            Book Now
+          </button>
         </div>
       </div>
     }

@@ -1,0 +1,257 @@
+/* Background */
+
+.booking-container {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding: 40px 20px;
+}
+
+/* Flight Summary */
+
+.flight-summary {
+  max-width: 950px;
+  margin: auto;
+}
+
+.flight-summary h2 {
+  margin-bottom: 15px;
+  color: #1e3a8a;
+}
+
+.summary-card {
+  background: white;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  margin-bottom: 35px;
+}
+
+.airline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.airline h3 {
+  margin: 0;
+  color: #1e3a8a;
+}
+
+.airline span {
+  color: gray;
+}
+
+.route {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.airport {
+  text-align: center;
+}
+
+.airport h2 {
+  margin: 0;
+  color: #222;
+}
+
+.path {
+  color: #2563eb;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.price {
+  text-align: right;
+  font-size: 30px;
+  font-weight: bold;
+  color: #16a34a;
+}
+
+/* Progress */
+
+.progress-container {
+  max-width: 950px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.line {
+  flex: 1;
+  height: 3px;
+  background: #d6d6d6;
+}
+
+.step {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: #d6d6d6;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.step span {
+  position: absolute;
+  top: 68px;
+  width: 160px;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #555;
+  font-size: 14px;
+}
+
+.step.active {
+  background: #2563eb;
+}
+
+.step.completed {
+  background: #16a34a;
+}
+
+/* Form */
+
+.booking-form {
+  max-width: 950px;
+  margin: auto;
+  background: white;
+  border-radius: 18px;
+  padding: 35px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.booking-form h2 {
+  margin-bottom: 30px;
+  color: #1e3a8a;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  margin-bottom: 20px;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+}
+
+input,
+select {
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Buttons */
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.continue-btn,
+.pay-btn,
+.back-btn,
+.home-btn {
+  border: none;
+  padding: 13px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.continue-btn,
+.pay-btn,
+.home-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.back-btn {
+  background: #e5e7eb;
+}
+
+.continue-btn:hover,
+.pay-btn:hover,
+.home-btn:hover {
+  background: #1d4ed8;
+}
+
+.back-btn:hover {
+  background: #d1d5db;
+}
+
+/* Success */
+
+.success-page {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  border-radius: 18px;
+  padding: 60px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.success-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+.success-page h1 {
+  color: #16a34a;
+}
+
+.success-page p {
+  margin: 20px 0 30px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .route {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .progress-container {
+    overflow-x: auto;
+    padding-bottom: 15px;
+  }
+}
