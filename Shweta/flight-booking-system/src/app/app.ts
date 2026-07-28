@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FlightSearchComponent } from './components/flight-search/flight-search.component';
+import { PassengerComponent } from './components/passenger/passenger';
+import { PaymentComponent } from './components/payment/payment';
 
 @Component({
   selector: 'app-root',
-  imports: [ FlightSearchComponent],
+  imports: [ PassengerComponent,PaymentComponent, RouterOutlet ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
   protected readonly title = signal('flight-booking-system');
