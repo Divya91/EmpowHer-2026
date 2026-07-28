@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PassengerComponent } from './components/passenger/passenger';
-import { PaymentComponent } from './components/payment/payment';
+import { MyBookingsComponent } from './components/booking/booking';
 
 @Component({
   selector: 'app-root',
-  imports: [ PassengerComponent,PaymentComponent, RouterOutlet ],
+  standalone: true,
+  imports: [MyBookingsComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
