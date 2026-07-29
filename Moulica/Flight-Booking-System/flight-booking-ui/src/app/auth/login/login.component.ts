@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../services/auth.service';
 import { LoginRequest } from '../../model/login-request';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, MatSnackBarModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -25,6 +25,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {}
 
   login() {
@@ -47,7 +48,11 @@ export class LoginComponent {
         localStorage.setItem('email', response.email);
         localStorage.setItem('role', response.role);
 
-        alert(response.message);
+        this.snackBar.open(response.message, 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
 
         this.router.navigate(['/home']);
       },
@@ -55,7 +60,11 @@ export class LoginComponent {
       error: (error) => {
         this.isLoading = false;
 
-        alert('Invalid Email or Password');
+        this.snackBar.open('Invalid Email or Password', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+        });
 
         console.error(error);
       },
