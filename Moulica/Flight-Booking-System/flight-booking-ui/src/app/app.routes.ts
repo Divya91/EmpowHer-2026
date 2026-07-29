@@ -32,6 +32,14 @@ export const routes: Routes = [
   },
 
   {
+    path: 'my-bookings',
+    loadComponent: () =>
+      import('./booking/my-bookings/my-bookings.component').then(
+        (m) => m.MyBookingsComponent,
+      ),
+  },
+
+  {
     path: '**',
     redirectTo: 'login',
   },
