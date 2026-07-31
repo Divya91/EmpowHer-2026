@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { FlightService } from '../../services/flight.service';
-import { Flight } from '../../model/flight';
+import { Flight } from '../../models/flight';
 
 @Component({
   selector: 'app-flight-search',

@@ -1,9 +1,15 @@
 export interface SignupResponse {
   userId: number;
 
-  name: string;
+  firstName: string;
+
+  lastName: string;
 
   email: string;
+
+  phoneNumber: string;
+
+  role: string;
 
   message: string;
 }

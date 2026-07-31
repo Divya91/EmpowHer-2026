@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Flight } from '../../model/flight';
+import { Flight } from '../../models/flight';
 import { Router } from '@angular/router';
 
 @Component({

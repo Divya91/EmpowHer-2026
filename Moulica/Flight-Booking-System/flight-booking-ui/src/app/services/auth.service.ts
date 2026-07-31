@@ -2,10 +2,10 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { LoginRequest } from '../../model/login-request';
-import { LoginResponse } from '../../model/login-response';
-import { SignupRequest } from '../../model/signup-request';
-import { SignupResponse } from '../../model/signup-response';
+import { LoginRequest } from '../models/login-request';
+import { LoginResponse } from '../models/login-response';
+import { SignupRequest } from '../models/signup-request';
+import { SignupResponse } from '../models/signup-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,13 @@ export class AuthService {
 
   private readonly API = 'http://localhost:8080/api/auth';
 
+  private baseUrl = 'http://localhost:8080/api/auth';
+
   login(request: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.API}/login`, request);
   }
 
-  signup(request: SignupRequest): Observable<SignupResponse> {
-    return this.http.post<SignupResponse>(`${this.API}/signup`, request);
+  signup(request: SignupRequest) {
+    return this.http.post<SignupResponse>(`${this.baseUrl}/signup`, request);
   }
 }
