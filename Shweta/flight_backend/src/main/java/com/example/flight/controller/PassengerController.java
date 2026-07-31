@@ -4,7 +4,8 @@ package com.example.flight.controller;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.example.flight.entity.Passengers;
+import com.example.flight.dto.PassengerRequestDTO;
+import com.example.flight.dto.PassengerResponseDTO;
 import com.example.flight.service.PassengerService;
 
 @RestController
@@ -16,22 +17,22 @@ public class PassengerController {
 
    
     @PostMapping
-    public Passengers savePassenger(@RequestBody Passengers passenger) {
-        return passengerService.savePassenger(passenger);
+    public PassengerResponseDTO savePassenger(@RequestBody PassengerRequestDTO passengerRequestDTO) {
+        return passengerService.savePassenger(passengerRequestDTO);
     }
 
      @GetMapping
-    public List<Passengers> getAllPassengers() {
+    public List<PassengerResponseDTO> getAllPassengers() {
         return passengerService.getAllPassengers();
     }
 
     @GetMapping("/{id}")
-    public Passengers getPassengerById(@PathVariable Long id) {
-        return passengerService.getPassengerById(id).orElse(null);
+    public PassengerResponseDTO getPassengerById(@PathVariable Long id) {
+        return passengerService.getPassengerDTOById(id);
     }
 
     @GetMapping("/name/{name}")
-    public List<Passengers> getPassengersByName(@PathVariable String name) {
+    public List<PassengerResponseDTO> getPassengersByName(@PathVariable String name) {
         return passengerService.getPassengersByName(name);
     }
 

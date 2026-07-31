@@ -1,7 +1,7 @@
 package com.example.flight.entity;
 
 import java.time.LocalDate;
-
+ 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +21,7 @@ public class Passengers {
     @Column(name = "passenger_id")
     private Long passengerId;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id", nullable = false)
+   
     //private Booking booking;
 
     @Column(name = "first_name", nullable = false)

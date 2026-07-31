@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.flight.entity.Flight;
+import com.example.flight.dto.FlightRequestDTO;
+import com.example.flight.dto.FlightResponseDTO;
 import com.example.flight.service.FlightService;
 
 @RestController
@@ -17,19 +18,19 @@ public class FlightController {
 
     // Add a new flight
     @PostMapping
-    public Flight addFlight(@RequestBody Flight flight) {
-        return flightService.addFlight(flight);
+    public FlightResponseDTO addFlight(@RequestBody FlightRequestDTO flightRequestDTO) {
+        return flightService.addFlight(flightRequestDTO);
     }
 
     // Get all flights
     @GetMapping
-    public List<Flight> getAllFlights() {
+    public List<FlightResponseDTO> getAllFlights() {
         return flightService.getAllFlights();
     }
 
     // Search flights
     @GetMapping("/search")
-    public List<Flight> searchFlights(
+    public List<FlightResponseDTO> searchFlights(
             @RequestParam String source,
             @RequestParam String destination) {
 
