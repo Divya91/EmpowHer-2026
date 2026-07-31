@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
-import { FlightSearchComponent } from '../components/flight-search/flight-search.component';
-import { FlightResultsComponent } from '../components/flight-results/flight-results.component';
-import { Flight } from '../model/flight';
+import { FlightSearchComponent } from './flight-search/flight-search.component';
+import { FlightResultsComponent } from './flight-results/flight-results.component';
+import { Flight } from '../models/flight';
 import { FlightFiltersComponent } from './flight-filters/flight-filters.component';
 import { FlightService } from '../services/flight.service';
 

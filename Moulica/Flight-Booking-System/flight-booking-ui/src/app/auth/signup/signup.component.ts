@@ -10,8 +10,8 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
-import { SignupRequest } from '../../model/signup-request';
-import { AuthService } from '../services/auth.service';
+import { SignupRequest } from '../../models/signup-request';
+import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({

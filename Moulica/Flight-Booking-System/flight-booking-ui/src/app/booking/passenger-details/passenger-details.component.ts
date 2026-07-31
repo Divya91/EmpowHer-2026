@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { PassengerService } from '../../services/passenger.service';
 import {
   FormBuilder,
   FormGroup,
@@ -19,7 +20,10 @@ export class PassengerDetailsComponent {
 
   passengerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private passengerService: PassengerService,
+  ) {
     // 1️⃣ Create the form first
     this.passengerForm = this.fb.group({
       title: ['', Validators.required],
@@ -44,7 +48,7 @@ export class PassengerDetailsComponent {
 
       gender: ['', Validators.required],
 
-      dob: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
 
       age: [
         {
@@ -62,7 +66,10 @@ export class PassengerDetailsComponent {
 
       email: ['', [Validators.required, Validators.email]],
 
-      phone: ['', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')],
+      ],
     });
 
     // 2️⃣ AFTER creating the form, listen for DOB changes
@@ -97,18 +104,25 @@ export class PassengerDetailsComponent {
   }
 
   continue() {
-    console.log('Continue clicked');
-
-    console.log('Form Valid:', this.passengerForm.valid);
-
-    if (this.passengerForm.valid) {
-      console.log('Emitting event');
-
-      this.continueBooking.emit(this.passengerForm.getRawValue());
-    } else {
-      console.log('Form Invalid');
-
+    if (this.passengerForm.invalid) {
       this.passengerForm.markAllAsTouched();
+      return;
     }
+
+    const passenger = this.passengerForm.getRawValue();
+
+    this.passengerService.createPassenger(passenger).subscribe({
+      next: (response) => {
+        console.log('Passenger Saved:', response);
+
+        this.continueBooking.emit(response);
+      },
+
+      error: (error) => {
+        console.error('Error Saving Passenger', error);
+
+        alert(error.error.message);
+      },
+    });
   }
 }

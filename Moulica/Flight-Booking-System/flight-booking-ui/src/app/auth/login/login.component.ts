@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { AuthService } from '../services/auth.service';
-import { LoginRequest } from '../../model/login-request';
+import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../models/login-request';
 
 @Component({
   selector: 'app-login',
