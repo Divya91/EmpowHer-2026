@@ -23,12 +23,31 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public List<FlightResponse> searchFlights(FlightSearchRequest req) {
-        LocalDateTime from = req.getDepartureDate().atStartOfDay();
-        LocalDateTime to = req.getDepartureDate().atTime(23, 59, 59);
+        List<Flight> flights;
 
-        List<Flight> flights = flightRepository.searchFlights(
-                req.getOrigin(), req.getDestination(), from, to, req.getPassengers()
-        );
+        if (req.getDepartureDate() != null) {
+            LocalDateTime from = req.getDepartureDate().atStartOfDay();
+            LocalDateTime to = req.getDepartureDate().atTime(23, 59, 59);
+            flights = flightRepository.searchFlights(
+                    req.getOrigin(), req.getDestination(), from, to,
+                    req.getPassengers() > 0 ? req.getPassengers() : 1
+            );
+        } else {
+            flights = List.of();
+        }
+
+        // Fallback: If no flights match exact departure date, return flights matching origin & destination
+        if (flights.isEmpty()) {
+            flights = flightRepository.findAll().stream()
+                    .filter(f -> req.getOrigin() == null || req.getOrigin().isBlank() || f.getOrigin().getCode().equalsIgnoreCase(req.getOrigin()))
+                    .filter(f -> req.getDestination() == null || req.getDestination().isBlank() || f.getDestination().getCode().equalsIgnoreCase(req.getDestination()))
+                    .collect(Collectors.toList());
+        }
+
+        // Double Fallback: If still empty (e.g. invalid airport pair), return all available flights
+        if (flights.isEmpty()) {
+            flights = flightRepository.findAll();
+        }
 
         // Apply optional filters
         var stream = flights.stream();
@@ -40,10 +59,11 @@ public class FlightServiceImpl implements FlightService {
         if (req.getMaxStops() != null)
             stream = stream.filter(f -> f.getStops() <= req.getMaxStops());
         if (req.getAirlineCode() != null && !req.getAirlineCode().isBlank())
-            stream = stream.filter(f -> f.getAirline().getCode().equals(req.getAirlineCode()));
+            stream = stream.filter(f -> f.getAirline().getCode().equalsIgnoreCase(req.getAirlineCode()));
 
         // Sorting
-        Comparator<Flight> comparator = switch (req.getSortBy()) {
+        String sortBy = req.getSortBy() != null ? req.getSortBy() : "price";
+        Comparator<Flight> comparator = switch (sortBy) {
             case "duration" -> Comparator.comparing(Flight::getDurationMinutes);
             case "departure" -> Comparator.comparing(Flight::getDepartureTime);
             case "arrival" -> Comparator.comparing(Flight::getArrivalTime);
@@ -81,6 +101,7 @@ public class FlightServiceImpl implements FlightService {
         flightRepository.deleteById(id);
     }
 
+    @Override
     public FlightResponse toResponse(Flight f) {
         return FlightResponse.builder()
                 .id(f.getId())
