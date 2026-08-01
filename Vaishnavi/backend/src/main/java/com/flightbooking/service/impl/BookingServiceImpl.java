@@ -8,7 +8,7 @@ import com.flightbooking.repository.BookingRepository;
 import com.flightbooking.repository.FlightRepository;
 import com.flightbooking.repository.UserRepository;
 import com.flightbooking.service.BookingService;
-import com.flightbooking.service.impl.FlightServiceImpl;
+import com.flightbooking.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final FlightRepository flightRepository;
     private final UserRepository userRepository;
-    private final FlightServiceImpl flightServiceImpl;
+    private final FlightService flightService;
 
     @Override
     @Transactional
@@ -37,7 +37,8 @@ public class BookingServiceImpl implements BookingService {
         Flight flight = flightRepository.findById(req.getFlightId())
                 .orElseThrow(() -> new AppException("Flight not found", HttpStatus.NOT_FOUND));
 
-        if (flight.getAvailableSeats() < req.getPassengerCount()) {
+        int passengerCount = req.getPassengerCount() != null ? req.getPassengerCount() : req.getPassengers().size();
+        if (flight.getAvailableSeats() < passengerCount) {
             throw new AppException("Not enough seats available", HttpStatus.BAD_REQUEST);
         }
 
@@ -47,9 +48,9 @@ public class BookingServiceImpl implements BookingService {
                     .orElseThrow(() -> new AppException("Return flight not found", HttpStatus.NOT_FOUND));
         }
 
-        BigDecimal total = flight.getBasePrice().multiply(BigDecimal.valueOf(req.getPassengerCount()));
+        BigDecimal total = flight.getBasePrice().multiply(BigDecimal.valueOf(passengerCount));
         if (returnFlight != null) {
-            total = total.add(returnFlight.getBasePrice().multiply(BigDecimal.valueOf(req.getPassengerCount())));
+            total = total.add(returnFlight.getBasePrice().multiply(BigDecimal.valueOf(passengerCount)));
         }
 
         CabinClass cabinClass = CabinClass.valueOf(req.getCabinClass().toUpperCase());
@@ -77,7 +78,7 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setPassengers(passengers);
 
-        flight.setAvailableSeats(flight.getAvailableSeats() - req.getPassengerCount());
+        flight.setAvailableSeats(flight.getAvailableSeats() - passengerCount);
         flightRepository.save(flight);
 
         return toResponse(bookingRepository.save(booking));
@@ -137,11 +138,13 @@ public class BookingServiceImpl implements BookingService {
                 .id(b.getId())
                 .pnr(b.getPnr())
                 .status(b.getStatus().name())
-                .flight(flightServiceImpl.toResponse(b.getFlight()))
-                .returnFlight(b.getReturnFlight() != null ? flightServiceImpl.toResponse(b.getReturnFlight()) : null)
+                .flight(flightService.toResponse(b.getFlight()))
+                .returnFlight(b.getReturnFlight() != null ? flightService.toResponse(b.getReturnFlight()) : null)
                 .cabinClass(b.getCabinClass().name())
                 .totalAmount(b.getTotalAmount())
+                .totalPrice(b.getTotalAmount())
                 .bookedAt(b.getBookedAt())
+                .createdAt(b.getBookedAt().toString())
                 .passengers(passengerResponses)
                 .build();
     }

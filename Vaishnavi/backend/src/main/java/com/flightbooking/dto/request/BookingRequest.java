@@ -14,7 +14,7 @@ public class BookingRequest {
 
     @NotBlank private String cabinClass;
 
-    @NotNull @Min(1)
+    @Min(1)
     private Integer passengerCount;
 
     @NotNull private List<PassengerRequest> passengers;
