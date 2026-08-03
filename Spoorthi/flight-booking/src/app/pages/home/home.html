@@ -1,0 +1,51 @@
+<div class="hero-container">
+  <h1>Find and Book Your Next Flight</h1>
+  <p>Search cheap flights across top airlines</p>
+
+  <form class="search-card" (ngSubmit)="onSearch()">
+    <div class="form-group">
+      <label for="from">From</label>
+      <input 
+        type="text" 
+        id="from" 
+        [(ngModel)]="searchQuery.fromAirport" 
+        name="fromAirport" 
+        placeholder="e.g. DEL, BLR, JFK" 
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="to">To</label>
+      <input 
+        type="text" 
+        id="to" 
+        [(ngModel)]="searchQuery.toAirport" 
+        name="toAirport" 
+        placeholder="e.g. BOM, LHR, LAX" 
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="date">Departure Date</label>
+      <input 
+        type="date" 
+        id="date" 
+        [(ngModel)]="searchQuery.departureDate" 
+        name="departureDate" 
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="passengers">Passengers</label>
+      <input 
+        type="number" 
+        id="passengers" 
+        [(ngModel)]="searchQuery.passengers" 
+        name="passengers" 
+        min="1" 
+        max="10">
+    </div>
+
+    <button type="submit" class="btn-search">Search Flights</button>
+  </form>
+</div>
