@@ -2,40 +2,51 @@ package com.example.flight.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "flights")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "flight_id")
+    private Long flightId;
 
-    @Column(nullable = false, unique = true)
-    private String flightNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "airline_code", referencedColumnName = "airline_code")
+    private Airline airline;
 
-    @Column(nullable = false)
-    private String airline;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "from_airport", referencedColumnName = "airport_code")
+    private Airport fromAirport;
 
-    @Column(nullable = false)
-    private String source;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_airport", referencedColumnName = "airport_code")
+    private Airport toAirport;
 
-    @Column(nullable = false)
-    private String destination;
+    @Column(name = "departure_ts", nullable = false)
+    private LocalDateTime departureTs;
 
-    @Column(nullable = false)
-    private String departureTime;
+    @Column(name = "arrival_ts", nullable = false)
+    private LocalDateTime arrivalTs;
 
-    @Column(nullable = false)
-    private Double price;
+    @Column(name = "stops")
+    private Short stops;
 
-    @Column(nullable = false)
-    private Integer availableSeats;
+    @Column(name = "base_price", nullable = false)
+    private BigDecimal basePrice;
+
+    @Column(name = "available_seats", nullable = false)
+    private Short availableSeats;
+
+    @Column(name = "duration_mins")
+    private Integer durationMins;
 }

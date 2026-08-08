@@ -1,61 +1,149 @@
 package com.example.flight.service;
-import java.util.List;
-import java.util.Optional;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import com.example.flight.dto.PassengerRequestDTO;
 import com.example.flight.dto.PassengerResponseDTO;
-import com.example.flight.exception.ResourceNotFoundException;
-import com.example.flight.repository.*;
-import com.example.flight.entity.Passengers;
+import com.example.flight.entity.Booking;
+import com.example.flight.entity.Passenger;
+import com.example.flight.repository.BookingRepository;
+import com.example.flight.repository.PassengerRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PassengerService {
 
-    @Autowired
-    private PassengerRepository passengerRepository;
+    private final PassengerRepository passengerRepository;
+    private final BookingRepository bookingRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    public PassengerResponseDTO savePassenger(PassengerRequestDTO passengerRequestDTO) {
-        Passengers passenger = modelMapper.map(passengerRequestDTO, Passengers.class);
-        Passengers savedPassenger = passengerRepository.save(passenger);
-        return modelMapper.map(savedPassenger, PassengerResponseDTO.class);
-    }
-
-    public Optional<Passengers> getPassengerById(Long id) {
-        return passengerRepository.findById(id);
-    }
-
-    public void deletePassenger(Long id) {
-        if (!passengerRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Passenger not found with id: " + id);
-        }
-
-        passengerRepository.deleteById(id);
-    }
-
+    // Get all passengers
     public List<PassengerResponseDTO> getAllPassengers() {
+
         return passengerRepository.findAll()
                 .stream()
-                .map(passenger -> modelMapper.map(passenger, PassengerResponseDTO.class))
+                .map(this::convertToResponse)
                 .toList();
     }
 
-    public List<PassengerResponseDTO> getPassengersByName(String name) {
-        return passengerRepository.findByNameContainingIgnoreCase(name)
+    // Get passenger by ID
+    public PassengerResponseDTO getPassengerById(
+            Long passengerId) {
+
+        Passenger passenger =
+                passengerRepository.findById(passengerId)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Passenger not found with ID: "
+                                                + passengerId
+                                ));
+
+        return convertToResponse(passenger);
+    }
+
+    // Get passengers by booking ID
+    public List<PassengerResponseDTO> getPassengersByBooking(
+            Long bookingId) {
+
+        if (!bookingRepository.existsById(bookingId)) {
+            throw new RuntimeException(
+                    "Booking not found with ID: " + bookingId
+            );
+        }
+
+        return passengerRepository
+                .findByBookingBookingId(bookingId)
                 .stream()
-                .map(passenger -> modelMapper.map(passenger, PassengerResponseDTO.class))
+                .map(this::convertToResponse)
                 .toList();
     }
 
-    public PassengerResponseDTO getPassengerDTOById(Long id) {
-        Passengers passenger = passengerRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Passenger not found with id: " + id));
+    // Add passenger
+    public PassengerResponseDTO addPassenger(
+            PassengerRequestDTO dto) {
 
-        return modelMapper.map(passenger, PassengerResponseDTO.class);
+        Booking booking =
+                bookingRepository.findById(dto.getBookingId())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Booking not found with ID: "
+                                                + dto.getBookingId()
+                                ));
+
+        Passenger passenger =
+                modelMapper.map(dto, Passenger.class);
+
+        passenger.setBooking(booking);
+
+        Passenger savedPassenger =
+                passengerRepository.save(passenger);
+
+        return convertToResponse(savedPassenger);
+    }
+
+    // Update passenger
+    public PassengerResponseDTO updatePassenger(
+            Long passengerId,
+            PassengerRequestDTO dto) {
+
+        Passenger passenger =
+                passengerRepository.findById(passengerId)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Passenger not found with ID: "
+                                                + passengerId
+                                ));
+
+        Booking booking =
+                bookingRepository.findById(dto.getBookingId())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Booking not found with ID: "
+                                                + dto.getBookingId()
+                                ));
+
+        modelMapper.map(dto, passenger);
+
+        passenger.setBooking(booking);
+
+        Passenger updatedPassenger =
+                passengerRepository.save(passenger);
+
+        return convertToResponse(updatedPassenger);
+    }
+
+    // Delete passenger
+    public void deletePassenger(Long passengerId) {
+
+        Passenger passenger =
+                passengerRepository.findById(passengerId)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Passenger not found with ID: "
+                                                + passengerId
+                                ));
+
+        passengerRepository.delete(passenger);
+    }
+
+    // Entity → Response DTO
+    private PassengerResponseDTO convertToResponse(
+            Passenger passenger) {
+
+        PassengerResponseDTO response =
+                modelMapper.map(
+                        passenger,
+                        PassengerResponseDTO.class
+                );
+
+        response.setBookingId(
+                passenger.getBooking().getBookingId()
+        );
+
+        return response;
     }
 }

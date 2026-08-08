@@ -1,19 +1,23 @@
 package com.example.flight.dto;
 
+
+
+import lombok.Data;
+
 import java.time.LocalDate;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class PassengerResponseDTO {
 
     private Long passengerId;
+
+    private Long bookingId;
+
     private String firstName;
+
     private String lastName;
+
     private LocalDate dateOfBirth;
+
     private String seatNumber;
 }

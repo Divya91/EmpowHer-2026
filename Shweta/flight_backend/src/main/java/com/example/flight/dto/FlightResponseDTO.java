@@ -1,20 +1,32 @@
 package com.example.flight.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class FlightResponseDTO {
 
-    private Long id;
-    private String flightNumber;
-    private String airline;
-    private String source;
-    private String destination;
-    private String departureTime;
-    private Double price;
-    private Integer availableSeats;
+    private Long flightId;
+
+    private String airlineCode;
+
+    private String airlineName;
+
+    private String fromAirport;
+
+    private String toAirport;
+
+    private LocalDateTime departureTs;
+
+    private LocalDateTime arrivalTs;
+
+    private Short stops;
+
+    private BigDecimal basePrice;
+
+    private Short availableSeats;
+
+    private Integer durationMins;
 }
