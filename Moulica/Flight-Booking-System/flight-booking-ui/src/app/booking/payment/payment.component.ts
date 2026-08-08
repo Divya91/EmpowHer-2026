@@ -1,5 +1,12 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+
+import { PaymentRequest } from '../../models/payment-request';
+import { PaymentResponse } from '../../models/payment-response';
+
+import { PaymentService } from '../../services/payment.service';
+
 import {
   FormBuilder,
   FormGroup,
@@ -15,13 +22,20 @@ import {
   styleUrl: './payment.component.css',
 })
 export class PaymentComponent {
+  @Input() bookingId!: number;
+
+  @Input() amount!: number;
+
   @Output() back = new EventEmitter<void>();
 
-  @Output() paymentComplete = new EventEmitter<any>();
+  @Output() paymentComplete = new EventEmitter<PaymentResponse>();
 
   paymentForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private paymentService: PaymentService,
+  ) {
     this.paymentForm = this.fb.group({
       paymentMethod: ['credit_card', Validators.required],
 
@@ -43,10 +57,42 @@ export class PaymentComponent {
   }
 
   confirmPayment() {
-    if (this.paymentForm.valid) {
-      this.paymentComplete.emit(this.paymentForm.value);
-    } else {
+    if (this.paymentForm.invalid) {
       this.paymentForm.markAllAsTouched();
+
+      return;
     }
+
+    if (!this.bookingId) {
+      console.error('Booking ID is missing');
+
+      return;
+    }
+
+    const payment: PaymentRequest = {
+      bookingId: this.bookingId,
+
+      amount: this.amount,
+
+      paymentMethod: this.paymentForm.value.paymentMethod,
+
+      paymentStatus: 'SUCCESS',
+
+      transactionId: crypto.randomUUID(),
+    };
+
+    console.log('Sending Payment:', payment);
+
+    this.paymentService.createPayment(payment).subscribe({
+      next: (response: PaymentResponse) => {
+        console.log('Payment successful:', response);
+
+        this.paymentComplete.emit(response);
+      },
+
+      error: (error) => {
+        console.error('Payment failed:', error);
+      },
+    });
   }
 }
