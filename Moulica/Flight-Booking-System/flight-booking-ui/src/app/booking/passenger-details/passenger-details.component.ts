@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { PassengerService } from '../../services/passenger.service';
+import { PassengerRequest } from '../../models/passenger-request';
+import { PassengerResponse } from '../../models/passenger-response';
 import {
   FormBuilder,
   FormGroup,
@@ -73,7 +75,7 @@ export class PassengerDetailsComponent {
     });
 
     // 2️⃣ AFTER creating the form, listen for DOB changes
-    this.passengerForm.get('dob')?.valueChanges.subscribe((value) => {
+    this.passengerForm.get('dateOfBirth')?.valueChanges.subscribe((value) => {
       if (!value) {
         return;
       }
@@ -104,24 +106,33 @@ export class PassengerDetailsComponent {
   }
 
   continue() {
+    console.log(this.passengerForm.value);
+
+    console.log(this.passengerForm.valid);
+
+    console.log(this.passengerForm.errors);
+
+    console.log(this.passengerForm);
+
     if (this.passengerForm.invalid) {
+      console.log(this.passengerForm.controls);
+
       this.passengerForm.markAllAsTouched();
+
       return;
     }
 
-    const passenger = this.passengerForm.getRawValue();
+    const passenger: PassengerRequest = this.passengerForm.getRawValue();
 
     this.passengerService.createPassenger(passenger).subscribe({
-      next: (response) => {
+      next: (response: PassengerResponse) => {
         console.log('Passenger Saved:', response);
 
         this.continueBooking.emit(response);
       },
 
-      error: (error) => {
-        console.error('Error Saving Passenger', error);
-
-        alert(error.error.message);
+      error: (error: any) => {
+        console.error(error);
       },
     });
   }

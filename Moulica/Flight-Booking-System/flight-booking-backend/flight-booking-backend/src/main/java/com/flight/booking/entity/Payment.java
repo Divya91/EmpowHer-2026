@@ -18,17 +18,21 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
 
+    @Column(name = "booking_id", nullable = false)
+    private Long bookingId;
+
     @Column(nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
+    @Column(name = "payment_method", nullable = false)
     private String paymentMethod;
 
-    @Column(nullable = false)
+    @Column(name = "payment_status", nullable = false)
     private String paymentStatus;
 
-    @Column(unique = true)
+    @Column(name = "transaction_id", unique = true)
     private String transactionId;
 
+    @Column(name = "payment_date")
     private LocalDateTime paymentDate;
 }

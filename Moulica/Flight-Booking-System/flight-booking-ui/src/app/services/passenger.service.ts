@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PassengerRequest } from '../models/passenger-request';
+import { PassengerResponse } from '../models/passenger-response';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,7 @@ export class PassengerService {
 
   constructor(private http: HttpClient) {}
 
-  createPassenger(passenger: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, passenger);
+  createPassenger(passenger: PassengerRequest): Observable<PassengerResponse> {
+    return this.http.post<PassengerResponse>(this.apiUrl, passenger);
   }
 }
