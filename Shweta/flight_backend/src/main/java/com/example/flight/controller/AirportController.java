@@ -1,12 +1,18 @@
 package com.example.flight.controller;
+
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.flight.dto.AirportRequestDTO;
 import com.example.flight.dto.AirportResponseDTO;
 import com.example.flight.service.AirportService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/airports")
@@ -15,48 +21,69 @@ public class AirportController {
 
     private final AirportService airportService;
 
-    // Get all airports
-    @GetMapping
-    public ResponseEntity<List<AirportResponseDTO>> getAllAirports() {
 
-        return ResponseEntity.ok(airportService.getAllAirports());
-    }
+    // ================= ADMIN =================
 
-    // Get airport by code
-    @GetMapping("/{airportCode}")
-    public ResponseEntity<AirportResponseDTO> getAirportByCode(
-            @PathVariable String airportCode) {
+    // ADD AIRPORT
 
-        return ResponseEntity.ok(
-                airportService.getAirportByCode(airportCode));
-    }
-
-    // Add airport
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<AirportResponseDTO> addAirport(
-             @RequestBody AirportRequestDTO airportRequestDTO) {
+    public AirportResponseDTO addAirport(
+            @Valid @RequestBody AirportRequestDTO request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(airportService.addAirport(airportRequestDTO));
+        return airportService.addAirport(request);
     }
 
-    // Update airport
+
+    // UPDATE AIRPORT
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{airportCode}")
-    public ResponseEntity<AirportResponseDTO> updateAirport(
+    public AirportResponseDTO updateAirport(
             @PathVariable String airportCode,
-         @RequestBody AirportRequestDTO airportRequestDTO) {
+            @Valid @RequestBody AirportRequestDTO request) {
 
-        return ResponseEntity.ok(
-                airportService.updateAirport(airportCode, airportRequestDTO));
+        return airportService.updateAirport(
+                airportCode,
+                request
+        );
     }
 
-    // Delete airport
+
+    // DELETE AIRPORT
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{airportCode}")
     public ResponseEntity<String> deleteAirport(
             @PathVariable String airportCode) {
 
         airportService.deleteAirport(airportCode);
 
-        return ResponseEntity.ok("Airport deleted successfully.");
+        return ResponseEntity.ok(
+                "Airport deleted successfully"
+        );
+    }
+
+
+    // ================= USER + ADMIN =================
+
+    // GET ALL AIRPORTS
+
+    @GetMapping
+    public List<AirportResponseDTO> getAllAirports() {
+
+        return airportService.getAllAirports();
+    }
+
+
+    // GET AIRPORT BY CODE
+
+    @GetMapping("/{airportCode}")
+    public AirportResponseDTO getAirportByCode(
+            @PathVariable String airportCode) {
+
+        return airportService.getAirportByCode(
+                airportCode
+        );
     }
 }

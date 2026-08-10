@@ -8,6 +8,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.flight.entity.FlightStatus;
+
 @Data
 public class FlightRequestDTO {
 
@@ -41,4 +43,6 @@ public class FlightRequestDTO {
     @NotNull(message = "Duration is required")
     @Min(value = 1, message = "Duration must be greater than zero")
     private Integer durationMins;
+    private String flightNumber;
+    private FlightStatus status;
 }

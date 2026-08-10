@@ -20,16 +20,28 @@ public class Flight {
     @Column(name = "flight_id")
     private Long flightId;
 
+    @Column(name = "flight_number", nullable = false, unique = true)
+    private String flightNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "airline_code", referencedColumnName = "airline_code")
+    @JoinColumn(
+        name = "airline_code",
+        referencedColumnName = "airline_code"
+    )
     private Airline airline;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "from_airport", referencedColumnName = "airport_code")
+    @JoinColumn(
+        name = "from_airport",
+        referencedColumnName = "airport_code"
+    )
     private Airport fromAirport;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "to_airport", referencedColumnName = "airport_code")
+    @JoinColumn(
+        name = "to_airport",
+        referencedColumnName = "airport_code"
+    )
     private Airport toAirport;
 
     @Column(name = "departure_ts", nullable = false)
@@ -49,4 +61,7 @@ public class Flight {
 
     @Column(name = "duration_mins")
     private Integer durationMins;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+     private FlightStatus status;
 }

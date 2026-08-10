@@ -1,10 +1,95 @@
 package com.example.flight.repository;
 
-import com.example.flight.entity.Flight;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-@Repository
-public interface FlightRepository extends JpaRepository<Flight, Long> {
+import com.example.flight.entity.Flight;
 
+public interface FlightRepository
+        extends JpaRepository<Flight, Long> {
+
+    @Query("""
+        SELECT f
+        FROM Flight f
+        WHERE
+            (:source IS NULL OR
+             UPPER(f.fromAirport.airportCode) = UPPER(:source))
+
+        AND
+            (:destination IS NULL OR
+             UPPER(f.toAirport.airportCode) = UPPER(:destination))
+
+        AND
+            (:date IS NULL OR
+             (f.departureTs >= :startDateTime
+              AND f.departureTs < :endDateTime))
+
+        AND
+            (:airline IS NULL OR
+             UPPER(f.airline.airlineCode) = UPPER(:airline))
+
+        AND
+            (:flightNumber IS NULL OR
+             UPPER(f.flightNumber) = UPPER(:flightNumber))
+
+        AND
+            (:stops IS NULL OR
+             f.stops = :stops)
+
+        AND
+            (:minPrice IS NULL OR
+             f.basePrice >= :minPrice)
+
+        AND
+            (:maxPrice IS NULL OR
+             f.basePrice <= :maxPrice)
+
+        AND
+            (:maxDuration IS NULL OR
+             f.durationMins <= :maxDuration)
+        """)
+    Page<Flight> searchFlights(
+
+            @Param("source")
+            String source,
+
+            @Param("destination")
+            String destination,
+
+            @Param("date")
+            LocalDate date,
+
+            @Param("startDateTime")
+            LocalDateTime startDateTime,
+
+            @Param("endDateTime")
+            LocalDateTime endDateTime,
+
+            @Param("airline")
+            String airline,
+
+            @Param("flightNumber")
+            String flightNumber,
+ 
+            @Param("stops")
+            Short stops,
+
+            @Param("minPrice")
+            BigDecimal minPrice,
+
+            @Param("maxPrice")
+            BigDecimal maxPrice,
+
+            @Param("maxDuration")
+            Integer maxDuration,
+
+            Pageable pageable
+    );
 }

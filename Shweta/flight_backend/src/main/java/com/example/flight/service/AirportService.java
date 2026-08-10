@@ -1,75 +1,132 @@
 package com.example.flight.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.example.flight.dto.AirportRequestDTO;
 import com.example.flight.dto.AirportResponseDTO;
 import com.example.flight.entity.Airport;
 import com.example.flight.repository.AirportRepository;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AirportService {
 
     private final AirportRepository airportRepository;
+
     private final ModelMapper modelMapper;
 
-    // Get all airports
+
+    // ================= ADD AIRPORT =================
+
+    public AirportResponseDTO addAirport(
+            AirportRequestDTO dto) {
+
+        if (airportRepository.existsById(
+                dto.getAirportCode())) {
+
+            throw new RuntimeException(
+                    "Airport already exists"
+            );
+        }
+
+        Airport airport =
+                modelMapper.map(dto, Airport.class);
+
+        Airport savedAirport =
+                airportRepository.save(airport);
+
+        return modelMapper.map(
+                savedAirport,
+                AirportResponseDTO.class
+        );
+    }
+
+
+    // ================= GET ALL AIRPORTS =================
+
     public List<AirportResponseDTO> getAllAirports() {
 
         return airportRepository.findAll()
                 .stream()
-                .map(airport -> modelMapper.map(airport, AirportResponseDTO.class))
+                .map(airport ->
+                        modelMapper.map(
+                                airport,
+                                AirportResponseDTO.class
+                        )
+                )
                 .toList();
     }
 
-    // Get airport by airport code
-    public AirportResponseDTO getAirportByCode(String airportCode) {
 
-        Airport airport = airportRepository.findById(airportCode)
-                .orElseThrow(() -> new RuntimeException("Airport not found with code: " + airportCode));
+    // ================= GET AIRPORT BY CODE =================
 
-        return modelMapper.map(airport, AirportResponseDTO.class);
+    public AirportResponseDTO getAirportByCode(
+            String airportCode) {
+
+        Airport airport =
+                airportRepository.findById(airportCode)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Airport not found"
+                                )
+                        );
+
+        return modelMapper.map(
+                airport,
+                AirportResponseDTO.class
+        );
     }
 
-    // Add new airport
-    public AirportResponseDTO addAirport(AirportRequestDTO airportRequestDTO) {
 
-        if (airportRepository.existsById(airportRequestDTO.getAirportCode())) {
-            throw new RuntimeException("Airport already exists with code: "
-                    + airportRequestDTO.getAirportCode());
-        }
+    // ================= UPDATE AIRPORT =================
 
-        Airport airport = modelMapper.map(airportRequestDTO, Airport.class);
+    public AirportResponseDTO updateAirport(
+            String airportCode,
+            AirportRequestDTO dto) {
 
-        Airport savedAirport = airportRepository.save(airport);
+        Airport airport =
+                airportRepository.findById(airportCode)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Airport not found"
+                                )
+                        );
 
-        return modelMapper.map(savedAirport, AirportResponseDTO.class);
+        /*
+         * We don't change the airportCode here
+         * because it is the primary key.
+         */
+        airport.setName(dto.getName());
+        airport.setCity(dto.getCity());
+        airport.setCountry(dto.getCountry());
+
+        Airport updatedAirport =
+                airportRepository.save(airport);
+
+        return modelMapper.map(
+                updatedAirport,
+                AirportResponseDTO.class
+        );
     }
 
-    // Update airport
-    public AirportResponseDTO updateAirport(String airportCode,
-                                            AirportRequestDTO airportRequestDTO) {
 
-        Airport airport = airportRepository.findById(airportCode)
-                .orElseThrow(() -> new RuntimeException("Airport not found with code: " + airportCode));
+    // ================= DELETE AIRPORT =================
 
-        airport.setName(airportRequestDTO.getName());
-        airport.setCity(airportRequestDTO.getCity());
-        airport.setCountry(airportRequestDTO.getCountry());
+    public void deleteAirport(
+            String airportCode) {
 
-        Airport updatedAirport = airportRepository.save(airport);
-
-        return modelMapper.map(updatedAirport, AirportResponseDTO.class);
-    }
-
-    // Delete airport
-    public void deleteAirport(String airportCode) {
-
-        Airport airport = airportRepository.findById(airportCode)
-                .orElseThrow(() -> new RuntimeException("Airport not found with code: " + airportCode));
+        Airport airport =
+                airportRepository.findById(airportCode)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Airport not found"
+                                )
+                        );
 
         airportRepository.delete(airport);
     }

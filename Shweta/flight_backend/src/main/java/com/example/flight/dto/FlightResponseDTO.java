@@ -5,8 +5,12 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.flight.entity.FlightStatus;
+
+
 @Data
 public class FlightResponseDTO {
+    private FlightStatus status;
 
     private Long flightId;
 
@@ -29,4 +33,5 @@ public class FlightResponseDTO {
     private Short availableSeats;
 
     private Integer durationMins;
+    private String flightNumber;
 }
