@@ -1,13 +1,11 @@
 package com.example.flight.repository;
 
-
-import com.example.flight.entity.Passenger;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
-@Repository
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.flight.entity.Passenger;
+
 public interface PassengerRepository
         extends JpaRepository<Passenger, Long> {
 

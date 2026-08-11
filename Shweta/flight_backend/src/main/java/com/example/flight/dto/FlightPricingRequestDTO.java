@@ -6,11 +6,15 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+import com.example.flight.entity.CabinClass;
+
 @Data
 public class FlightPricingRequestDTO {
 
     @NotNull(message = "Flight ID is required")
     private Long flightId;
+      @NotNull
+    private CabinClass seatClass;
 
     @NotNull(message = "Base fare is required")
     @DecimalMin(value = "0.0", message = "Base fare cannot be negative")

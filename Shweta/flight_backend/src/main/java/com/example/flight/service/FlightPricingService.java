@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Service
@@ -61,9 +61,10 @@ public class FlightPricingService {
             );
         }
 
-        return flightPricingRepository
-                .findByFlightFlightId(flightId)
+        return flightPricingRepository.findAll()
                 .stream()
+                .filter(pricing -> pricing.getFlight() != null
+                        && flightId.equals(pricing.getFlight().getFlightId()))
                 .map(pricing ->
                         modelMapper.map(
                                 pricing,
@@ -74,34 +75,32 @@ public class FlightPricingService {
 
     // Add pricing
     public FlightPricingResponseDTO addPricing(
-            FlightPricingRequestDTO dto) {
+        FlightPricingRequestDTO request) {
 
-        Flight flight = flightRepository.findById(dto.getFlightId())
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                "Flight not found with ID: "
-                                        + dto.getFlightId()
-                        ));
+    Flight flight = flightRepository
+            .findById(request.getFlightId())
+            .orElseThrow(() ->
+                    new RuntimeException(
+                            "Flight not found"
+                    )
+            );
 
-        // DTO -> Entity
-        FlightPricing pricing =
-                modelMapper.map(dto, FlightPricing.class);
+    FlightPricing pricing =
+            modelMapper.map(
+                    request,
+                    FlightPricing.class
+            );
 
-        // Set relationship
-        pricing.setFlight(flight);
+    pricing.setFlight(flight);
 
-        // Set created time
-        pricing.setCreatedAt(LocalDateTime.now());
+    FlightPricing saved =
+            flightPricingRepository.save(pricing);
 
-        FlightPricing savedPricing =
-                flightPricingRepository.save(pricing);
-
-        // Entity -> DTO
-        return modelMapper.map(
-                savedPricing,
-                FlightPricingResponseDTO.class
-        );
-    }
+    return modelMapper.map(
+            saved,
+            FlightPricingResponseDTO.class
+    );
+}
 
     // Update pricing
     public FlightPricingResponseDTO updatePricing(

@@ -5,10 +5,13 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.example.flight.entity.CabinClass;
+
 @Data
 public class FlightPricingResponseDTO {
 
     private Long pricingId;
+        private CabinClass seatClass;
 
     private Long flightId;
 

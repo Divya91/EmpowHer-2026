@@ -1,7 +1,5 @@
 package com.example.flight.dto;
 
-
-
 import lombok.Data;
 
 @Data

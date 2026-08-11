@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import com.example.flight.entity.BookingStatus;
+import com.example.flight.entity.PaymentStatus;
 
 @Data
 public class BookingResponseDTO {
@@ -14,15 +17,15 @@ public class BookingResponseDTO {
 
     private Long userId;
 
-    private Long flightId;
-
     private String bookingCode;
 
-    private String status;
+    private BookingStatus status;
 
-    private String paymentStatus;
+    private PaymentStatus paymentStatus;
 
     private BigDecimal totalAmount;
 
     private LocalDateTime bookingTs;
+
+    private List<BookingSegmentResponseDTO> segments;
 }

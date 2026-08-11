@@ -1,16 +1,19 @@
 package com.example.flight.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.flight.dto.AirlineRequestDTO;
 import com.example.flight.dto.AirlineResponseDTO;
 import com.example.flight.service.AirlineService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/airlines")
@@ -19,49 +22,73 @@ public class AirlineController {
 
     private final AirlineService airlineService;
 
-    // Get All Airlines
-    @GetMapping
-    public ResponseEntity<List<AirlineResponseDTO>> getAllAirlines() {
 
-        return ResponseEntity.ok(
-                airlineService.getAllAirlines());
-    }
+    // ================= ADMIN =================
 
-    // Get Airline By Code
-    @GetMapping("/{airlineCode}")
-    public ResponseEntity<AirlineResponseDTO> getAirlineByCode(
-            @PathVariable String airlineCode) {
-
-        return ResponseEntity.ok(
-                airlineService.getAirlineByCode(airlineCode));
-    }
-
-    // Add Airline
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<AirlineResponseDTO> addAirline(
-            @Valid @RequestBody AirlineRequestDTO dto) {
+            @Valid @RequestBody AirlineRequestDTO request) {
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(airlineService.addAirline(dto));
+        AirlineResponseDTO response =
+                airlineService.addAirline(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
-    // Update Airline
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{airlineCode}")
     public ResponseEntity<AirlineResponseDTO> updateAirline(
             @PathVariable String airlineCode,
-            @Valid @RequestBody AirlineRequestDTO dto) {
+            @Valid @RequestBody AirlineRequestDTO request) {
 
-        return ResponseEntity.ok(
-                airlineService.updateAirline(airlineCode, dto));
+        AirlineResponseDTO response =
+                airlineService.updateAirline(
+                        airlineCode,
+                        request
+                );
+
+        return ResponseEntity.ok(response);
     }
 
-    // Delete Airline
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{airlineCode}")
     public ResponseEntity<String> deleteAirline(
             @PathVariable String airlineCode) {
 
         airlineService.deleteAirline(airlineCode);
 
-        return ResponseEntity.ok("Airline deleted successfully.");
+        return ResponseEntity.ok(
+                "Airline deleted successfully"
+        );
+    }
+
+
+    // ================= USER + ADMIN =================
+
+    @GetMapping
+    public ResponseEntity<List<AirlineResponseDTO>>
+            getAllAirlines() {
+
+        return ResponseEntity.ok(
+                airlineService.getAllAirlines()
+        );
+    }
+
+
+    @GetMapping("/{airlineCode}")
+    public ResponseEntity<AirlineResponseDTO>
+            getAirlineByCode(
+                    @PathVariable String airlineCode) {
+
+        return ResponseEntity.ok(
+                airlineService.getAirlineByCode(
+                        airlineCode
+                )
+        );
     }
 }

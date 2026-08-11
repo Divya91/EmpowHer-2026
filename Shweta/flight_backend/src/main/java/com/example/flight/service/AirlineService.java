@@ -1,78 +1,141 @@
 package com.example.flight.service;
 
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.flight.dto.AirlineRequestDTO;
 import com.example.flight.dto.AirlineResponseDTO;
 import com.example.flight.entity.Airline;
 import com.example.flight.repository.AirlineRepository;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AirlineService {
 
     private final AirlineRepository airlineRepository;
+
     private final ModelMapper modelMapper;
 
-    // Get All Airlines
+
+    // ================= ADD AIRLINE =================
+
+    public AirlineResponseDTO addAirline(
+            AirlineRequestDTO request) {
+
+        if (airlineRepository.existsById(
+                request.getAirlineCode())) {
+
+            throw new RuntimeException(
+                    "Airline already exists with code: "
+                            + request.getAirlineCode()
+            );
+        }
+
+        Airline airline =
+                modelMapper.map(
+                        request,
+                        Airline.class
+                );
+
+        Airline savedAirline =
+                airlineRepository.save(airline);
+
+        return modelMapper.map(
+                savedAirline,
+                AirlineResponseDTO.class
+        );
+    }
+
+
+    // ================= GET ALL AIRLINES =================
+
+    @Transactional(readOnly = true)
     public List<AirlineResponseDTO> getAllAirlines() {
 
         return airlineRepository.findAll()
                 .stream()
                 .map(airline ->
-                        modelMapper.map(airline, AirlineResponseDTO.class))
+                        modelMapper.map(
+                                airline,
+                                AirlineResponseDTO.class
+                        )
+                )
                 .toList();
     }
 
-    // Get Airline By Code
-    public AirlineResponseDTO getAirlineByCode(String airlineCode) {
 
-        Airline airline = airlineRepository.findById(airlineCode)
-                .orElseThrow(() ->
-                        new RuntimeException("Airline not found"));
+    // ================= GET AIRLINE =================
 
-        return modelMapper.map(airline, AirlineResponseDTO.class);
+    @Transactional(readOnly = true)
+    public AirlineResponseDTO getAirlineByCode(
+            String airlineCode) {
+
+        Airline airline =
+                airlineRepository.findById(airlineCode)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Airline not found with code: "
+                                                + airlineCode
+                                )
+                        );
+
+        return modelMapper.map(
+                airline,
+                AirlineResponseDTO.class
+        );
     }
 
-    // Add Airline
-    public AirlineResponseDTO addAirline(AirlineRequestDTO dto) {
 
-        if (airlineRepository.existsById(dto.getAirlineCode())) {
-            throw new RuntimeException("Airline already exists");
-        }
+    // ================= UPDATE AIRLINE =================
 
-        Airline airline = modelMapper.map(dto, Airline.class);
+    public AirlineResponseDTO updateAirline(
+            String airlineCode,
+            AirlineRequestDTO request) {
 
-        Airline savedAirline = airlineRepository.save(airline);
+        Airline airline =
+                airlineRepository.findById(airlineCode)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Airline not found with code: "
+                                                + airlineCode
+                                )
+                        );
 
-        return modelMapper.map(savedAirline, AirlineResponseDTO.class);
+        /*
+         * Airline code is the primary key.
+         * Therefore, we don't change it during update.
+         */
+        airline.setName(request.getName());
+
+        Airline updatedAirline =
+                airlineRepository.save(airline);
+
+        return modelMapper.map(
+                updatedAirline,
+                AirlineResponseDTO.class
+        );
     }
 
-    // Update Airline
-    public AirlineResponseDTO updateAirline(String airlineCode,
-                                            AirlineRequestDTO dto) {
 
-        Airline airline = airlineRepository.findById(airlineCode)
-                .orElseThrow(() ->
-                        new RuntimeException("Airline not found"));
+    // ================= DELETE AIRLINE =================
 
-        airline.setName(dto.getName());
+    public void deleteAirline(
+            String airlineCode) {
 
-        Airline updatedAirline = airlineRepository.save(airline);
-
-        return modelMapper.map(updatedAirline,
-                AirlineResponseDTO.class);
-    }
-
-    // Delete Airline
-    public void deleteAirline(String airlineCode) {
-
-        Airline airline = airlineRepository.findById(airlineCode)
-                .orElseThrow(() ->
-                        new RuntimeException("Airline not found"));
+        Airline airline =
+                airlineRepository.findById(airlineCode)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Airline not found with code: "
+                                                + airlineCode
+                                )
+                        );
 
         airlineRepository.delete(airline);
     }

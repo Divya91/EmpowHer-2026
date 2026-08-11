@@ -113,7 +113,7 @@ public class BookingCancellationService {
         );
 
         // Update booking status
-        booking.setStatus("CANCELLED");
+       // booking.setStatus("CANCELLED");
 
         bookingRepository.save(booking);
 

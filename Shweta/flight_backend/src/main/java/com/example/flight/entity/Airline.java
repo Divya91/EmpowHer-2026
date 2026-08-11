@@ -19,6 +19,6 @@ public class Airline {
     @Column(name = "airline_code", length = 3)
     private String airlineCode;
 
-    @Column(name = "name", nullable = false, length = 200)
+    @Column(nullable = false, length = 200)
     private String name;
 }

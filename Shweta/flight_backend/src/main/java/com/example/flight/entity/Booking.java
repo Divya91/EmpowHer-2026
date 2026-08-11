@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import java.util.List;
 
 @Entity
 @Table(
@@ -40,19 +43,21 @@ public class Booking {
     )
     private String bookingCode;
 
-    @Column(
-            name = "status",
-            length = 50,
-            nullable = false
-    )
-    private String status;
+    @Enumerated(EnumType.STRING)
+ @Column(
+        name = "status",
+        length = 50,
+        nullable = false
+)
+private BookingStatus status;
 
-    @Column(
-            name = "payment_status",
-            length = 50,
-            nullable = false
-    )
-    private String paymentStatus;
+   @Enumerated(EnumType.STRING)
+@Column(
+        name = "payment_status",
+        length = 50,
+        nullable = false
+)
+private PaymentStatus paymentStatus;
 
     @Column(
             name = "total_amount",
@@ -64,4 +69,12 @@ public class Booking {
 
     @Column(name = "booking_ts")
     private LocalDateTime bookingTs;
+    @OneToMany(
+    mappedBy = "booking",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+)
+@OrderBy("segmentOrder ASC")
+private List<BookingSegment> segments =
+        new ArrayList<>();
 }

@@ -1,85 +1,66 @@
 package com.example.flight.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.flight.dto.PassengerRequestDTO;
 import com.example.flight.dto.PassengerResponseDTO;
 import com.example.flight.service.PassengerService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/passengers")
+@RequestMapping("/api/bookings/{bookingId}/passengers")
 @RequiredArgsConstructor
 public class PassengerController {
 
     private final PassengerService passengerService;
 
-    // Get all passengers
-    @GetMapping
-    public ResponseEntity<List<PassengerResponseDTO>> getAllPassengers() {
 
-        return ResponseEntity.ok(
-                passengerService.getAllPassengers()
-        );
-    }
+    // ================= ADD PASSENGER =================
 
-    // Get passenger by ID
-    @GetMapping("/{passengerId}")
-    public ResponseEntity<PassengerResponseDTO> getPassengerById(
-            @PathVariable Long passengerId) {
-
-        return ResponseEntity.ok(
-                passengerService.getPassengerById(passengerId)
-        );
-    }
-
-    // Get passengers by booking
-    @GetMapping("/booking/{bookingId}")
-    public ResponseEntity<List<PassengerResponseDTO>> getPassengersByBooking(
-            @PathVariable Long bookingId) {
-
-        return ResponseEntity.ok(
-                passengerService.getPassengersByBooking(bookingId)
-        );
-    }
-
-    // Add passenger
     @PostMapping
     public ResponseEntity<PassengerResponseDTO> addPassenger(
-            @Valid @RequestBody PassengerRequestDTO dto) {
+            @PathVariable Long bookingId,
+            @Valid @RequestBody PassengerRequestDTO request,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        PassengerResponseDTO response =
+                passengerService.addPassenger(
+                        bookingId,
+                        request,
+                        email
+                );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(passengerService.addPassenger(dto));
+                .body(response);
     }
 
-    // Update passenger
-    @PutMapping("/{passengerId}")
-    public ResponseEntity<PassengerResponseDTO> updatePassenger(
-            @PathVariable Long passengerId,
-            @Valid @RequestBody PassengerRequestDTO dto) {
+
+    // ================= GET PASSENGERS =================
+
+    @GetMapping
+    public ResponseEntity<List<PassengerResponseDTO>>
+            getPassengers(
+                    @PathVariable Long bookingId,
+                    Authentication authentication) {
+
+        String email = authentication.getName();
 
         return ResponseEntity.ok(
-                passengerService.updatePassenger(
-                        passengerId,
-                        dto
+                passengerService.getPassengers(
+                        bookingId,
+                        email
                 )
-        );
-    }
-
-    // Delete passenger
-    @DeleteMapping("/{passengerId}")
-    public ResponseEntity<String> deletePassenger(
-            @PathVariable Long passengerId) {
-
-        passengerService.deletePassenger(passengerId);
-
-        return ResponseEntity.ok(
-                "Passenger deleted successfully"
         );
     }
 }

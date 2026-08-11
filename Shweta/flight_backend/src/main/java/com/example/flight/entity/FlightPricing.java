@@ -46,4 +46,7 @@ public class FlightPricing {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+@Column(name = "seat_class", nullable = false, length = 30)
+private CabinClass seatClass;
 }

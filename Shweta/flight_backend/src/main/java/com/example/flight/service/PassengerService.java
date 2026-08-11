@@ -1,59 +1,91 @@
 package com.example.flight.service;
+//Manages passengers
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.example.flight.dto.PassengerRequestDTO;
 import com.example.flight.dto.PassengerResponseDTO;
 import com.example.flight.entity.Booking;
 import com.example.flight.entity.Passenger;
-import com.example.flight.repository.BookingRepository;
 import com.example.flight.repository.PassengerRepository;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class PassengerService {
 
     private final PassengerRepository passengerRepository;
-    private final BookingRepository bookingRepository;
-    private final ModelMapper modelMapper;
 
-    // Get all passengers
-    public List<PassengerResponseDTO> getAllPassengers() {
+    private final BookingAccessService bookingAccessService;
 
-        return passengerRepository.findAll()
-                .stream()
-                .map(this::convertToResponse)
-                .toList();
+
+    // ================= ADD PASSENGER =================
+
+    public PassengerResponseDTO addPassenger(
+            Long bookingId,
+            PassengerRequestDTO request,
+            String email) {
+
+        // Verify that this booking belongs
+        // to the logged-in user.
+
+        Booking booking =
+                bookingAccessService.getUserBooking(
+                        bookingId,
+                        email
+                );
+
+
+        // Create Passenger
+
+        Passenger passenger = new Passenger();
+
+        passenger.setBooking(booking);
+
+        passenger.setFirstName(
+                request.getFirstName()
+        );
+
+        passenger.setLastName(
+                request.getLastName()
+        );
+
+        passenger.setDateOfBirth(
+                request.getDateOfBirth()
+        );
+
+        // Seat will be handled later
+        // by the seat-locking module.
+
+        passenger.setSeatNumber(
+                request.getSeatNumber()
+        );
+
+
+        Passenger savedPassenger =
+                passengerRepository.save(passenger);
+
+
+        return convertToResponse(savedPassenger);
     }
 
-    // Get passenger by ID
-    public PassengerResponseDTO getPassengerById(
-            Long passengerId) {
 
-        Passenger passenger =
-                passengerRepository.findById(passengerId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Passenger not found with ID: "
-                                                + passengerId
-                                ));
+    // ================= GET PASSENGERS =================
 
-        return convertToResponse(passenger);
-    }
+    public List<PassengerResponseDTO> getPassengers(
+            Long bookingId,
+            String email) {
 
-    // Get passengers by booking ID
-    public List<PassengerResponseDTO> getPassengersByBooking(
-            Long bookingId) {
+        // Verify ownership
 
-        if (!bookingRepository.existsById(bookingId)) {
-            throw new RuntimeException(
-                    "Booking not found with ID: " + bookingId
-            );
-        }
+        bookingAccessService.getUserBooking(
+                bookingId,
+                email
+        );
+
 
         return passengerRepository
                 .findByBookingBookingId(bookingId)
@@ -62,86 +94,38 @@ public class PassengerService {
                 .toList();
     }
 
-    // Add passenger
-    public PassengerResponseDTO addPassenger(
-            PassengerRequestDTO dto) {
 
-        Booking booking =
-                bookingRepository.findById(dto.getBookingId())
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Booking not found with ID: "
-                                                + dto.getBookingId()
-                                ));
+    // ================= CONVERSION =================
 
-        Passenger passenger =
-                modelMapper.map(dto, Passenger.class);
-
-        passenger.setBooking(booking);
-
-        Passenger savedPassenger =
-                passengerRepository.save(passenger);
-
-        return convertToResponse(savedPassenger);
-    }
-
-    // Update passenger
-    public PassengerResponseDTO updatePassenger(
-            Long passengerId,
-            PassengerRequestDTO dto) {
-
-        Passenger passenger =
-                passengerRepository.findById(passengerId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Passenger not found with ID: "
-                                                + passengerId
-                                ));
-
-        Booking booking =
-                bookingRepository.findById(dto.getBookingId())
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Booking not found with ID: "
-                                                + dto.getBookingId()
-                                ));
-
-        modelMapper.map(dto, passenger);
-
-        passenger.setBooking(booking);
-
-        Passenger updatedPassenger =
-                passengerRepository.save(passenger);
-
-        return convertToResponse(updatedPassenger);
-    }
-
-    // Delete passenger
-    public void deletePassenger(Long passengerId) {
-
-        Passenger passenger =
-                passengerRepository.findById(passengerId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Passenger not found with ID: "
-                                                + passengerId
-                                ));
-
-        passengerRepository.delete(passenger);
-    }
-
-    // Entity → Response DTO
     private PassengerResponseDTO convertToResponse(
             Passenger passenger) {
 
         PassengerResponseDTO response =
-                modelMapper.map(
-                        passenger,
-                        PassengerResponseDTO.class
-                );
+                new PassengerResponseDTO();
+
+        response.setPassengerId(
+                passenger.getPassengerId()
+        );
 
         response.setBookingId(
-                passenger.getBooking().getBookingId()
+                passenger.getBooking()
+                        .getBookingId()
+        );
+
+        response.setFirstName(
+                passenger.getFirstName()
+        );
+
+        response.setLastName(
+                passenger.getLastName()
+        );
+
+        response.setDateOfBirth(
+                passenger.getDateOfBirth()
+        );
+
+        response.setSeatNumber(
+                passenger.getSeatNumber()
         );
 
         return response;

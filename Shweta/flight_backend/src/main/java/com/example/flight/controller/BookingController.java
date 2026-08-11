@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -75,43 +76,25 @@ public class BookingController {
     }
 
     // Create booking
-    @PostMapping
-    public ResponseEntity<BookingResponseDTO>
-    createBooking(
-            @Valid @RequestBody BookingRequestDTO dto) {
+   @PostMapping
+public ResponseEntity<BookingResponseDTO>
+createBooking(
+        @Valid @RequestBody BookingRequestDTO dto,
+        Authentication authentication) {
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(
-                        bookingService.createBooking(dto)
-                );
-    }
+    String email = authentication.getName();
 
-    // Update booking
-    @PutMapping("/{bookingId}")
-    public ResponseEntity<BookingResponseDTO>
-    updateBooking(
-            @PathVariable Long bookingId,
-            @Valid @RequestBody BookingRequestDTO dto) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(
+                    bookingService.createBooking(
+                            dto,
+                            email
+                    )
+            );
+}
 
-        return ResponseEntity.ok(
-                bookingService.updateBooking(
-                        bookingId,
-                        dto
-                )
-        );
-    }
+    
 
-    // Delete booking
-    @DeleteMapping("/{bookingId}")
-    public ResponseEntity<String>
-    deleteBooking(
-            @PathVariable Long bookingId) {
-
-        bookingService.deleteBooking(bookingId);
-
-        return ResponseEntity.ok(
-                "Booking deleted successfully"
-        );
-    }
+    
 }
