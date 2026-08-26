@@ -167,3 +167,25 @@
     grid-template-columns: 1fr;
   }
 }
+.booking-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.book-btn {
+  background: linear-gradient(135deg, #6C63FF, #5A52E8);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.book-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(108,99,255,.25);
+}

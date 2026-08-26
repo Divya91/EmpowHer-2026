@@ -47,10 +47,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
-                                "/api/auth/register",
-                                "/api/auth/login",
-                                "/api/flights/**"
-                        ).permitAll()
+        "/api/auth/register",
+        "/api/auth/login",
+        "/api/flights/**",
+        "/api/passengers/**",
+        "/api/payments/**",
+        "/api/bookings/**"
+).permitAll()
 
                         .requestMatchers(
                                 "/api/admin/**"
