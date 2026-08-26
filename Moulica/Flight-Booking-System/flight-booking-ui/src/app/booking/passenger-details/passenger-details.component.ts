@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { PassengerService } from '../../services/passenger.service';
+import { PassengerRequest } from '../../models/passenger-request';
+import { PassengerResponse } from '../../models/passenger-response';
 import {
   FormBuilder,
   FormGroup,
@@ -19,7 +22,10 @@ export class PassengerDetailsComponent {
 
   passengerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private passengerService: PassengerService,
+  ) {
     // 1️⃣ Create the form first
     this.passengerForm = this.fb.group({
       title: ['', Validators.required],
@@ -44,7 +50,7 @@ export class PassengerDetailsComponent {
 
       gender: ['', Validators.required],
 
-      dob: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
 
       age: [
         {
@@ -62,11 +68,14 @@ export class PassengerDetailsComponent {
 
       email: ['', [Validators.required, Validators.email]],
 
-      phone: ['', [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')]],
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[6-9][0-9]{9}$')],
+      ],
     });
 
     // 2️⃣ AFTER creating the form, listen for DOB changes
-    this.passengerForm.get('dob')?.valueChanges.subscribe((value) => {
+    this.passengerForm.get('dateOfBirth')?.valueChanges.subscribe((value) => {
       if (!value) {
         return;
       }
@@ -97,18 +106,34 @@ export class PassengerDetailsComponent {
   }
 
   continue() {
-    console.log('Continue clicked');
+    console.log(this.passengerForm.value);
 
-    console.log('Form Valid:', this.passengerForm.valid);
+    console.log(this.passengerForm.valid);
 
-    if (this.passengerForm.valid) {
-      console.log('Emitting event');
+    console.log(this.passengerForm.errors);
 
-      this.continueBooking.emit(this.passengerForm.getRawValue());
-    } else {
-      console.log('Form Invalid');
+    console.log(this.passengerForm);
+
+    if (this.passengerForm.invalid) {
+      console.log(this.passengerForm.controls);
 
       this.passengerForm.markAllAsTouched();
+
+      return;
     }
+
+    const passenger: PassengerRequest = this.passengerForm.getRawValue();
+
+    this.passengerService.createPassenger(passenger).subscribe({
+      next: (response: PassengerResponse) => {
+        console.log('Passenger Saved:', response);
+
+        this.continueBooking.emit(response);
+      },
+
+      error: (error: any) => {
+        console.error(error);
+      },
+    });
   }
 }

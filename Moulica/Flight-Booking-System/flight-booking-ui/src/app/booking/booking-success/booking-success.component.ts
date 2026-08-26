@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-success',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './booking-success.component.html',
   styleUrl: './booking-success.component.css',
 })
-export class BookingSuccessComponent {}
+export class BookingSuccessComponent {
+  @Input() booking: any;
+  @Input() passenger: any;
+  @Input() payment: any;
+
+  constructor(private router: Router) {}
+
+  goHome() {
+    this.router.navigate(['/home']);
+  }
+
+  downloadTicket() {
+    console.log('Downloading ticket...');
+
+    // We will implement PDF ticket generation next.
+  }
+}

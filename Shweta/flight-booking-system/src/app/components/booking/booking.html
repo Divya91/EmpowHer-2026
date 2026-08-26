@@ -1,0 +1,181 @@
+<div class="booking-container">
+
+  <h1>My Bookings</h1>
+  <p class="subtitle">
+    Review upcoming and past bookings or request a cancellation.
+  </p>
+
+  <!-- Upcoming Bookings -->
+  <h2>Upcoming Bookings</h2>
+
+  <div class="booking-card" *ngFor="let booking of upcomingBookings">
+
+    <!-- Left Section -->
+    <div class="booking-left">
+
+      <span class="status">{{ booking.status }}</span>
+
+      <h3>{{ booking.destination }}</h3>
+
+      <p>{{ booking.departureDate }} - {{ booking.returnDate }}</p>
+
+      <div class="route">
+
+        <div>
+          <h4>{{ booking.from }}</h4>
+          <p>{{ booking.departureTime }}</p>
+        </div>
+
+        <div class="line">
+          ✈────────────✈
+        </div>
+
+        <div>
+          <h4>{{ booking.to }}</h4>
+          <p>{{ booking.arrivalTime }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Middle Section -->
+    <div class="booking-middle">
+
+      <p>
+        <strong>Airline</strong><br>
+        {{ booking.airline }}
+      </p>
+
+      <p>
+        <strong>Passengers</strong><br>
+        {{ booking.passengers }}
+      </p>
+
+      <p>
+        <strong>Refundable</strong><br>
+        {{ booking.refundable ? 'Yes' : 'No' }}
+      </p>
+
+    </div>
+
+    <!-- Right Section -->
+    <div class="booking-right">
+
+      <p>
+        <strong>Confirmation</strong><br>
+        {{ booking.confirmation }}
+      </p>
+
+      <p>
+        <strong>Fare</strong><br>
+        ${{ booking.fare }}
+      </p>
+
+      <button class="primary-btn"></button>
+              
+       
+
+      <button class="secondary-btn" (click)="openPopup(booking)">
+        Cancel Booking
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Past Bookings -->
+
+  <h2 class="mt">Past Bookings</h2>
+
+  <div class="booking-card past"
+       *ngFor="let booking of pastBookings">
+
+    <div class="booking-left">
+
+      <h3>{{ booking.destination }}</h3>
+
+      <p>{{ booking.departureDate }}</p>
+
+      <div class="route">
+
+        <div>
+          <h4>{{ booking.from }}</h4>
+          <p>{{ booking.departureTime }}</p>
+        </div>
+
+        <div class="line">
+          ✈────────────✈
+        </div>
+
+        <div>
+          <h4>{{ booking.to }}</h4>
+          <p>{{ booking.arrivalTime }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="booking-middle">
+
+      <span class="completed">
+        {{ booking.status }}
+      </span>
+
+    </div>
+
+    <div class="booking-right">
+
+      <h3>${{ booking.fare }}</h3>
+
+      <button class="primary-btn">
+        Rebook
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Popup -->
+
+<div class="overlay" *ngIf="showPopup">
+
+  <div class="popup">
+
+    <h2>Flight Itinerary</h2>
+
+    <hr>
+
+    <p><strong>Destination :</strong> {{selectedBooking.destination}}</p>
+
+    <p><strong>Airline :</strong> {{selectedBooking.airline}}</p>
+
+    <p><strong>From :</strong> {{selectedBooking.from}}</p>
+
+    <p><strong>To :</strong> {{selectedBooking.to}}</p>
+
+    <p><strong>Departure :</strong> {{selectedBooking.departureDate}}</p>
+
+    <p><strong>Return :</strong> {{selectedBooking.returnDate}}</p>
+
+    <p><strong>Departure Time :</strong> {{selectedBooking.departureTime}}</p>
+
+    <p><strong>Arrival Time :</strong> {{selectedBooking.arrivalTime}}</p>
+
+    <p><strong>Passengers :</strong> {{selectedBooking.passengers}}</p>
+
+    <p><strong>Confirmation :</strong> {{selectedBooking.confirmation}}</p>
+
+    <p><strong>Fare :</strong> ${{selectedBooking.fare}}</p>
+
+    <button class="close-btn"
+            (click)="closePopup()">
+      Close
+    </button>
+
+  </div>
+
+</div>

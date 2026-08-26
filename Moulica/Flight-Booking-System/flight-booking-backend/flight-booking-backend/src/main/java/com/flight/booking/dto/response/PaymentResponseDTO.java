@@ -1,4 +1,4 @@
-package com.flight.booking.dto;
+package com.flight.booking.dto.response;
 
 import lombok.Data;
 
@@ -8,9 +8,16 @@ import java.time.LocalDateTime;
 public class PaymentResponseDTO {
 
     private Long paymentId;
+
+    private Long bookingId;
+
     private Double amount;
+
     private String paymentMethod;
+
     private String paymentStatus;
+
     private String transactionId;
+
     private LocalDateTime paymentDate;
 }

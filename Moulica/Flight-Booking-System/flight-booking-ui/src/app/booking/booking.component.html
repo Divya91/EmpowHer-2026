@@ -63,11 +63,23 @@
   }
 
   @if (currentStep === 2) {
-    <app-payment (back)="goBack()" (paymentComplete)="completeBooking($event)">
-    </app-payment>
+    @if (currentStep === 2) {
+      <app-payment
+        [bookingId]="bookingId!"
+        [amount]="totalAmount"
+        (back)="goBack()"
+        (paymentComplete)="completeBooking($event)"
+      >
+      </app-payment>
+    }
   }
 
   @if (currentStep === 3) {
-    <app-booking-success> </app-booking-success>
+    <app-booking-success
+      [booking]="bookingData"
+      [passenger]="passengerData"
+      [payment]="paymentData"
+    >
+    </app-booking-success>
   }
 </div>

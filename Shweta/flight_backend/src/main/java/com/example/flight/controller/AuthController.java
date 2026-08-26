@@ -1,60 +1,126 @@
 package com.example.flight.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.flight.entity.User;
-import com.example.flight.repository.UserRepository;
-import com.example.flight.service.CustomUserDetailsService;
+import com.example.flight.dto.*;
+import com.example.flight.service.AuthService;
 import com.example.flight.service.JwtService;
+import com.example.flight.service.RefreshTokenService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final AuthService authService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final RefreshTokenService refreshTokenService;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    // REGISTER
 
-    @Autowired
-    private JwtService jwtService;
-
-    // Register User
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
+    public ResponseEntity<String> register(
+            @Valid @RequestBody RegisterRequestDTO request) {
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userRepository.save(user);
-
-        return "User Registered Successfully";
+        return ResponseEntity.ok(
+                authService.register(request)
+        );
     }
 
-    // Login User
-    @PostMapping("/login")
-    public String login(@RequestBody User user) {
+    // LOGIN
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getUsername(),
-                        user.getPassword()
+    @PostMapping("/login")
+    public ResponseEntity<RefreshTokenResponseDTO> login(
+            @Valid @RequestBody LoginRequestDTO request) {
+
+        return ResponseEntity.ok(
+                authService.login(request)
+        );
+    }
+
+    // VERIFY EMAIL
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<String> verifyEmail(
+            @Valid @RequestBody VerifyEmailRequestDTO request) {
+
+        return ResponseEntity.ok(
+                authService.verifyEmail(request)
+        );
+    }
+
+    // RESEND VERIFICATION OTP
+
+    @PostMapping("/resend-verification")
+    public ResponseEntity<String> resendVerification(
+            @RequestParam String email) {
+
+        return ResponseEntity.ok(
+                authService.sendEmailVerificationOtp(email)
+        );
+    }
+
+    // FORGOT PASSWORD
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(
+            @Valid @RequestBody ForgotPasswordRequestDTO request) {
+
+        return ResponseEntity.ok(
+                authService.forgotPassword(request)
+        );
+    }
+
+    // RESET PASSWORD
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(
+            @Valid @RequestBody ResetPasswordRequestDTO request) {
+
+        return ResponseEntity.ok(
+                authService.resetPassword(request)
+        );
+    }
+
+    // REFRESH TOKEN
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<RefreshTokenResponseDTO> refreshToken(
+            @Valid @RequestBody RefreshTokenRequestDTO request) {
+
+        var refreshToken =
+                refreshTokenService.verifyExpiration(
+                        request.getRefreshToken()
+                );
+
+        var userDetails =
+                org.springframework.security.core.userdetails.User
+                        .withUsername(
+                                refreshToken.getUser().getEmail()
+                        )
+                        .password(
+                                refreshToken.getUser().getPasswordHash()
+                        )
+                        .roles(
+                                refreshToken.getUser().getRole()
+                        )
+                        .build();
+
+        String newAccessToken =
+                jwtService.generateToken(userDetails);
+
+        return ResponseEntity.ok(
+                new RefreshTokenResponseDTO(
+                        newAccessToken,
+                        refreshToken.getToken()
                 )
         );
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-
-        return jwtService.generateToken(userDetails);
     }
 }

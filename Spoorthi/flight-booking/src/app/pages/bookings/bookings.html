@@ -1,0 +1,41 @@
+<h2>Upcoming Bookings</h2>
+
+<div *ngFor="let booking of upcomingBookings">
+
+    <h3>{{booking.destination}}</h3>
+
+    <p>{{booking.airline}}</p>
+
+    <p>{{booking.startDate}} - {{booking.endDate}}</p>
+
+    <button>View Itinerary</button>
+
+    <button *ngIf="booking.status==='CONFIRMED'">
+        Cancel Booking
+    </button>
+
+    <button *ngIf="booking.status==='CANCEL_REQUESTED'" disabled>
+        Cancellation Requested
+    </button>
+
+    <hr>
+
+</div>
+
+
+<h2>Cancellation Requests</h2>
+
+<div *ngFor="let booking of cancellationRequests">
+
+    {{booking.destination}}
+
+</div>
+
+
+<h2>Past Bookings</h2>
+
+<div *ngFor="let booking of pastBookings">
+
+    {{booking.destination}}
+
+</div>

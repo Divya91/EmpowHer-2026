@@ -1,0 +1,75 @@
+<div class="page">
+  <h1>My Bookings</h1>
+
+  @for (booking of bookings; track booking.bookingId) {
+    <div class="booking-card">
+      <div class="top">
+        <div>
+          <h2>{{ booking.airline }}</h2>
+
+          <p>{{ booking.flightNumber }}</p>
+        </div>
+
+        <div class="status">
+          {{ booking.status }}
+        </div>
+      </div>
+
+      <div class="route">
+        <div>
+          <h2>{{ booking.from }}</h2>
+
+          <p>{{ booking.departureTime }}</p>
+        </div>
+
+        <div class="plane">✈</div>
+
+        <div>
+          <h2>{{ booking.to }}</h2>
+
+          <p>{{ booking.arrivalTime }}</p>
+        </div>
+      </div>
+
+      <div class="details">
+        <div>
+          <strong>Date</strong>
+
+          <p>{{ booking.departureDate }}</p>
+        </div>
+
+        <div>
+          <strong>Passenger</strong>
+
+          <p>{{ booking.passenger }}</p>
+        </div>
+
+        <div>
+          <strong>Seat</strong>
+
+          <p>{{ booking.seat }}</p>
+        </div>
+
+        <div>
+          <strong>Price</strong>
+
+          <p>₹{{ booking.price }}</p>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="view-btn">View Details</button>
+
+        <button class="download-btn">Download Ticket</button>
+
+        @if (booking.status === "Confirmed") {
+          <button class="cancel-btn" (click)="cancelBooking(booking)">
+            Cancel Booking
+          </button>
+        } @else {
+          <button class="cancelled-btn" disabled>Flight Cancelled</button>
+        }
+      </div>
+    </div>
+  }
+</div>
