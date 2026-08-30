@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tickets")
+@Table(name = "Bookings", schema = "flight_booking_system")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +25,7 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @jakarta.persistence.Column(name = "booking_id")
     private Long id;
 
     @ManyToOne
@@ -35,8 +36,15 @@ public class Ticket {
     @JoinColumn(name = "flight_id")
     private Flight flight;
 
+    @jakarta.persistence.Column(name = "number_of_seats")
     private int numberOfSeats;
+
+    @jakarta.persistence.Column(name = "total_amount")
     private BigDecimal totalPrice;
+
+    @jakarta.persistence.Column(name = "booking_ts")
     private LocalDateTime bookingTime;
+
+    @jakarta.persistence.Column(name = "status")
     private String status;
 }

@@ -27,9 +27,13 @@ public class FlightService {
                 .toList();
     }
 
-    public Flight getFlightOrThrow(String flightId) {
+    public Flight getFlightOrThrow(Long flightId) {
         return flightRepository.findById(flightId)
                 .orElseThrow(() -> new ApiException("Flight not found: " + flightId));
+    }
+
+    public FlightResponse getFlightResponseOrThrow(Long flightId) {
+        return toResponse(getFlightOrThrow(flightId));
     }
 
     public void reserveSeats(Flight flight, int seats) {

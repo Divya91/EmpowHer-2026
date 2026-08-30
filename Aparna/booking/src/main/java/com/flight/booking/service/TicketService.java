@@ -50,6 +50,12 @@ public class TicketService {
         return ticketRepository.findByUserId(userId).stream().map(this::toResponse).toList();
     }
 
+    public TicketResponse getTicketOrThrow(Long ticketId) {
+        return ticketRepository.findById(ticketId)
+                .map(this::toResponse)
+                .orElseThrow(() -> new ApiException("Ticket not found: " + ticketId));
+    }
+
     private TicketResponse toResponse(Ticket ticket) {
         String[] nameParts = ticket.getUser().getName().trim().split("\\s+", 2);
 

@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FlightResultsComponent } from '../flight-results/flight-results.component';
 import { FlightResults } from '../../models/flightResults';
 import { MOCK_FLIGHTS } from '../flight-results/flight-results.component';
@@ -21,6 +22,8 @@ interface FilterState {
 })
 export class SearchWithFilters {
   flights = signal<FlightResults[]>(MOCK_FLIGHTS);
+
+  constructor(private readonly router: Router) {}
   
   filters = signal<FilterState>({
     stops: 'any',
@@ -117,8 +120,7 @@ export class SearchWithFilters {
   }
 
   onFlightSelected(flight: FlightResults): void {
-    console.log('Flight selected:', flight);
-    // TODO: Navigate to booking flow
+    this.router.navigate(['/booking', flight.flightId]);
   }
 
   onViewDetails(flight: FlightResults): void {

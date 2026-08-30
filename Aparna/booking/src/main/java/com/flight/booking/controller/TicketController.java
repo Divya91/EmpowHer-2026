@@ -29,4 +29,9 @@ public class TicketController {
     public List<TicketResponse> getTicketsForUser(@PathVariable Long userId) {
         return ticketService.getTicketsForUser(userId);
     }
+
+    @GetMapping("/{ticketId}")
+    public TicketResponse getTicket(@PathVariable Long ticketId) {
+        return ticketService.getTicketOrThrow(ticketId);
+    }
 }

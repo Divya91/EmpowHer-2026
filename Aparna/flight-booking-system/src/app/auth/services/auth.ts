@@ -1,13 +1,23 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay, tap } from 'rxjs/operators';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 export type UserRole = 'admin' | 'customer';
 
 export interface AuthUser {
+  id: number;
   name: string;
   email: string;
   role: UserRole;
+}
+
+interface UserResponse {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
 }
 
 const STORAGE_KEY = 'meridian.auth.user';
@@ -17,6 +27,9 @@ const STORAGE_KEY = 'meridian.auth.user';
 })
 export class AuthService {
 
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = `${environment.apiBaseUrl}/users`;
+
   private readonly userSignal = signal<AuthUser | null>(this.readStoredUser());
 
   readonly currentUser = this.userSignal.asReadonly();
@@ -24,33 +37,17 @@ export class AuthService {
   readonly role = computed<UserRole | null>(() => this.userSignal()?.role ?? null);
 
   login(email: string, password: string): Observable<AuthUser> {
-
-    const user: AuthUser = {
-      name: this.deriveName(email),
-      email,
-      role: this.deriveRole(email)
-    };
-
-    return of(user).pipe(
-      delay(700),
-      tap((loggedInUser) => this.setUser(loggedInUser))
+    return this.http.post<UserResponse>(`${this.baseUrl}/login`, { email, password }).pipe(
+      map((response) => this.toAuthUser(response)),
+      tap((user) => this.setUser(user))
     );
-
   }
 
   signup(name: string, email: string, password: string): Observable<AuthUser> {
-
-    const user: AuthUser = {
-      name: name?.trim() || this.deriveName(email),
-      email,
-      role: this.deriveRole(email)
-    };
-
-    return of(user).pipe(
-      delay(700),
-      tap((newUser) => this.setUser(newUser))
+    return this.http.post<UserResponse>(`${this.baseUrl}/signup`, { name, email, password }).pipe(
+      map((response) => this.toAuthUser(response)),
+      tap((user) => this.setUser(user))
     );
-
   }
 
   logout(): void {
@@ -58,15 +55,13 @@ export class AuthService {
     localStorage.removeItem(STORAGE_KEY);
   }
 
-  private deriveRole(email: string): UserRole {
-    return email.trim().toLowerCase().includes('admin') ? 'admin' : 'customer';
-  }
-
-  private deriveName(email: string): string {
-    const handle = email.split('@')[0] || 'Traveler';
-    return handle
-      .replace(/[._]+/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase());
+  private toAuthUser(response: UserResponse): AuthUser {
+    return {
+      id: response.id,
+      name: response.name,
+      email: response.email,
+      role: response.role.toLowerCase() === 'admin' ? 'admin' : 'customer'
+    };
   }
 
   private setUser(user: AuthUser): void {

@@ -1,0 +1,51 @@
+<section class="confirmation-page">
+  <div class="confirmation-inner">
+
+    @if (loading) {
+      <p class="status-message">Loading your booking...</p>
+    } @else if (errorMessage) {
+      <p class="status-message error">{{ errorMessage }}</p>
+    } @else if (ticket) {
+
+      <div class="confirmation-card">
+
+        <div class="success-badge">✓</div>
+
+        <p class="confirmation-eyebrow">Booking confirmed</p>
+        <h1 class="confirmation-title">{{ ticket.fromAirport }} &#8594; {{ ticket.toAirport }}</h1>
+        <p class="confirmation-subtitle">Ticket #{{ ticket.ticketId }} &middot; {{ ticket.status }}</p>
+
+        <div class="ticket-details">
+          <div class="detail-row">
+            <span class="detail-label">Passenger</span>
+            <span class="detail-value">{{ ticket.userFirstName }} {{ ticket.userLastName }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Flight</span>
+            <span class="detail-value">{{ ticket.flightNumber }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Departure</span>
+            <span class="detail-value">{{ ticket.departureTs | date: 'MMM d, y, h:mm a' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Travelers</span>
+            <span class="detail-value">{{ ticket.numberOfSeats }}</span>
+          </div>
+          <div class="detail-row total">
+            <span class="detail-label">Total paid</span>
+            <span class="detail-value">₹{{ ticket.totalPrice }}</span>
+          </div>
+        </div>
+
+        <div class="confirmation-actions">
+          <a routerLink="/dashboard" class="btn-solid">Go to My Trips</a>
+          <a routerLink="/flights" class="btn-ghost">Book another flight</a>
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+</section>

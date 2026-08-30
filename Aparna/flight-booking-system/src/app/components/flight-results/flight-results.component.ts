@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { FlightResults } from '../../models/flightResults';
 import { FlightDetails } from '../flight-details/flight-details';
 
@@ -17,9 +18,11 @@ export class FlightResultsComponent {
 
   expandedFlightId: string | null = null;
 
+  constructor(private readonly router: Router) {}
+
   onSelectFlight(result: FlightResults): void {
-    console.log('Selected flight:', result.flightId);
     this.flightSelected.emit(result);
+    this.router.navigate(['/booking', result.flightId]);
   }
 
   onViewDetails(result: FlightResults): void {

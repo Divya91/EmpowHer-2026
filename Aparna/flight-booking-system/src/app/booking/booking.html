@@ -1,0 +1,65 @@
+<section class="booking-page">
+  <div class="booking-inner">
+
+    @if (loading) {
+      <p class="status-message">Loading flight details...</p>
+    } @else if (errorMessage && !flight) {
+      <p class="status-message error">{{ errorMessage }}</p>
+    } @else if (flight) {
+
+      <div class="booking-card">
+
+        <p class="booking-eyebrow">Confirm your trip</p>
+        <h1 class="booking-title">{{ flight.fromAirport }} &#8594; {{ flight.toAirport }}</h1>
+
+        <div class="flight-summary">
+          <div class="summary-row">
+            <span class="summary-label">Airline</span>
+            <span class="summary-value">{{ flight.airlineName }} ({{ flight.flightNumber }})</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Departure</span>
+            <span class="summary-value">{{ flight.departureTs | date: 'MMM d, y, h:mm a' }}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Arrival</span>
+            <span class="summary-value">{{ flight.arrivalTs | date: 'MMM d, y, h:mm a' }}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Aircraft</span>
+            <span class="summary-value">{{ flight.aircraft }}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Seats left</span>
+            <span class="summary-value">{{ flight.seatsLeft }}</span>
+          </div>
+        </div>
+
+        <div class="seat-picker">
+          <span class="seat-label">Travelers</span>
+          <div class="seat-controls">
+            <button type="button" class="seat-btn" (click)="decreaseSeats()" [disabled]="numberOfSeats <= 1">&minus;</button>
+            <span class="seat-count">{{ numberOfSeats }}</span>
+            <button type="button" class="seat-btn" (click)="increaseSeats()" [disabled]="numberOfSeats >= flight.seatsLeft">+</button>
+          </div>
+        </div>
+
+        <div class="price-row">
+          <span class="price-label">Total price</span>
+          <span class="price-value">₹{{ totalPrice }}</span>
+        </div>
+
+        @if (errorMessage) {
+          <p class="status-message error">{{ errorMessage }}</p>
+        }
+
+        <button type="button" class="confirm-btn" (click)="confirmBooking()" [disabled]="booking">
+          {{ booking ? 'Booking...' : 'Confirm & Book' }}
+        </button>
+
+      </div>
+
+    }
+
+  </div>
+</section>

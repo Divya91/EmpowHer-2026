@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { SearchCriteria } from '../models/searchCriteria';
 import { Airline } from '../models/airline';
 import { Flight } from '../models/flight';
 import { Airport } from '../models/airport';
 import { FlightResults } from '../models/flightResults';
-import { delay, Observable, of } from 'rxjs';
+import { catchError, delay, map, Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 const AIRPORTS: Airport[] = [
   {
@@ -96,10 +98,61 @@ const FLIGHT_RESULTS: FlightResults[] = [
   providedIn: 'root',
 })
 export class FlightService {
-  constructor() {}
+
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = `${environment.apiBaseUrl}/flights`;
 
   searchFlights(criteria: SearchCriteria): Observable<FlightResults[]> {
-    console.log('Searching flights with criteria:', criteria);
-    return of(FLIGHT_RESULTS).pipe(delay(1000));
+
+    let params = new HttpParams();
+
+    if (criteria.fromAirport) {
+      params = params.set('from', criteria.fromAirport);
+    }
+
+    if (criteria.toAirport) {
+      params = params.set('to', criteria.toAirport);
+    }
+
+    if (criteria.departureDate) {
+      params = params.set('date', this.toIsoDate(criteria.departureDate));
+    }
+
+    return this.http.get<FlightResults[]>(this.baseUrl, { params }).pipe(
+      map((results) => results.map((result) => this.parseDates(result))),
+      catchError(() => {
+        // Backend unreachable: fall back to sample data so the UI stays usable offline.
+        console.warn('Could not reach the flights API, showing sample results instead.');
+        return of(FLIGHT_RESULTS).pipe(delay(500));
+      })
+    );
+  }
+
+  getFlightById(flightId: string): Observable<FlightResults> {
+    return this.http.get<FlightResults>(`${this.baseUrl}/${flightId}`).pipe(
+      map((result) => this.parseDates(result)),
+      catchError(() => {
+        const fallback = FLIGHT_RESULTS.find((flight) => flight.flightId === flightId);
+
+        if (!fallback) {
+          throw new Error(`Flight ${flightId} not found`);
+        }
+
+        return of(fallback);
+      })
+    );
+  }
+
+  private parseDates(result: FlightResults): FlightResults {
+    return {
+      ...result,
+      departureTs: new Date(result.departureTs),
+      arrivalTs: new Date(result.arrivalTs),
+    };
+  }
+
+  private toIsoDate(date: Date): string {
+    const d = new Date(date);
+    return d.toISOString().slice(0, 10);
   }
 }
