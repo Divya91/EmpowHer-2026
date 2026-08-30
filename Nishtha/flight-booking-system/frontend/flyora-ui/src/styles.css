@@ -1,67 +1,163 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+/* ===========================
+   GOOGLE FONT
+=========================== */
 
-:root {
-  --primary: #7c6ee6;
-  --primary-dark: #6254cd;
-  --secondary: #ff9eb5;
-  --accent: #82d8d0;
+*{
 
-  --background: #f8f7ff;
-  --surface: #ffffff;
-  --surface-soft: #fff7fa;
+    margin:0;
 
-  --text-primary: #28263a;
-  --text-secondary: #6f6b83;
-  --border: #e8e4f3;
+    padding:0;
 
-  --success: #52b788;
-  --warning: #f4a261;
-  --danger: #e76f79;
+    box-sizing:border-box;
 
-  --shadow:
-    0 18px 45px rgba(82, 70, 143, 0.12);
-
-  --border-radius-small: 10px;
-  --border-radius-medium: 18px;
-  --border-radius-large: 28px;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+html{
+
+    scroll-behavior:smooth;
+
 }
 
-html {
-  scroll-behavior: smooth;
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:#f5f7ff;
+
+    color:#1e293b;
+
+    overflow-x:hidden;
+
 }
 
-body {
-  min-height: 100vh;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--text-primary);
-  background:
-    radial-gradient(circle at top left, #fce8f0 0, transparent 35%),
-    radial-gradient(circle at top right, #e9e6ff 0, transparent 38%),
-    var(--background);
+/* ===========================
+   COLORS
+=========================== */
+
+:root{
+
+    --primary:#5B3DF5;
+
+    --primary-dark:#4525e6;
+
+    --secondary:#8B5CF6;
+
+    --success:#22c55e;
+
+    --danger:#ef4444;
+
+    --text:#1e293b;
+
+    --light:#64748b;
+
+    --card:#ffffff;
+
+    --background:#f5f7ff;
+
 }
 
-button,
+/* ===========================
+   LINKS
+=========================== */
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+button{
+
+    cursor:pointer;
+
+    font-family:'Poppins',sans-serif;
+
+    transition:.3s;
+
+}
+
+.primary-btn{
+
+    background:var(--primary);
+
+    color:white;
+
+    border:none;
+
+    padding:14px 28px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+}
+
+.primary-btn:hover{
+
+    background:var(--primary-dark);
+
+    transform:translateY(-2px);
+
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 35px rgba(91,61,245,.08);
+
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
 input,
-select,
-textarea {
-  font: inherit;
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    border:1px solid #dbe4ff;
+
+    outline:none;
+
+    transition:.3s;
+
+    font-family:'Poppins',sans-serif;
+
 }
 
-button {
-  cursor: pointer;
+input:focus,
+select:focus{
+
+    border-color:var(--primary);
+
+    box-shadow:0 0 0 4px rgba(91,61,245,.12);
+
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* ===========================
+   SECTION
+=========================== */
 
-main {
-  min-height: calc(100vh - 140px);
+section{
+
+    padding:70px 7%;
+
 }

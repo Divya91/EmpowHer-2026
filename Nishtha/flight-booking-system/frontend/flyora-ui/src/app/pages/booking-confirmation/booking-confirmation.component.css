@@ -1,0 +1,110 @@
+.confirmation-container{
+
+    max-width:700px;
+    margin:40px auto;
+    background:white;
+    border-radius:16px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+
+}
+
+.success-icon{
+
+    width:80px;
+    height:80px;
+    margin:auto;
+    border-radius:50%;
+    background:#16a34a;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    margin-bottom:20px;
+
+}
+
+h1{
+
+    text-align:center;
+    color:#16a34a;
+
+}
+
+.subtitle{
+
+    text-align:center;
+    margin-bottom:30px;
+    color:#666;
+
+}
+
+.booking-card{
+
+    border:1px solid #ddd;
+    border-radius:12px;
+    overflow:hidden;
+
+}
+
+.row{
+
+    display:flex;
+    justify-content:space-between;
+    padding:15px 20px;
+    border-bottom:1px solid #eee;
+
+}
+
+.row:last-child{
+
+    border-bottom:none;
+
+}
+
+.success{
+
+    color:#16a34a;
+    font-weight:bold;
+
+}
+
+.buttons{
+
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:30px;
+
+}
+
+button{
+
+    border:none;
+    cursor:pointer;
+    padding:14px 28px;
+    border-radius:8px;
+    font-size:16px;
+
+}
+
+.home-btn{
+
+    background:#2563eb;
+    color:white;
+
+}
+
+.trip-btn{
+
+    background:#16a34a;
+    color:white;
+
+}
+
+button:hover{
+
+    opacity:.9;
+
+}
