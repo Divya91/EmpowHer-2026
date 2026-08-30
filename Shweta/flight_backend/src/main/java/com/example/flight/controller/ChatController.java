@@ -2,6 +2,7 @@ package com.example.flight.controller;
 
 import com.example.flight.model.ChatRequest;
 import com.example.flight.model.ChatResponse;
+import com.example.flight.model.DomainResponse;
 import com.example.flight.service.AIChatService;
 import com.example.flight.service.DomainService;
 import org.springframework.web.bind.annotation.GetMapping;

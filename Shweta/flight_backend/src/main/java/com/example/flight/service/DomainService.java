@@ -1,7 +1,7 @@
-package com.example.ai_chatbot.service;
+package com.example.flight.service;
 
-import com.example.ai_chatbot.model.Domain;
-import com.example.ai_chatbot.model.DomainResponse;
+import com.example.flight.model.Domain;
+import com.example.flight.model.DomainResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

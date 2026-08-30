@@ -1,4 +1,4 @@
-package com.example.ai_chatbot.model;
+package com.example.flight.model;
 
 public enum Domain {
 

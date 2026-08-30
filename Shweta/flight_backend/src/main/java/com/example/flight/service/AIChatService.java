@@ -1,7 +1,7 @@
-package com.example.ai_chatbot.service;
+package com.example.flight.service;
 
-import com.example.ai_chatbot.model.ChatRequest;
-import com.example.ai_chatbot.model.ChatResponse;
+import com.example.flight.model.ChatRequest;
+import com.example.flight.model.ChatResponse;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
