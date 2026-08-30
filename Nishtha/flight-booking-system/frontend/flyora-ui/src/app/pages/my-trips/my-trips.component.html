@@ -1,0 +1,220 @@
+<div class="trips-container">
+
+    <h1>My Trips</h1>
+
+    @if(bookings.length === 0){
+
+        <div class="empty">
+
+            No bookings found.
+
+        </div>
+
+    }
+
+    @for(booking of bookings; track booking.id){
+
+    <div class="trip-card">
+
+        <div class="trip-header">
+
+            <div>
+
+                <h2>
+
+                    {{ booking.airline }}
+
+                    {{ booking.flightNumber }}
+
+                </h2>
+
+                <p>
+
+                    {{ booking.fromAirport }}
+
+                    →
+
+                    {{ booking.toAirport }}
+
+                </p>
+
+            </div>
+
+            <div class="status">
+
+                {{ booking.bookingStatus }}
+
+            </div>
+
+        </div>
+
+        <div class="trip-details">
+
+            <p>
+
+                <strong>Passenger:</strong>
+
+                {{ booking.passengerName }}
+
+            </p>
+
+            <p>
+
+                <strong>Date:</strong>
+
+                {{ booking.travelDate }}
+
+            </p>
+
+            <p>
+
+                <strong>Departure:</strong>
+
+                {{ booking.departureTime }}
+
+            </p>
+
+            <p>
+
+                <strong>Seat:</strong>
+
+                {{ booking.seatNumber }}
+
+            </p>
+
+            <p>
+
+                <strong>Booking ID:</strong>
+
+                {{ booking.bookingId }}
+
+            </p>
+
+            <p>
+
+                <strong>Amount:</strong>
+
+                ₹{{ booking.amount }}
+
+            </p>
+
+        </div>
+
+        @if(booking.bookingStatus !== 'CANCELLED'){
+
+        <button
+    class="cancel-btn"
+    (click)="openCancelPopup(booking)">
+
+    Cancel Booking
+
+</button>
+
+        }
+
+        @else{
+
+        <button
+
+            class="cancelled"
+
+            disabled>
+
+            Booking Cancelled
+
+        </button>
+
+        }
+
+    </div>
+
+    }
+    @if(showCancelPopup){
+
+<div class="popup-overlay">
+
+    <div class="popup-card">
+
+        <div class="warning-icon">
+
+            ⚠️
+
+        </div>
+
+        <h2>Cancel Booking?</h2>
+
+        <p class="popup-text">
+
+            Are you sure you want to cancel this booking?
+
+        </p>
+
+        <div class="booking-info">
+
+            <p>
+
+                <strong>Flight:</strong>
+
+                {{selectedBooking?.airline}}
+
+                {{selectedBooking?.flightNumber}}
+
+            </p>
+
+            <p>
+
+                <strong>Route:</strong>
+
+                {{selectedBooking?.fromAirport}}
+
+                →
+
+                {{selectedBooking?.toAirport}}
+
+            </p>
+
+            <p>
+
+                <strong>Passenger:</strong>
+
+                {{selectedBooking?.passengerName}}
+
+            </p>
+
+            <p>
+
+                <strong>Refund Amount:</strong>
+
+                ₹{{selectedBooking?.amount}}
+
+            </p>
+
+        </div>
+
+        <div class="popup-buttons">
+
+            <button
+                class="keep-btn"
+                (click)="closePopup()">
+
+                Keep Booking
+
+            </button>
+
+            <button
+                class="confirm-btn"
+                (click)="confirmCancelBooking()">
+
+                Yes, Cancel
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+}
+
+</div>

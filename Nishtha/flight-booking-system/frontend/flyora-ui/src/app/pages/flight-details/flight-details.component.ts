@@ -26,4 +26,11 @@ export class FlightDetailsComponent {
       history.state?.flight ??
       null;
   }
+  bookFlight() {
+  this.router.navigate(['/passenger'], {
+    state: {
+      flight: this.flight
+    }
+  });
+}
 }

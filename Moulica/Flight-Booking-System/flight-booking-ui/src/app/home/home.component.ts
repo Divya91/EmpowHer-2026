@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
-import { FlightSearchComponent } from '../components/flight-search/flight-search.component';
-import { FlightResultsComponent } from '../components/flight-results/flight-results.component';
-import { Flight } from '../model/flight';
+import { RouterLink } from '@angular/router';
+import { FlightSearchComponent } from './flight-search/flight-search.component';
+import { FlightResultsComponent } from './flight-results/flight-results.component';
+import { Flight } from '../models/flight';
 import { FlightFiltersComponent } from './flight-filters/flight-filters.component';
 import { FlightService } from '../services/flight.service';
 
@@ -13,6 +13,7 @@ import { FlightService } from '../services/flight.service';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     FlightSearchComponent,
     FlightResultsComponent,
     FlightFiltersComponent,
@@ -26,8 +27,6 @@ export class HomeComponent {
   flights: any[] = [];
   allFlights: Flight[] = [];
   searchedFlights: Flight[] = [];
-  airlines: any[] = [];
-  maxPriceLimit = 1000;
 
   constructor(
     private router: Router,
@@ -66,7 +65,7 @@ export class HomeComponent {
     // Price
     if (filters.maxPrice) {
       filteredFlights = filteredFlights.filter(
-        (flight) => flight.basePrice <= Number(filters.maxPrice),
+        (flight) => flight.basePrice <= filters.maxPrice,
       );
     }
 
@@ -109,16 +108,7 @@ export class HomeComponent {
     this.flightService.getAllFlights().subscribe({
       next: (response) => {
         this.allFlights = response;
-
         this.flights = [...response];
-        this.maxPriceLimit = Math.max(
-          ...response.map((flight) => flight.basePrice),
-        );
-        this.airlines = response.filter(
-          (flight, index, self) =>
-            index ===
-            self.findIndex((f) => f.airlineCode === flight.airlineCode),
-        );
       },
 
       error: (error) => {

@@ -26,6 +26,20 @@ export const routes: Routes = [
   },
 
   {
+    path: 'booking/:flightId',
+    loadComponent: () =>
+      import('./booking/booking.component').then((m) => m.BookingComponent),
+  },
+
+  {
+    path: 'my-bookings',
+    loadComponent: () =>
+      import('./booking/my-bookings/my-bookings.component').then(
+        (m) => m.MyBookingsComponent,
+      ),
+  },
+
+  {
     path: '**',
     redirectTo: 'login',
   },

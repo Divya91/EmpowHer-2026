@@ -17,4 +17,6 @@ public class SignupResponseDTO {
 
     private String message;
 
+    private String phoneNumber;
+
 }

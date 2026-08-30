@@ -2,6 +2,8 @@
   <div class="logo">✈ <span>Let's Fly</span></div>
 
   <div class="user-section">
+    <a routerLink="/my-bookings" class="nav-link"> My Bookings </a>
+
     <span class="welcome">
       Welcome,
       <strong>{{ userName }}</strong>
@@ -19,11 +21,7 @@
   <!-- Main Content -->
   <div class="content">
     <!-- Left Filters -->
-    <app-flight-filters
-      [airlines]="airlines"
-      [maxPriceLimit]="maxPriceLimit"
-      (filterChanged)="onFilterChanged($event)"
-    >
+    <app-flight-filters (filterChanged)="onFilterChanged($event)">
     </app-flight-filters>
 
     <!-- Right Flight Results -->
