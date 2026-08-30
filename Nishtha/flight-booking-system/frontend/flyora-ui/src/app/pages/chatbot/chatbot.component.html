@@ -1,0 +1,58 @@
+<div class="chatbot-container">
+
+  <div class="chat-header">
+    <div>
+      <h2>✈️ Flyora Assistant</h2>
+      <span>Your AI Flight Assistant</span>
+    </div>
+  </div>
+
+  <div class="chat-messages">
+
+    <div
+      *ngFor="let message of messages"
+      class="message-row"
+      [class.user-row]="message.sender === 'user'"
+      [class.bot-row]="message.sender === 'bot'"
+    >
+
+      <div
+        class="message"
+        [class.user-message]="message.sender === 'user'"
+        [class.bot-message]="message.sender === 'bot'"
+      >
+        {{ message.text }}
+      </div>
+
+    </div>
+
+    <div
+      *ngIf="loading"
+      class="message-row bot-row"
+    >
+      <div class="message bot-message typing">
+        Flyora Assistant is thinking...
+      </div>
+    </div>
+
+  </div>
+
+  <div class="chat-input-area">
+
+    <textarea
+      [(ngModel)]="message"
+      (keydown)="handleEnter($event)"
+      placeholder="Ask me about flights..."
+      rows="1"
+    ></textarea>
+
+    <button
+      (click)="sendMessage()"
+      [disabled]="loading || !message.trim()"
+    >
+      Send
+    </button>
+
+  </div>
+
+</div>

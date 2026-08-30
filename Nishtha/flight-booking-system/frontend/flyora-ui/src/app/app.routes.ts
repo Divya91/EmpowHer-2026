@@ -11,7 +11,7 @@ import {
 import {
   FlightDetailsComponent
 } from './pages/flight-details/flight-details.component';
-
+import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 import { BookingConfirmationComponent } from './pages/booking-confirmation/booking-confirmation.component';
@@ -21,6 +21,10 @@ export const routes: Routes = [
   path: '',
   redirectTo: 'flights',
   pathMatch: 'full'
+},
+{
+  path: 'assistant',
+  component: ChatbotComponent
 },
   {
     path: 'login',
