@@ -1,0 +1,6 @@
+{
+  "name": "SkyRoute Flight Booking",
+  "description": "Commercial flight booking and management platform featuring One Way, Round Trip, and Multi-City routing, interactive aircraft seat selection, live payment session lock, printable/downloadable e-tickets, notification center with toast alerts, and an AI travel assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

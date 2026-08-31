@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: skyroute-backend
+  profiles:
+    active: dev
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+skyroute:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration-ms: 86400000 # 24 hours
+  cors:
+    allowed-origins: "http://localhost:3000,http://localhost:4200,https://*.run.app"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+    allowed-headers: "*"
+    allow-credentials: true
+  ai:
+    openai-api-key: ${OPENAI_API_KEY:demo-key}
+    gemini-api-key: ${GEMINI_API_KEY:demo-key}
+    model: gpt-4o-mini
+  payment:
+    provider: ${PAYMENT_PROVIDER:MOCK}
+    api-key: ${PAYMENT_API_KEY:mock_key_skyroute}
+    secret: ${PAYMENT_SECRET:mock_sec_skyroute}
+  cancellation:
+    policy:
+      default-fee-inr: 500.00
+      window-hours-before-departure: 2
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
