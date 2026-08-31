@@ -24,6 +24,10 @@ export class PaymentComponent {
     amount: 0
   };
 
+  // Toast state (replaces native alert())
+  toast: { message: string; type: 'success' | 'error' } | null = null;
+  private toastTimer: any;
+
  constructor(
   private paymentService: PaymentService,
   private bookingService: BookingService,
@@ -105,7 +109,7 @@ export class PaymentComponent {
 
               console.error(err);
 
-              alert("Booking failed");
+              this.showToast('Booking failed', 'error');
 
             }
 
@@ -115,13 +119,26 @@ export class PaymentComponent {
 
       error: () => {
 
-        alert("Payment Failed");
+        this.showToast('Payment Failed', 'error');
 
       }
 
     });
 
 }
+
+  private showToast(message: string, type: 'success' | 'error', duration = 3000) {
+
+    clearTimeout(this.toastTimer);
+
+    this.toast = { message, type };
+
+    this.toastTimer = setTimeout(() => {
+      this.toast = null;
+    }, duration);
+
+  }
+
 generateSeat(): string {
 
   const row =

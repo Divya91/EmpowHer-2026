@@ -18,6 +18,10 @@ export class MyTripsComponent implements OnInit {
 
 showCancelPopup = false;
 
+  // Toast state (replaces native alert())
+  toast: { message: string; type: 'success' | 'error' } | null = null;
+  private toastTimer: any;
+
   constructor(
   private bookingService: BookingService,
   private router: Router
@@ -85,7 +89,7 @@ confirmCancelBooking() {
 
       next: () => {
 
-        alert("Booking Cancelled Successfully ✈");
+        this.showToast('Booking Cancelled Successfully ✈', 'success');
 
         this.closePopup();
 
@@ -97,11 +101,26 @@ confirmCancelBooking() {
 
         console.error(err);
 
+        this.showToast('Failed to cancel booking', 'error');
+
       }
 
     });
 
 }
+
+  private showToast(message: string, type: 'success' | 'error', duration = 3000) {
+
+    clearTimeout(this.toastTimer);
+
+    this.toast = { message, type };
+
+    this.toastTimer = setTimeout(() => {
+      this.toast = null;
+    }, duration);
+
+  }
+
   goToCancelPage(booking: Booking) {
 
   this.router.navigate(['/cancel-booking'], {

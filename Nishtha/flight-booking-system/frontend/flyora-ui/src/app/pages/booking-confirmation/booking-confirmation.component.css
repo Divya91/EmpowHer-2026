@@ -1,110 +1,161 @@
-.confirmation-container{
-
-    max-width:700px;
-    margin:40px auto;
-    background:white;
-    border-radius:16px;
-    padding:35px;
-    box-shadow:0 10px 30px rgba(0,0,0,.1);
-
+/* ===== Flyora theme tokens (keep in sync with passenger/payment CSS) ===== */
+:host {
+  --navy-dark: #0d1b2f;
+  --navy-mid: #14233c;
+  --gold: #c9974d;
+  --gold-soft: #e0b877;
+  --bg-page: #eef0f3;
+  --card-bg: #ffffff;
+  --text-main: #1c2431;
+  --text-muted: #6b7280;
+  --border: #e2e5ea;
+  --error: #c0392b;
+  --success: #2e7d32;
+  --radius: 10px;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
-.success-icon{
-
-    width:80px;
-    height:80px;
-    margin:auto;
-    border-radius:50%;
-    background:#16a34a;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:40px;
-    margin-bottom:20px;
-
+.confirmation-page {
+  min-height: 100vh;
+  background: var(--bg-page);
+  padding: 56px 20px;
+  display: flex;
+  justify-content: center;
+  font-family: var(--font-sans);
 }
 
-h1{
-
-    text-align:center;
-    color:#16a34a;
-
+.confirmation-container {
+  width: 100%;
+  max-width: 560px;
+  background: var(--card-bg);
+  border-top: 3px solid var(--gold);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(13, 27, 47, 0.08);
+  padding: 44px 44px 36px;
+  text-align: center;
 }
 
-.subtitle{
-
-    text-align:center;
-    margin-bottom:30px;
-    color:#666;
-
+/* ===== Success icon ===== */
+.success-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: #e9f5ec;
+  color: var(--success);
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.booking-card{
-
-    border:1px solid #ddd;
-    border-radius:12px;
-    overflow:hidden;
-
+.eyebrow {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
 }
 
-.row{
-
-    display:flex;
-    justify-content:space-between;
-    padding:15px 20px;
-    border-bottom:1px solid #eee;
-
+h1 {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 4px 0 8px;
 }
 
-.row:last-child{
-
-    border-bottom:none;
-
+.subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin: 0 0 28px;
 }
 
-.success{
-
-    color:#16a34a;
-    font-weight:bold;
-
+/* ===== Booking summary card ===== */
+.booking-card {
+  text-align: left;
+  background: #fafbfc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 20px;
+  margin-bottom: 28px;
 }
 
-.buttons{
-
-    display:flex;
-    gap:20px;
-    justify-content:center;
-    margin-top:30px;
-
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
 }
 
-button{
-
-    border:none;
-    cursor:pointer;
-    padding:14px 28px;
-    border-radius:8px;
-    font-size:16px;
-
+.row:last-child {
+  border-bottom: none;
 }
 
-.home-btn{
-
-    background:#2563eb;
-    color:white;
-
+.row span {
+  color: var(--text-muted);
 }
 
-.trip-btn{
-
-    background:#16a34a;
-    color:white;
-
+.row strong {
+  color: var(--text-main);
+  font-weight: 600;
+  text-align: right;
 }
 
-button:hover{
+.row strong.success {
+  color: var(--success);
+}
 
-    opacity:.9;
+/* ===== Buttons ===== */
+.buttons {
+  display: flex;
+  gap: 14px;
+}
 
+.buttons button {
+  flex: 1;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.home-btn {
+  background: var(--navy-dark);
+  color: #fff;
+  border: none;
+}
+
+.home-btn:hover {
+  background: var(--navy-mid);
+}
+
+.trip-btn {
+  background: #fff;
+  color: var(--navy-dark);
+  border: 1px solid var(--border);
+}
+
+.trip-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .confirmation-container {
+    padding: 32px 24px;
+  }
+  .row {
+    font-size: 13px;
+  }
+  .buttons {
+    flex-direction: column;
+  }
 }

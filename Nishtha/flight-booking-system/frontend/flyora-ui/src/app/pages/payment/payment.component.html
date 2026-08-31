@@ -1,44 +1,48 @@
-<div class="payment-container">
+<div class="payment-page">
 
-  <div class="payment-card">
+  <!-- Toast notification (replaces browser alert()) -->
+  <div
+    class="toast"
+    *ngIf="toast"
+    [ngClass]="toast.type">
+    {{ toast.message }}
+  </div>
 
-    <h2>Payment Details</h2>
+  <div class="payment-container">
+
+    <div class="payment-header">
+      <span class="eyebrow">✈ Fly smarter with Flyora</span>
+      <h2>Payment Details</h2>
+      <p class="subtitle">Your payment is encrypted and processed securely.</p>
+    </div>
 
     <form #paymentForm="ngForm" (ngSubmit)="makePayment(paymentForm)">
 
       <!-- Card Holder Name -->
-
       <div class="form-group">
-
         <label>Card Holder Name</label>
-
         <input
-type="text"
-name="cardHolderName"
-[(ngModel)]="payment.cardHolderName"
-required
-minlength="2"
-maxlength="50"
-pattern="^[A-Za-z ]{2,50}$"
-(keypress)="onlyLetters($event)"
-#cardHolderName="ngModel">
+          type="text"
+          name="cardHolderName"
+          [(ngModel)]="payment.cardHolderName"
+          required
+          minlength="2"
+          maxlength="50"
+          pattern="^[A-Za-z ]{2,50}$"
+          (keypress)="onlyLetters($event)"
+          #cardHolderName="ngModel"
+          [class.invalid-input]="cardHolderName.invalid && cardHolderName.touched">
 
         <small
           class="error"
           *ngIf="cardHolderName.invalid && cardHolderName.touched">
-
           Enter a valid card holder name
-
         </small>
-
       </div>
 
       <!-- Card Number -->
-
       <div class="form-group">
-
         <label>Card Number</label>
-
         <input
           type="text"
           name="cardNumber"
@@ -47,55 +51,45 @@ pattern="^[A-Za-z ]{2,50}$"
           maxlength="16"
           minlength="16"
           pattern="[0-9]{16}"
-          placeholder="1234567812345678"
+          placeholder="1234 5678 1234 5678"
           (keypress)="onlyNumbers($event)"
           (input)="limitCardNumber($event)"
-          #cardNumber="ngModel">
+          #cardNumber="ngModel"
+          [class.invalid-input]="cardNumber.invalid && cardNumber.touched">
 
         <small
           class="error"
           *ngIf="cardNumber.invalid && cardNumber.touched">
-
           Card number must contain exactly 16 digits
-
         </small>
-
       </div>
 
       <div class="row">
 
         <!-- Expiry -->
-
         <div class="form-group">
-
           <label>Expiry</label>
-
           <input
-type="text"
-name="expiryDate"
-[(ngModel)]="payment.expiryDate"
-required
-maxlength="5"
-placeholder="MM/YY"
-(input)="formatExpiry($event)"
-#expiryDate="ngModel">
+            type="text"
+            name="expiryDate"
+            [(ngModel)]="payment.expiryDate"
+            required
+            maxlength="5"
+            placeholder="MM/YY"
+            (input)="formatExpiry($event)"
+            #expiryDate="ngModel"
+            [class.invalid-input]="expiryDate.invalid && expiryDate.touched">
 
           <small
             class="error"
             *ngIf="expiryDate.invalid && expiryDate.touched">
-
             Enter expiry in MM/YY format
-
           </small>
-
         </div>
 
         <!-- CVV -->
-
         <div class="form-group">
-
           <label>CVV</label>
-
           <input
             type="password"
             name="cvv"
@@ -107,44 +101,36 @@ placeholder="MM/YY"
             (keypress)="onlyNumbers($event)"
             (input)="limitCVV($event)"
             placeholder="***"
-            #cvv="ngModel">
+            #cvv="ngModel"
+            [class.invalid-input]="cvv.invalid && cvv.touched">
 
           <small
             class="error"
             *ngIf="cvv.invalid && cvv.touched">
-
             CVV must contain exactly 3 digits
-
           </small>
-
         </div>
 
       </div>
 
       <!-- Amount -->
-
       <div class="form-group">
-
-  <label>Amount (₹)</label>
-
-  <input
-    type="text"
-    [value]="'₹ ' + payment.amount"
-    readonly>
-
-</div>
+        <label>Amount (₹)</label>
+        <input
+          class="amount-input"
+          type="text"
+          [value]="'₹ ' + payment.amount"
+          readonly>
+      </div>
 
       <button
         class="pay-btn"
         type="submit"
         [disabled]="paymentForm.invalid">
-
         Pay Securely
-
       </button>
 
     </form>
 
   </div>
-
 </div>

@@ -39,6 +39,9 @@ cancelledBookings = 0;
   // number = editing existing flight
   editingFlightId: number | null = null;
 
+  // Confirmation modal state (replaces native confirm())
+  confirmDialog: { message: string; onConfirm: () => void } | null = null;
+
 
   newFlight: Flight = {
 
@@ -137,37 +140,66 @@ ngOnInit(): void {
 
   });
 }
+
+// ================= CONFIRMATION MODAL (replaces confirm()) =================
+
+requestConfirm(message: string, onConfirm: () => void): void {
+  this.confirmDialog = { message, onConfirm };
+}
+
+confirmYes(): void {
+
+  if (!this.confirmDialog) {
+    return;
+  }
+
+  const action = this.confirmDialog.onConfirm;
+
+  this.confirmDialog = null;
+
+  action();
+
+}
+
+confirmNo(): void {
+  this.confirmDialog = null;
+}
+
 cancelBooking(id?: number): void {
 
   if (!id) {
     return;
   }
 
-  if (!confirm('Are you sure you want to cancel this booking?')) {
-    return;
-  }
+  this.requestConfirm(
+    'Are you sure you want to cancel this booking?',
+    () => {
 
-  this.adminService.cancelBooking(id).subscribe({
+      this.adminService.cancelBooking(id).subscribe({
 
-    next: (updatedBooking) => {
+        next: (updatedBooking) => {
 
-      const index = this.bookings.findIndex(
-        booking => booking.id === id
-      );
+          const index = this.bookings.findIndex(
+            booking => booking.id === id
+          );
 
-      if (index !== -1) {
-        this.bookings[index] = updatedBooking;
-      }
+          if (index !== -1) {
+            this.bookings[index] = updatedBooking;
+          }
 
-      this.message = 'Booking cancelled successfully!';
-    },
+          this.message = 'Booking cancelled successfully!';
+        },
 
-    error: (err) => {
-      console.error(err);
-      this.error = 'Failed to cancel booking.';
+        error: (err) => {
+          console.error(err);
+          this.error = 'Failed to cancel booking.';
+        }
+
+      });
+
     }
+  );
 
-  });
 }
 getConfirmedBookings(): number {
   return this.bookings.filter(
@@ -335,46 +367,41 @@ getCancelledBookings(): number {
 
     }
 
+    this.requestConfirm(
+      'Are you sure you want to delete this flight?',
+      () => {
 
-    if (
-      !confirm(
-        'Are you sure you want to delete this flight?'
-      )
-    ) {
+        this.adminService
+          .deleteFlight(id)
+          .subscribe({
 
-      return;
+            next: () => {
 
-    }
-
-
-    this.adminService
-      .deleteFlight(id)
-      .subscribe({
-
-        next: () => {
-
-          this.flights =
-            this.flights.filter(
-              flight =>
-                flight.id !== id
-            );
+              this.flights =
+                this.flights.filter(
+                  flight =>
+                    flight.id !== id
+                );
 
 
-          this.message =
-            'Flight deleted successfully!';
+              this.message =
+                'Flight deleted successfully!';
 
-        },
+            },
 
-        error: (err) => {
+            error: (err) => {
 
-          console.error(err);
+              console.error(err);
 
-          this.error =
-            'Failed to delete flight.';
+              this.error =
+                'Failed to delete flight.';
 
-        }
+            }
 
-      });
+          });
+
+      }
+    );
 
   }
 

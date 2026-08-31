@@ -1,259 +1,289 @@
-.trips-container{
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;500;600&display=swap');
 
-    max-width:1000px;
-    margin:40px auto;
+.trips-container {
+  --ink: #0e1a2b;
+  --brass: #b98a3d;
+  --brass-light: #d8b876;
+  --paper: #f6f7f5;
+  --paper-dim: #ecefea;
+  --line: #dadfe3;
+  --text: #17222e;
+  --text-muted: #5c6773;
+  --danger: #b3261e;
+  --danger-bg: #fbeaea;
 
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3.5rem 1.75rem 5rem;
 }
 
-h1{
-
-    text-align:center;
-    margin-bottom:30px;
-
+.trips-container *:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
 }
 
-.trip-card{
-
-    background:white;
-    padding:25px;
-    border-radius:14px;
-    box-shadow:0 5px 20px rgba(0,0,0,.1);
-    margin-bottom:25px;
-
+.trips-container > h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.9rem;
+  margin: 0 0 2rem;
 }
 
-.trip-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
+.empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: var(--paper-dim);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
 
-.status{
+/* ---------- Trip card (ticket) ---------- */
 
-    background:#16a34a;
-    color:white;
-    padding:8px 18px;
-    border-radius:20px;
-    font-weight:bold;
-
+.trip-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 16px 34px -26px rgba(14, 26, 43, 0.35);
 }
 
-.trip-details{
-
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    margin-top:20px;
-
+.trip-header {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1.5px dashed var(--line);
 }
 
-.cancel-btn{
-
-    margin-top:20px;
-    background:#dc2626;
-    color:white;
-    border:none;
-    padding:12px 25px;
-    border-radius:8px;
-    cursor:pointer;
-
+.trip-header::before,
+.trip-header::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--paper);
 }
 
-.cancelled{
-
-    margin-top:20px;
-    background:#9ca3af;
-    color:white;
-    border:none;
-    padding:12px 25px;
-    border-radius:8px;
-
+.trip-header::before {
+  left: -8px;
 }
 
-.empty{
-
-    text-align:center;
-    font-size:22px;
-    margin-top:100px;
+.trip-header::after {
+  right: -8px;
 }
-/* ================= Popup Overlay ================= */
+
+.trip-header h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin: 0 0 0.3rem;
+}
+
+.trip-header > div:first-child p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.status {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper-dim);
+  border: 1px solid var(--line);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.trip-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem 2rem;
+  padding: 1.5rem 1.75rem;
+}
+
+.trip-details p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.trip-details strong {
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-right: 0.3rem;
+}
+
+.cancel-btn,
+.cancelled {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 1rem;
+  border: none;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 10px 10px;
+}
+
+.cancel-btn {
+  background: transparent;
+  color: var(--danger);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cancel-btn:hover {
+  background: var(--danger-bg);
+}
+
+.cancelled {
+  background: var(--paper-dim);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ---------- Cancel confirmation modal ---------- */
 
 .popup-overlay {
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.45);
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    z-index: 9999;
-
-    backdrop-filter: blur(5px);
-
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 26, 43, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 1000;
 }
-
-/* ================= Popup Card ================= */
 
 .popup-card {
-
-    width: 430px;
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 30px;
-
-    text-align: center;
-
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-
-    animation: popup 0.25s ease;
-
+  position: relative;
+  background: #fff;
+  max-width: 420px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 2.25rem 2rem 2rem;
+  text-align: center;
+  box-shadow: 0 30px 70px -20px rgba(14, 26, 43, 0.45);
 }
 
-/* ================= Animation ================= */
-
-@keyframes popup {
-
-    from{
-
-        transform: scale(0.8);
-
-        opacity: 0;
-
-    }
-
-    to{
-
-        transform: scale(1);
-
-        opacity: 1;
-
-    }
-
+.popup-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(90deg, var(--danger), #d9736a);
 }
 
-/* ================= Warning Icon ================= */
-
-.warning-icon{
-
-    font-size: 55px;
-
-    margin-bottom: 10px;
-
+.warning-icon {
+  font-size: 1.9rem;
+  margin-bottom: 0.6rem;
 }
 
-/* ================= Heading ================= */
-
-.popup-card h2{
-
-    margin: 10px 0;
-
-    color: #dc2626;
-
+.popup-card h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 1.35rem;
+  margin: 0 0 0.5rem;
 }
 
-/* ================= Text ================= */
-
-.popup-text{
-
-    color: #555;
-
-    margin-bottom: 20px;
-
+.popup-text {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin: 0 0 1.4rem;
 }
 
-/* ================= Booking Info ================= */
-
-.booking-info{
-
-    text-align: left;
-
-    background: #f8fafc;
-
-    padding: 18px;
-
-    border-radius: 12px;
-
-    margin: 20px 0;
-
+.booking-info {
+  text-align: left;
+  background: var(--paper-dim);
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.6rem;
 }
 
-.booking-info p{
-
-    margin: 10px 0;
-
+.booking-info p {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text);
 }
 
-/* ================= Buttons ================= */
-
-.popup-buttons{
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: 15px;
-
+.booking-info p:last-child {
+  margin-bottom: 0;
 }
 
-.keep-btn{
-
-    padding: 12px 22px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #e2e8f0;
-
-    cursor: pointer;
-
-    font-weight: 600;
-
+.booking-info strong {
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-right: 0.3rem;
 }
 
-.keep-btn:hover{
-
-    background: #cbd5e1;
-
+.popup-buttons {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.confirm-btn{
-
-    padding: 12px 22px;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: #ef4444;
-
-    color: white;
-
-    cursor: pointer;
-
-    font-weight: 600;
-
+.keep-btn,
+.confirm-btn {
+  flex: 1;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.confirm-btn:hover{
+.keep-btn {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--text);
+}
 
-    background: #dc2626;
+.keep-btn:hover {
+  border-color: var(--ink);
+}
 
+.confirm-btn {
+  background: var(--danger);
+  border: none;
+  color: #fff;
+}
+
+.confirm-btn:hover {
+  background: #96201a;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 560px) {
+  .trip-details {
+    grid-template-columns: 1fr;
+  }
+
+  .trip-header {
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cancel-btn,
+  .keep-btn,
+  .confirm-btn {
+    transition: none;
+  }
 }

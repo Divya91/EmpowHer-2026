@@ -27,6 +27,10 @@ export class PassengerComponent {
   // Selected flight
   flight: any;
 
+  // Toast state (replaces native alert())
+  toast: { message: string; type: 'success' | 'error' } | null = null;
+  private toastTimer: any;
+
   constructor(
     private passengerService: PassengerService,
     private router: Router
@@ -43,7 +47,7 @@ export class PassengerComponent {
       this.passenger.age < 1 ||
       this.passenger.age > 120
     ) {
-      alert("Age must be between 1 and 120");
+      this.showToast('Age must be between 1 and 120', 'error');
       return;
     }
 
@@ -55,17 +59,20 @@ export class PassengerComponent {
 
           console.log(response);
 
-          alert("Passenger Saved Successfully!");
+          this.showToast('Passenger Saved Successfully!', 'success');
 
           this.passenger = response;
 
           // Go to Payment Page with Passenger + Flight
-          this.router.navigate(['/payment'], {
-            state: {
-              passenger: response,
-              flight: this.flight
-            }
-          });
+          // Small delay so the user sees the confirmation toast before navigating
+          setTimeout(() => {
+            this.router.navigate(['/payment'], {
+              state: {
+                passenger: response,
+                flight: this.flight
+              }
+            });
+          }, 1200);
 
         },
 
@@ -73,11 +80,23 @@ export class PassengerComponent {
 
           console.error(error);
 
-          alert("Error saving passenger");
+          this.showToast('Error saving passenger', 'error');
 
         }
 
       });
+
+  }
+
+  private showToast(message: string, type: 'success' | 'error', duration = 3000) {
+
+    clearTimeout(this.toastTimer);
+
+    this.toast = { message, type };
+
+    this.toastTimer = setTimeout(() => {
+      this.toast = null;
+    }, duration);
 
   }
 

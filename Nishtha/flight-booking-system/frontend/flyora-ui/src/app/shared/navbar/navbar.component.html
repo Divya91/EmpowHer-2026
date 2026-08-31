@@ -23,23 +23,29 @@
 
       <div class="nav-links">
 
-       <a
-  routerLink="/admin"
-  (click)="goToSection('dashboard')">
-  Dashboard
-</a>
+        <a
+          routerLink="/admin"
+          routerLinkActive="active">
+          Dashboard
+        </a>
 
-<a
-  routerLink="/admin"
-  (click)="goToSection('flights')">
-  Flights
-</a>
+        <a
+          routerLink="/admin"
+          fragment="flights"
+          routerLinkActive="active">
 
-<a
-  routerLink="/admin"
-  (click)="goToSection('bookings')">
-  Bookings
-</a>
+          Flights
+
+        </a>
+
+        <a
+          routerLink="/admin"
+          fragment="bookings"
+          routerLinkActive="active">
+
+          Bookings
+
+        </a>
 
       </div>
 
@@ -52,15 +58,21 @@
 
       <div class="nav-links">
 
-        <a routerLink="/flights">
+        <a
+          routerLink="/flights"
+          routerLinkActive="active">
           Flights
         </a>
 
-        <a routerLink="/my-trips">
+        <a
+          routerLink="/my-trips"
+          routerLinkActive="active">
           My Trips
         </a>
 
-        <a routerLink="/assistant">
+        <a
+          routerLink="/assistant"
+          routerLinkActive="active">
           ✈️ AI Assistant
         </a>
 

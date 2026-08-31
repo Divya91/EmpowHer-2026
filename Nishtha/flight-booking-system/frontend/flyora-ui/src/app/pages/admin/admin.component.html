@@ -1,5 +1,41 @@
 <div class="admin-page">
 
+  <!-- ================= CONFIRMATION MODAL (replaces confirm()) ================= -->
+
+  <div class="modal-overlay" *ngIf="confirmDialog">
+
+    <div class="modal-box">
+
+      <p class="modal-message">
+        {{ confirmDialog.message }}
+      </p>
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="modal-cancel"
+          (click)="confirmNo()">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="button"
+          class="modal-confirm"
+          (click)="confirmYes()">
+
+          Yes, proceed
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
   <!-- ================= HEADER ================= -->
   <!-- ================= ADMIN NAVIGATION ================= -->
 
