@@ -1,0 +1,679 @@
+<div class="admin-page">
+
+  <!-- ================= HEADER ================= -->
+  <!-- ================= ADMIN NAVIGATION ================= -->
+
+
+  <div
+  class="admin-header"
+  id="dashboard">
+
+    <div>
+      <h1>Flyora Admin Dashboard</h1>
+      <p>Manage flights, bookings and availability</p>
+    </div>
+
+    <button
+      class="add-btn"
+      type="button"
+      (click)="showForm ? cancelForm() : showForm = true">
+
+      {{ showForm ? 'Cancel' : '+ Add Flight' }}
+
+    </button>
+
+  </div>
+
+
+
+  <!-- ================= MESSAGES ================= -->
+
+  <div
+    class="message success"
+    *ngIf="message">
+
+    {{ message }}
+
+  </div>
+
+
+  <div
+    class="message error"
+    *ngIf="error">
+
+    {{ error }}
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ================= CREATE / EDIT FLIGHT ============== -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flight-form"
+    *ngIf="showForm">
+
+    <h2>
+      {{ editingFlightId !== null ? 'Edit Flight' : 'Add New Flight' }}
+    </h2>
+
+
+    <form (ngSubmit)="saveFlight()">
+
+      <div class="form-grid">
+
+
+        <!-- Flight Number -->
+
+        <div>
+          <label>Flight Number</label>
+
+          <input
+            type="text"
+            name="flightNumber"
+            [(ngModel)]="newFlight.flightNumber"
+            placeholder="FLY999"
+            required>
+        </div>
+
+
+        <!-- Airline -->
+
+        <div>
+          <label>Airline</label>
+
+          <input
+            type="text"
+            name="airline"
+            [(ngModel)]="newFlight.airline"
+            placeholder="IndiGo"
+            required>
+        </div>
+
+
+        <!-- From -->
+
+        <div>
+          <label>From Airport</label>
+
+          <input
+            type="text"
+            name="fromAirport"
+            [(ngModel)]="newFlight.fromAirport"
+            placeholder="DEL"
+            required>
+        </div>
+
+
+        <!-- To -->
+
+        <div>
+          <label>To Airport</label>
+
+          <input
+            type="text"
+            name="toAirport"
+            [(ngModel)]="newFlight.toAirport"
+            placeholder="BOM"
+            required>
+        </div>
+
+
+        <!-- Travel Date -->
+
+        <div>
+          <label>Travel Date</label>
+
+          <input
+            type="date"
+            name="travelDate"
+            [(ngModel)]="newFlight.travelDate"
+            required>
+        </div>
+
+
+        <!-- Departure Time -->
+
+        <div>
+          <label>Departure Time</label>
+
+          <input
+            type="time"
+            name="departureTime"
+            [(ngModel)]="newFlight.departureTime"
+            required>
+        </div>
+
+
+        <!-- Arrival Time -->
+
+        <div>
+          <label>Arrival Time</label>
+
+          <input
+            type="time"
+            name="arrivalTime"
+            [(ngModel)]="newFlight.arrivalTime"
+            required>
+        </div>
+
+
+        <!-- Cabin Class -->
+
+        <div>
+          <label>Cabin Class</label>
+
+          <select
+            name="cabinClass"
+            [(ngModel)]="newFlight.cabinClass">
+
+            <option value="ECONOMY">
+              Economy
+            </option>
+
+            <option value="PREMIUM_ECONOMY">
+              Premium Economy
+            </option>
+
+            <option value="BUSINESS">
+              Business
+            </option>
+
+            <option value="FIRST">
+              First
+            </option>
+
+          </select>
+        </div>
+
+
+        <!-- Price -->
+
+        <div>
+          <label>Price (₹)</label>
+
+          <input
+            type="number"
+            name="price"
+            [(ngModel)]="newFlight.price"
+            min="0"
+            required>
+        </div>
+
+
+        <!-- Available Seats -->
+
+        <div>
+          <label>Available Seats</label>
+
+          <input
+            type="number"
+            name="availableSeats"
+            [(ngModel)]="newFlight.availableSeats"
+            min="0"
+            required>
+        </div>
+
+      </div>
+
+
+      <!-- SAVE -->
+
+      <button
+        class="create-btn"
+        type="submit">
+
+        {{ editingFlightId !== null
+            ? 'Update Flight'
+            : 'Create Flight' }}
+
+      </button>
+
+
+      <!-- CANCEL EDIT -->
+
+      <button
+        *ngIf="editingFlightId !== null"
+        class="cancel-btn"
+        type="button"
+        (click)="cancelForm()">
+
+        Cancel
+
+      </button>
+
+    </form>
+
+  </div>
+
+<!-- ================= DASHBOARD STATISTICS ================= -->
+
+<div class="stats-grid">
+
+  <div class="stat-card">
+    <div class="stat-icon">✈️</div>
+
+    <div>
+      <p>Total Flights</p>
+      <h2>{{ flights.length }}</h2>
+    </div>
+  </div>
+
+
+  <div class="stat-card">
+    <div class="stat-icon">🎫</div>
+
+    <div>
+      <p>Total Bookings</p>
+      <h2>{{ bookings.length }}</h2>
+    </div>
+  </div>
+
+
+  <div class="stat-card">
+    <div class="stat-icon">✅</div>
+
+    <div>
+      <p>Confirmed Bookings</p>
+
+      <h2>
+        {{ getConfirmedBookings() }}
+      </h2>
+    </div>
+  </div>
+
+
+  <div class="stat-card">
+    <div class="stat-icon">❌</div>
+
+    <div>
+      <p>Cancelled Bookings</p>
+
+      <h2>
+        {{ getCancelledBookings() }}
+      </h2>
+    </div>
+  </div>
+
+</div>
+  <!-- ===================================================== -->
+  <!-- ===================== ALL FLIGHTS =================== -->
+  <!-- ===================================================== -->
+
+  <div
+  class="flight-section"
+  id="flights">
+
+    <div class="section-title">
+
+      <h2>All Flights</h2>
+
+      <span>
+        {{ flights.length }} flights
+      </span>
+
+    </div>
+
+
+    <!-- Loading -->
+
+    <div
+      *ngIf="loading"
+      class="loading">
+
+      Loading flights...
+
+    </div>
+
+
+    <!-- Empty -->
+
+    <div
+      class="empty"
+      *ngIf="!loading && flights.length === 0">
+
+      No flights available.
+
+    </div>
+
+
+    <!-- Flight Table -->
+
+    <div
+      class="flight-table"
+      *ngIf="!loading && flights.length > 0">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Flight</th>
+            <th>Airline</th>
+            <th>Route</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Class</th>
+            <th>Price</th>
+            <th>Seats</th>
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="let flight of flights">
+
+
+            <!-- Flight -->
+
+            <td>
+
+              <strong>
+                {{ flight.flightNumber }}
+              </strong>
+
+            </td>
+
+
+            <!-- Airline -->
+
+            <td>
+              {{ flight.airline }}
+            </td>
+
+
+            <!-- Route -->
+
+            <td>
+
+              {{ flight.fromAirport }}
+              →
+              {{ flight.toAirport }}
+
+            </td>
+
+
+            <!-- Date -->
+
+            <td>
+              {{ flight.travelDate }}
+            </td>
+
+
+            <!-- Time -->
+
+            <td>
+
+              {{ flight.departureTime }}
+              -
+              {{ flight.arrivalTime }}
+
+            </td>
+
+
+            <!-- Class -->
+
+            <td>
+              {{ flight.cabinClass }}
+            </td>
+
+
+            <!-- Price -->
+
+            <td>
+              ₹{{ flight.price }}
+            </td>
+
+
+            <!-- Seats -->
+
+            <td>
+              {{ flight.availableSeats }}
+            </td>
+
+
+            <!-- Actions -->
+
+            <td>
+
+              <button
+                class="edit-btn"
+                type="button"
+                (click)="editFlight(flight)">
+
+                Edit
+
+              </button>
+
+
+              <button
+                class="delete-btn"
+                type="button"
+                (click)="deleteFlight(flight.id)">
+
+                Delete
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ===================== ALL BOOKINGS ================== -->
+  <!-- ===================================================== -->
+
+  <div
+  class="booking-section"
+  id="bookings">
+
+    <div class="section-title">
+
+      <h2>All Bookings</h2>
+
+      <span>
+        {{ bookings.length }} bookings
+      </span>
+
+    </div>
+
+
+    <!-- No bookings -->
+
+    <div
+      class="empty"
+      *ngIf="bookings.length === 0">
+
+      No bookings available.
+
+    </div>
+
+
+    <!-- Booking Table -->
+
+    <div
+      class="flight-table"
+      *ngIf="bookings.length > 0">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Booking ID</th>
+            <th>Passenger</th>
+            <th>Flight</th>
+            <th>Route</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Seat</th>
+            <th>Amount</th>
+            <th>Payment</th>
+            <th>Status</th>
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="let booking of bookings">
+
+
+            <!-- Booking ID -->
+
+            <td>
+
+              <strong>
+                {{ booking.bookingId }}
+              </strong>
+
+            </td>
+
+
+            <!-- Passenger -->
+
+            <td>
+              {{ booking.passengerName }}
+            </td>
+
+
+            <!-- Flight -->
+
+            <td>
+
+              {{ booking.airline }}
+
+              <br>
+
+              <small>
+                {{ booking.flightNumber }}
+              </small>
+
+            </td>
+
+
+            <!-- Route -->
+
+            <td>
+
+              {{ booking.fromAirport }}
+              →
+              {{ booking.toAirport }}
+
+            </td>
+
+
+            <!-- Date -->
+
+            <td>
+              {{ booking.travelDate }}
+            </td>
+
+
+            <!-- Time -->
+
+            <td>
+              {{ booking.departureTime }}
+            </td>
+
+
+            <!-- Seat -->
+
+            <td>
+              {{ booking.seatNumber }}
+            </td>
+
+
+            <!-- Amount -->
+
+            <td>
+              ₹{{ booking.amount }}
+            </td>
+
+
+            <!-- Payment -->
+
+            <td>
+
+              <span
+                class="payment-status">
+
+                {{ booking.paymentStatus }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Booking Status -->
+
+            <td>
+
+              <span
+                [class.confirmed]="booking.bookingStatus === 'CONFIRMED'"
+                [class.cancelled]="booking.bookingStatus === 'CANCELLED'">
+
+                {{ booking.bookingStatus }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Action -->
+
+            <td>
+
+              <button
+                *ngIf="booking.bookingStatus !== 'CANCELLED'"
+                class="delete-btn"
+                type="button"
+                (click)="cancelBooking(booking.id)">
+
+                Cancel
+
+              </button>
+
+
+              <span
+                *ngIf="booking.bookingStatus === 'CANCELLED'">
+
+                Cancelled
+
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+</div>

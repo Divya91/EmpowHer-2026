@@ -46,6 +46,7 @@ public class FlightService {
 
         return mapToResponse(savedFlight);
     }
+    
 
     public List<FlightResponse> getAllFlights() {
 
@@ -55,6 +56,42 @@ public class FlightService {
                 .map(this::mapToResponse)
                 .toList();
     }
+    public void deleteFlight(Long id) {
+
+    if (!flightRepository.existsById(id)) {
+        throw new RuntimeException("Flight not found with id: " + id);
+    }
+
+    flightRepository.deleteById(id);
+}
+public FlightResponse updateFlight(
+        Long id,
+        CreateFlightRequest request
+) {
+
+    Flight flight = flightRepository.findById(id)
+            .orElseThrow(() ->
+                    new RuntimeException(
+                            "Flight not found with id: " + id
+                    )
+            );
+
+    flight.setFlightNumber(request.getFlightNumber());
+    flight.setAirline(request.getAirline());
+    flight.setFromAirport(request.getFromAirport());
+    flight.setToAirport(request.getToAirport());
+    flight.setTravelDate(request.getTravelDate());
+    flight.setDepartureTime(request.getDepartureTime());
+    flight.setArrivalTime(request.getArrivalTime());
+    flight.setCabinClass(request.getCabinClass());
+    flight.setPrice(request.getPrice());
+    flight.setAvailableSeats(request.getAvailableSeats());
+
+    Flight updatedFlight =
+            flightRepository.save(flight);
+
+    return mapToResponse(updatedFlight);
+}
 
     public List<FlightResponse> searchFlights(
             String from,

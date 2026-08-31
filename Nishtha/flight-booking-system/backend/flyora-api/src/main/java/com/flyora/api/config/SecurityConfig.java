@@ -12,7 +12,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import org.springframework.http.HttpMethod;
 import java.util.List;
 
 @Configuration
@@ -46,27 +46,52 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers(
-        "/api/auth/register",
-        "/api/auth/login",
-        "/api/flights/**",
-        "/api/passengers/**",
-        "/api/payments/**",
-        "/api/bookings/**",
-        "/api/chat"
-).permitAll()
+        // Public authentication APIs
+        .requestMatchers(
+                "/api/auth/register",
+                "/api/auth/login"
+        ).permitAll()
 
-                        .requestMatchers(
-                                "/api/admin/**"
-                        ).hasRole("ADMIN")
+        // Public flight APIs - GET only
+        .requestMatchers(
+                HttpMethod.GET,
+                "/api/flights/**"
+        ).permitAll()
 
-                        .requestMatchers(
-                                "/api/user/**"
-                        ).hasAnyRole("USER", "ADMIN")
+        // Only ADMIN can create flights
+        .requestMatchers(
+                HttpMethod.POST,
+                "/api/flights"
+        ).hasRole("ADMIN")
+        // Only ADMIN can delete flights
+.requestMatchers(
+        HttpMethod.DELETE,
+        "/api/flights/**"
+).hasRole("ADMIN")
+.requestMatchers(
+        HttpMethod.PUT,
+        "/api/flights/**"
+).hasRole("ADMIN")
+        // Admin APIs
+        .requestMatchers(
+                "/api/admin/**"
+        ).hasRole("ADMIN")
 
-                        .anyRequest()
-                        .authenticated()
-                )
+        // User APIs
+        .requestMatchers(
+                "/api/user/**"
+        ).hasAnyRole("USER", "ADMIN")
+
+        // Chat
+        .requestMatchers(
+                "/api/chat"
+        ).permitAll()
+
+        // Everything else requires login
+        .anyRequest()
+        .authenticated()
+)
+
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,
