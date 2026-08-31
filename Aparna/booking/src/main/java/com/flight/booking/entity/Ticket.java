@@ -1,5 +1,6 @@
 package com.flight.booking.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,26 +26,32 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @jakarta.persistence.Column(name = "booking_id")
+    @Column(name = "booking_id")
     private Long id;
 
+    @Column(name = "booking_code", nullable = false)
+    private String bookingCode;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "flight_id")
+    @JoinColumn(name = "flight_id", nullable = false)
     private Flight flight;
 
-    @jakarta.persistence.Column(name = "number_of_seats")
+    @Column(name = "number_of_seats")
     private int numberOfSeats;
 
-    @jakarta.persistence.Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalPrice;
 
-    @jakarta.persistence.Column(name = "booking_ts")
+    @Column(name = "payment_status")
+    private String paymentStatus;
+
+    @Column(name = "booking_ts")
     private LocalDateTime bookingTime;
 
-    @jakarta.persistence.Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 }

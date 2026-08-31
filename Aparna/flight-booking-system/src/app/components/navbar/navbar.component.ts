@@ -1,5 +1,5 @@
-import { Component, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, OnInit, inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/services/auth';
 
@@ -10,15 +10,28 @@ import { AuthService } from '../../auth/services/auth';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
   isMenuOpen = false;
   isProfileOpen = false;
+  shouldAnimate = false;
+  reducedMotion = false;
+
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
 
   constructor(
     protected readonly authService: AuthService,
     private readonly router: Router
   ) {}
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.shouldAnimate = !this.reducedMotion;
+      this.cdr.markForCheck();
+    }
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -39,7 +52,6 @@ export class NavbarComponent {
   }
 
   initials(name: string | undefined): string {
-
     if (!name) {
       return 'M';
     }
@@ -49,18 +61,14 @@ export class NavbarComponent {
     const second = parts.length > 1 ? parts[parts.length - 1][0] : '';
 
     return (first + second).toUpperCase();
-
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-
     const target = event.target as HTMLElement;
 
     if (!target.closest('.profile-menu')) {
       this.isProfileOpen = false;
     }
-
   }
-
 }

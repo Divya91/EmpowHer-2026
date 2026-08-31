@@ -1,0 +1,7 @@
+Meridian Booking & Ticket Policy Reference Knowledge:
+- Booking process consists of 4 steps: Flight Details selection -> Seat map & Cabin Class choice -> Passenger Info input -> Mock Payment.
+- When a booking is confirmed, a unique Ticket Reference ID (e.g. #1, #2) is generated and seats are decremented from the flight inventory.
+- Ticket Statuses: CONFIRMED (active booking), CANCELLED (booking cancelled by user).
+- Cancellation Policy: Users can cancel any upcoming CONFIRMED ticket from the "My Bookings" page. Upon cancellation, the ticket status changes to CANCELLED and the reserved seats are immediately returned to the flight's available seat count (`seatsLeft`).
+- Double-cancellation is strictly rejected by the backend.
+- Users can view all their past, upcoming, and cancelled trips under "My Bookings".

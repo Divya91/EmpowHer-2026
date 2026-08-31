@@ -1,30 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+/* Meridian Design System — Global Tokens */
 @import "tailwindcss";
 
 @theme {
-  /* Brand palette - Luxury / Premium / Modern / Clean */
-  --color-navy-950: #070f1f;
-  --color-navy-900: #0b1830;
-  --color-navy-800: #10213f;
-  --color-navy-700: #172c50;
-  --color-navy-600: #223a63;
-  --color-navy-500: #2f4a7a;
+  /* ── Meridian palette ── */
+  --color-md-background: #F9F9FF;
+  --color-md-surface: #FFFFFF;
+  --color-md-surface-container: #E8EEFF;
+  --color-md-on-surface: #111C2D;
+  --color-md-on-surface-variant: #45474C;
+  --color-md-outline: #C5C6CD;
+  --color-md-outline-variant: #E4E1DA;
+  --color-md-primary: #101A2B;
+  --color-md-on-primary: #FFFFFF;
+  --color-md-gold: #B58A4A;
+  --color-md-gold-dark: #7C571C;
+  --color-md-gold-light: #D0A866;
+  --color-md-error: #BA1A1A;
+  --color-md-success: #1A6B3C;
 
-  --color-cream-50: #fffefb;
-  --color-cream-100: #fbf8f1;
-  --color-cream-200: #f5efe2;
-  --color-cream-300: #ece2ca;
+  /* ── Typography ── */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  --color-gold-400: #d9b968;
-  --color-gold-500: #c9a227;
-  --color-gold-600: #a8841c;
-
-  --font-display: "Playfair Display", "Times New Roman", serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* ── Radii ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 }
 
 :root {
   color-scheme: light;
+
+  /* Semantic aliases (used by component CSS) */
+  --md-background: #F9F9FF;
+  --md-surface: #FFFFFF;
+  --md-surface-container: #E8EEFF;
+  --md-on-surface: #111C2D;
+  --md-on-surface-variant: #45474C;
+  --md-outline: #C5C6CD;
+  --md-outline-variant: #E4E1DA;
+  --md-primary: #101A2B;
+  --md-on-primary: #FFFFFF;
+  --md-gold: #B58A4A;
+  --md-gold-text: #7C571C;
+  --md-gold-light: #D0A866;
+  --md-error: #BA1A1A;
+  --md-success: #1A6B3C;
+
+  --md-radius-sm: 4px;
+  --md-radius-md: 8px;
+  --md-radius-lg: 12px;
+
+  --md-shadow: 0 2px 8px rgba(16, 26, 43, 0.06);
+  --md-shadow-hover: 0 8px 24px rgba(16, 26, 43, 0.08);
+  --md-shadow-elevated: 0 16px 40px rgba(16, 26, 43, 0.12);
 }
 
 * {
@@ -40,8 +69,8 @@ body {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-cream-50);
-  color: var(--color-navy-900);
+  background-color: var(--md-background);
+  color: var(--md-on-surface);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -50,8 +79,9 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display);
-  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+  font-weight: 700;
 }
 
 a {
@@ -59,8 +89,8 @@ a {
 }
 
 ::selection {
-  background: var(--color-gold-500);
-  color: var(--color-navy-950);
+  background: var(--md-gold);
+  color: var(--md-primary);
 }
 
 ::-webkit-scrollbar {
@@ -68,10 +98,10 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-cream-100);
+  background: var(--md-background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-navy-600);
+  background: var(--md-primary);
   border-radius: 999px;
 }

@@ -1,0 +1,121 @@
+<section class="profile-page">
+  <div class="profile-inner">
+
+    <div class="page-header">
+      <p class="eyebrow">Account Settings</p>
+      <h1 class="title">Profile & Preferences</h1>
+      <p class="subtitle">Manage your personal information, travel identification, and flight preferences.</p>
+    </div>
+
+    @if (!authService.isLoggedIn()) {
+      <div class="auth-card">
+        <h2>Authentication Required</h2>
+        <p>Please log in to view and edit your profile settings.</p>
+        <a routerLink="/auth" class="btn-primary">Log In</a>
+      </div>
+    } @else {
+
+      <div class="profile-layout">
+        
+        <!-- Sidebar Navigation -->
+        <div class="profile-sidebar">
+          <div class="user-badge-card">
+            <div class="avatar-large">
+              {{ userInfo.name.charAt(0).toUpperCase() }}
+            </div>
+            <h2>{{ userInfo.name }}</h2>
+            <p>{{ userInfo.email }}</p>
+            <span class="role-chip">{{ authService.currentUser()?.role || 'Verified Member' }}</span>
+          </div>
+        </div>
+
+        <!-- Main Form Cards -->
+        <div class="profile-main">
+          
+          <div class="section-card">
+            <h3>Personal Information</h3>
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Full Name</label>
+                <input type="text" [(ngModel)]="userInfo.name">
+              </div>
+              <div class="form-field">
+                <label>Email Address</label>
+                <input type="email" [(ngModel)]="userInfo.email" readonly class="readonly-input">
+              </div>
+              <div class="form-field">
+                <label>Phone Number</label>
+                <input type="tel" [(ngModel)]="userInfo.phone">
+              </div>
+              <div class="form-field">
+                <label>Date of Birth</label>
+                <input type="date" [(ngModel)]="userInfo.dob">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <h3>Passport & Identification</h3>
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Passport Number</label>
+                <input type="text" [(ngModel)]="userInfo.passportNumber" placeholder="e.g. N84930219">
+              </div>
+              <div class="form-field">
+                <label>Passport Expiry Date</label>
+                <input type="date" [(ngModel)]="userInfo.passportExpiry">
+              </div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <h3>Travel Preferences</h3>
+            <div class="form-grid">
+              <div class="form-field">
+                <label>Preferred Cabin Class</label>
+                <select [(ngModel)]="userInfo.preferredCabin">
+                  <option value="Economy">Economy</option>
+                  <option value="Premium Economy">Premium Economy</option>
+                  <option value="Business">Business Class</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Seat Preference</label>
+                <select [(ngModel)]="userInfo.seatPreference">
+                  <option value="Window">Window</option>
+                  <option value="Aisle">Aisle</option>
+                  <option value="Middle">Middle</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label>Meal Preference</label>
+                <select [(ngModel)]="userInfo.mealPreference">
+                  <option value="Standard">Standard Regular</option>
+                  <option value="Vegetarian">Vegetarian / Vegan</option>
+                  <option value="Kosher">Kosher</option>
+                  <option value="Halal">Halal</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          @if (saved) {
+            <div class="success-banner">
+              ✓ Profile settings updated successfully!
+            </div>
+          }
+
+          <div class="action-row">
+            <button type="button" class="btn-save" (click)="saveProfile()">
+              Save Profile Changes
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+</section>

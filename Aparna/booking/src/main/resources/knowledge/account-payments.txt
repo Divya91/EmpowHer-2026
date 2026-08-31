@@ -1,0 +1,5 @@
+Meridian Account & Payment Policy Reference Knowledge:
+- User Authentication: Account registration (`POST /api/users/signup`) and Login (`POST /api/users/login`) store user profile data under localStorage key `meridian.auth.user`.
+- Profile Management: Registered users can manage Full Name, Email, Phone Number, Date of Birth, Passport Details, and Travel Preferences under "Profile & Settings".
+- Payment System: Meridian operates on a simulated Mock Payment flow for testing and educational purposes. No real credit card or payment gateway processing occurs.
+- Payment inputs require Name on Card, 16-digit Card Number, Expiry (MM/YY), and CVV for client-side form validation before ticket confirmation.

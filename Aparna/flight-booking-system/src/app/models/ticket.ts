@@ -3,7 +3,7 @@ export interface Ticket {
   userId: number;
   userFirstName: string;
   userLastName: string;
-  flightId: string;
+  flightId: string | number;
   flightNumber: string;
   fromAirport: string;
   toAirport: string;
@@ -15,6 +15,6 @@ export interface Ticket {
 
 export interface TicketRequest {
   userId: number;
-  flightId: string;
+  flightId: string | number;
   numberOfSeats: number;
 }

@@ -29,7 +29,7 @@ public class FlightController {
     }
 
     @GetMapping("/{flightId}")
-    public FlightResponse getFlight(@PathVariable Long flightId) {
+    public FlightResponse getFlight(@PathVariable String flightId) {
         return flightService.getFlightResponseOrThrow(flightId);
     }
 }

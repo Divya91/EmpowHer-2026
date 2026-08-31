@@ -1,9 +1,10 @@
+<!-- Hero Section -->
 <section class="hero">
   <div class="hero-overlay"></div>
 
   <div class="hero-content">
     <div class="hero-copy">
-      <p class="hero-eyebrow">Your journey begins here</p>
+      <p class="hero-eyebrow">Your next horizon is closer than you think</p>
       <h1 class="hero-title">Discover the world<br />with every journey</h1>
       <p class="hero-subtitle">Search and book premium flights at unbeatable prices.</p>
     </div>
@@ -13,3 +14,155 @@
     </div>
   </div>
 </section>
+
+<!-- Destinations Showcase Section -->
+<section class="globe-section">
+  <div class="section-inner">
+    
+    <!-- Section Header -->
+    <div class="heading-globe-row">
+      <div class="section-header-text">
+        <p class="section-eyebrow">Popular Destinations</p>
+        <h2 class="section-title">Where will you go next?</h2>
+        <p class="section-subtitle">Explore curated destinations with premium fares.</p>
+      </div>
+    </div>
+
+    <!-- Featured Destination Spotlight & Grid -->
+    <div class="showcase-content-grid">
+      
+      <!-- Dynamic Spotlight Card -->
+      <div class="spotlight-card">
+        <div class="spotlight-image-wrap">
+          <img [src]="activeGlobeDest.image" [alt]="activeGlobeDest.name" class="spotlight-image" />
+          <div class="spotlight-badge">Featured Destination</div>
+        </div>
+        <div class="spotlight-body">
+          <div class="spotlight-header">
+            <h3 class="spotlight-title">{{ activeGlobeDest.name }}</h3>
+            <p class="spotlight-country">{{ activeGlobeDest.country }} &middot; {{ activeGlobeDest.code }}</p>
+          </div>
+          <p class="spotlight-desc">
+            Experience the culture, landmarks, and extraordinary sights of {{ activeGlobeDest.name }}.
+          </p>
+          <div class="spotlight-footer">
+            <div class="price-wrap">
+              <span class="price-label">Starting from</span>
+              <span class="price-value">₹{{ activeGlobeDest.price }}</span>
+            </div>
+            <a routerLink="/flights" class="btn-explore">Explore Flights</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Featured Destinations Cards -->
+      <div class="featured-cards-grid">
+        @for (dest of featuredDestinations; track dest.city) {
+          <div class="dest-card-mini">
+            <img [src]="dest.image" [alt]="dest.city" class="mini-card-image" />
+            <div class="mini-card-content">
+              <span class="mini-card-country">{{ dest.country }}</span>
+              <h4 class="mini-card-city">{{ dest.city }}</h4>
+              <div class="mini-card-footer">
+                <span class="mini-card-price">From ₹{{ dest.price }}</span>
+                <a routerLink="/flights" class="mini-card-link">&rarr;</a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Full Comprehensive Luxury Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    
+    <!-- Footer Newsletter Banner -->
+    <div class="footer-newsletter">
+      <div class="newsletter-text">
+        <p class="newsletter-eyebrow">STAY INSPIRED</p>
+        <h3 class="newsletter-heading">Receive curated travel inspiration and special fares</h3>
+      </div>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email address" class="newsletter-input" />
+        <button type="button" class="btn-subscribe">Subscribe</button>
+      </div>
+    </div>
+
+    <!-- Footer Main Columns Grid -->
+    <div class="footer-grid">
+      
+      <!-- Brand Column -->
+      <div class="footer-col brand-col">
+        <div class="footer-brand">
+          <span class="brand-name">MERIDIAN</span>
+        </div>
+        <p class="brand-tagline">
+          Redefining luxury air travel. Curated destinations, premium flights, and exceptional experiences across the globe.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Instagram">IG</a>
+          <a href="#" class="social-link" title="Twitter">X</a>
+          <a href="#" class="social-link" title="LinkedIn">IN</a>
+          <a href="#" class="social-link" title="Facebook">FB</a>
+        </div>
+      </div>
+
+      <!-- Column 1: Explore -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Explore Fares</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/flights">Popular Routes</a></li>
+          <li><a routerLink="/flights">Flight Schedules</a></li>
+          <li><a routerLink="/flights">Cabin Classes</a></li>
+          <li><a routerLink="/flights">Baggage & Amenities</a></li>
+          <li><a routerLink="/flights">Private Charters</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: About Us -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">About Us</h4>
+        <ul class="footer-links">
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Fleet & Safety</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press & News</a></li>
+          <li><a href="#">Sustainability</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact & Support -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Contact & Support</h4>
+        <ul class="footer-links">
+          <li><a href="#">Customer Care 24/7</a></li>
+          <li><a routerLink="/dashboard">My Trips & Cancellations</a></li>
+          <li><a href="#">Help Center & FAQs</a></li>
+          <li><a href="mailto:support@meridian.com">support&#64;meridian.com</a></li>
+          <li><a href="tel:+18005556374">+1 (800) 555-MERIDIAN</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Footer Bottom Legal Bar -->
+    <div class="footer-bottom">
+      <p class="copyright">&copy; 2026 Meridian Aviation Group. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="#">Privacy Policy</a>
+        <span class="dot">&middot;</span>
+        <a href="#">Terms of Service</a>
+        <span class="dot">&middot;</span>
+        <a href="#">Cookie Preferences</a>
+        <span class="dot">&middot;</span>
+        <a href="#">Security</a>
+      </div>
+    </div>
+
+  </div>
+</footer>

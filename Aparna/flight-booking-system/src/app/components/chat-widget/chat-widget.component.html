@@ -1,0 +1,97 @@
+<div class="chat-widget-container">
+  
+  <!-- Trigger Button -->
+  <button type="button" class="chat-toggle-btn" (click)="toggleChat()" aria-label="Toggle Meridian AI Assistant">
+    @if (!isOpen) {
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="chat-badge">AI</span>
+    } @else {
+      <span class="close-icon">&times;</span>
+    }
+  </button>
+
+  <!-- Drawer Container -->
+  @if (isOpen) {
+    <div class="chat-drawer">
+      
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="header-title-box">
+          <div class="ai-avatar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M4 11a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7z"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg>
+          </div>
+          <div>
+            <h3>Meridian AI Assistant</h3>
+            <span class="status-indicator">Active Concierge</span>
+          </div>
+        </div>
+        <button type="button" class="header-close" (click)="toggleChat()">&times;</button>
+      </div>
+
+      <!-- Interactive Topics Quick Strip -->
+      <div class="topic-strip">
+        <span class="topic-strip-title">Explore Topics:</span>
+        <div class="topic-chips-scroll">
+          @for (topic of interactiveTopics; track topic.label) {
+            <button type="button" class="topic-chip" (click)="selectTopic(topic)">
+              <span class="chip-badge">{{ topic.badge }}</span>
+              <span>{{ topic.label }}</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Chat Messages Body -->
+      <div class="messages-body">
+        @for (msg of messages; track $index) {
+          <div class="message-row" [class.user]="msg.sender === 'user'" [class.assistant]="msg.sender === 'assistant'">
+            <div class="bubble">
+              <div class="message-content">{{ msg.text }}</div>
+              
+              <!-- Interactive topic cards inside welcome message -->
+              @if (msg.isInitial) {
+                <div class="interactive-grid">
+                  @for (topic of interactiveTopics; track topic.label) {
+                    <button type="button" class="topic-card-btn" (click)="selectTopic(topic)">
+                      <span class="card-badge">{{ topic.badge }}</span>
+                      <div class="card-text">
+                        <div class="card-label">{{ topic.label }}</div>
+                        <div class="card-prompt">{{ topic.prompt }}</div>
+                      </div>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+            <span class="timestamp">{{ msg.timestamp | date: 'h:mm a' }}</span>
+          </div>
+        }
+
+        @if (loading) {
+          <div class="message-row assistant">
+            <div class="bubble loading-bubble">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Input Box -->
+      <div class="chat-input-bar">
+        <input 
+          type="text" 
+          [(ngModel)]="userMessage" 
+          (keyup.enter)="sendMessage()" 
+          placeholder="Ask about cancellations, flights, baggage..." 
+          [disabled]="loading">
+        <button type="button" class="btn-send" (click)="sendMessage()" [disabled]="!userMessage.trim() || loading" aria-label="Send message">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </button>
+      </div>
+
+    </div>
+  }
+
+</div>

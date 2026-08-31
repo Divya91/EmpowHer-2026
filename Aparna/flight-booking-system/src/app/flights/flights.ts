@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { FlightSearchComponent } from '../components/flight-search/flight-search.component';
+import { SearchWithFilters } from '../components/search-with-filters/search-with-filters';
 
 @Component({
   selector: 'app-flights',
   standalone: true,
-  imports: [FlightSearchComponent],
+  imports: [SearchWithFilters],
   templateUrl: './flights.html',
   styleUrl: './flights.css'
 })

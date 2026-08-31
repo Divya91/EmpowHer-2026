@@ -30,6 +30,16 @@ export class TicketService {
     );
   }
 
+  cancelTicket(ticketId: number, userId?: number): Observable<Ticket> {
+    const params: Record<string, string> = {};
+    if (userId) {
+      params['userId'] = userId.toString();
+    }
+    return this.http.patch<Ticket>(`${this.baseUrl}/${ticketId}/cancel`, null, { params }).pipe(
+      map((ticket: Ticket) => this.parseDates(ticket))
+    );
+  }
+
   private parseDates(ticket: Ticket): Ticket {
     return {
       ...ticket,

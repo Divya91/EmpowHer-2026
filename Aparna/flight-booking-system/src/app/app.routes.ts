@@ -14,8 +14,8 @@ export const routes: Routes = [
   },
   {
     path: 'flights/search-with-filters',
-    loadComponent: () =>
-      import('./components/search-with-filters/search-with-filters').then(m => m.SearchWithFilters)
+    redirectTo: 'flights',
+    pathMatch: 'full'
   },
   {
     path: 'auth',
@@ -35,10 +35,21 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'dashboard',
+    path: 'my-bookings',
     loadComponent: () =>
-      import('./dashboard/dashboard').then(m => m.DashboardComponent),
+      import('./booking/my-bookings/my-bookings').then(m => m.MyBookingsComponent),
     canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./profile/profile').then(m => m.ProfileComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'dashboard',
+    redirectTo: 'my-bookings',
+    pathMatch: 'full'
   },
   {
     path: '**',

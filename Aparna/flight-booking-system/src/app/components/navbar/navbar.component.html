@@ -1,52 +1,48 @@
 <header class="navbar">
   <div class="navbar-inner">
 
+    <!-- Logo HTML Image (images/logo.png) + Meridian Wordmark with Entrance Animation -->
     <a routerLink="/" class="brand" (click)="closeMenu()">
-      <img src="images/logo.png" alt="Meridian" class="brand-logo" />
-      <span class="brand-name">MERIDIAN</span>
+      <img
+        src="images/logo.png"
+        class="logo-img"
+        [class.logo-animate]="shouldAnimate"
+        [class.no-motion]="reducedMotion"
+        alt="Meridian Logo"
+        width="34"
+        height="34"
+      />
+      <span class="brand-name" [class.brand-animate]="shouldAnimate" [class.no-motion]="reducedMotion">MERIDIAN</span>
     </a>
 
+    <!-- Center Nav Links: EXACTLY TWO OPTIONS (Search, My Bookings) -->
     <nav class="nav-links" [class.open]="isMenuOpen">
-      <a
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        (click)="closeMenu()">
-        Home
-      </a>
       <a
         routerLink="/flights"
         routerLinkActive="active"
         (click)="closeMenu()">
-        Flights
+        Search
       </a>
       <a
-        routerLink="/flights/search-with-filters"
+        routerLink="/my-bookings"
         routerLinkActive="active"
         (click)="closeMenu()">
-        Search with Filters
+        My Bookings
       </a>
-      @if (authService.isLoggedIn()) {
-        <a
-          routerLink="/dashboard"
-          routerLinkActive="active"
-          (click)="closeMenu()">
-          Dashboard
-        </a>
-      }
     </nav>
 
+    <!-- Right-Side Actions -->
     <div class="navbar-actions">
 
       @if (authService.isLoggedIn()) {
 
         <div class="profile-menu">
-          <button type="button" class="profile-trigger" (click)="toggleProfile()">
+          <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="Profile and Settings Menu">
             <span class="avatar">{{ initials(authService.currentUser()?.name) }}</span>
             <span class="profile-label">
               <span class="profile-name">{{ authService.currentUser()?.name }}</span>
-              <span class="profile-role">{{ authService.currentUser()?.role }}</span>
             </span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
           </button>
 
           @if (isProfileOpen) {
@@ -55,11 +51,18 @@
                 <span class="profile-dropdown-name">{{ authService.currentUser()?.name }}</span>
                 <span class="profile-dropdown-email">{{ authService.currentUser()?.email }}</span>
               </div>
-              <a routerLink="/dashboard" class="profile-dropdown-item" (click)="isProfileOpen = false">
-                Dashboard
+              <a routerLink="/profile" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+                Profile & Settings
               </a>
+              <a routerLink="/my-bookings" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                My Bookings
+              </a>
+              <div class="dropdown-divider"></div>
               <button type="button" class="profile-dropdown-item logout" (click)="logout()">
-                Logout
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sign Out
               </button>
             </div>
           }

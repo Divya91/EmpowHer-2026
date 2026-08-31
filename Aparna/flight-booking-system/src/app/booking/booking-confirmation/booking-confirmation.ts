@@ -4,6 +4,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TicketService } from '../../services/ticket.service';
 import { Ticket } from '../../models/ticket';
 
+interface NavigationBookingState {
+  ticket?: Ticket;
+  passengers?: Array<{ firstName: string; lastName: string }>;
+  cabinClass?: string;
+  seats?: string[];
+}
+
 @Component({
   selector: 'app-booking-confirmation',
   standalone: true,
@@ -17,16 +24,22 @@ export class BookingConfirmationComponent implements OnInit {
   private readonly ticketService = inject(TicketService);
 
   ticket: Ticket | null = null;
+  seats: string[] = [];
+  cabinClass = 'Economy';
+  passengers: Array<{ firstName: string; lastName: string }> = [];
+
   loading = true;
   errorMessage = '';
 
   ngOnInit(): void {
-
-    const navigationState = history.state as { ticket?: Ticket } | undefined;
+    const navigationState = history.state as NavigationBookingState | undefined;
 
     if (navigationState?.ticket) {
       this.ticket = navigationState.ticket;
       this.ticket.departureTs = new Date(this.ticket.departureTs);
+      if (navigationState.seats) this.seats = navigationState.seats;
+      if (navigationState.cabinClass) this.cabinClass = navigationState.cabinClass;
+      if (navigationState.passengers) this.passengers = navigationState.passengers;
       this.loading = false;
       return;
     }
@@ -49,7 +62,5 @@ export class BookingConfirmationComponent implements OnInit {
         this.loading = false;
       }
     });
-
   }
-
 }

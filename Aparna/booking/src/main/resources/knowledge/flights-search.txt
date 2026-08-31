@@ -1,0 +1,7 @@
+Meridian Flight Search System Reference Knowledge:
+- Meridian allows customers to search one-way and round-trip flights across major domestic and international routes.
+- Available flight search criteria include: Origin Airport (e.g. JFK, LHR, LAX, CDG), Destination Airport, Departure Date, Passengers count, and Cabin Class (Economy, Premium Economy, Business Class).
+- Interactive filters include: Stops (Nonstop, Up to 1 stop, Any stops), Price Range slider, Departure Time windows (Morning 5am-12pm, Afternoon 12pm-5pm, Evening 5pm-11pm), and Airline filters.
+- Flight sorting options: Lowest price, Earliest departure, Shortest duration, Recommended.
+- Baggage policy: Standard tickets include 1 Carry-on bag + 1 Checked bag (23kg max).
+- In-flight amenities: Free Wi-Fi, USB charging ports, complimentary meals and beverages.
