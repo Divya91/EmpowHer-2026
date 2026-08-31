@@ -1,37 +1,25 @@
-import { Component, HostListener, OnInit, inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, HostListener, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/services/auth';
+import { ImageAnimationDirective } from '../../directives/image-animation.directive';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ImageAnimationDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
   isMenuOpen = false;
   isProfileOpen = false;
-  shouldAnimate = false;
-  reducedMotion = false;
-
-  private platformId = inject(PLATFORM_ID);
-  private cdr = inject(ChangeDetectorRef);
 
   constructor(
     protected readonly authService: AuthService,
     private readonly router: Router
   ) {}
-
-  ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      this.shouldAnimate = !this.reducedMotion;
-      this.cdr.markForCheck();
-    }
-  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

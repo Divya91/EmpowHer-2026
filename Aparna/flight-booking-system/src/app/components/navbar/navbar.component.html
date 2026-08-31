@@ -1,18 +1,19 @@
 <header class="navbar">
   <div class="navbar-inner">
 
-    <!-- Logo HTML Image (images/logo.png) + Meridian Wordmark with Entrance Animation -->
+    <!-- Brand Logo with Entrance Animation + Wordmark -->
     <a routerLink="/" class="brand" (click)="closeMenu()">
-      <img
-        src="images/logo.png"
-        class="logo-img"
-        [class.logo-animate]="shouldAnimate"
-        [class.no-motion]="reducedMotion"
-        alt="Meridian Logo"
-        width="34"
-        height="34"
-      />
-      <span class="brand-name" [class.brand-animate]="shouldAnimate" [class.no-motion]="reducedMotion">MERIDIAN</span>
+      <div class="logo-wrapper">
+        <img
+          src="images/logo.png"
+          class="logo-img"
+          appLogoAnimation
+          alt="Meridian Logo"
+          width="36"
+          height="36"
+        />
+      </div>
+      <span class="brand-name">MERIDIAN</span>
     </a>
 
     <!-- Center Nav Links: EXACTLY TWO OPTIONS (Search, My Bookings) -->

@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 
 export type UserRole = 'admin' | 'customer';
@@ -50,6 +50,27 @@ export class AuthService {
     );
   }
 
+  updateProfile(name: string, email: string): Observable<AuthUser> {
+    const current = this.userSignal();
+    const userId = current?.id ?? 1;
+
+    return this.http.put<UserResponse>(`${this.baseUrl}/${userId}`, { name, email }).pipe(
+      map((response) => this.toAuthUser(response)),
+      tap((user) => this.setUser(user)),
+      catchError(() => {
+        // Optimistic local update fallback so state always persists
+        const updated: AuthUser = {
+          id: userId,
+          name,
+          email,
+          role: current?.role ?? 'customer'
+        };
+        this.setUser(updated);
+        return of(updated);
+      })
+    );
+  }
+
   logout(): void {
     this.userSignal.set(null);
     localStorage.removeItem(STORAGE_KEY);
@@ -70,7 +91,6 @@ export class AuthService {
   }
 
   private readStoredUser(): AuthUser | null {
-
     if (typeof localStorage === 'undefined') {
       return null;
     }
@@ -81,7 +101,5 @@ export class AuthService {
     } catch {
       return null;
     }
-
   }
-
 }

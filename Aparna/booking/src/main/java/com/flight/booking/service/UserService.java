@@ -3,12 +3,14 @@ package com.flight.booking.service;
 import com.flight.booking.dto.LoginRequest;
 import com.flight.booking.dto.SignupRequest;
 import com.flight.booking.dto.UserResponse;
+import com.flight.booking.dto.UserUpdateRequest;
 import com.flight.booking.entity.Role;
 import com.flight.booking.entity.User;
 import com.flight.booking.exception.ApiException;
 import com.flight.booking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -50,6 +52,18 @@ public class UserService {
     public User getUserOrThrow(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ApiException("User not found: " + id));
+    }
+
+    @Transactional
+    public UserResponse updateUser(Long id, UserUpdateRequest request) {
+        User user = getUserOrThrow(id);
+        if (request.getName() != null && !request.getName().isBlank()) {
+            user.setName(request.getName().trim());
+        }
+        if (request.getEmail() != null && !request.getEmail().isBlank()) {
+            user.setEmail(request.getEmail().trim().toLowerCase());
+        }
+        return toResponse(userRepository.save(user));
     }
 
     private String hash(String rawPassword) {
