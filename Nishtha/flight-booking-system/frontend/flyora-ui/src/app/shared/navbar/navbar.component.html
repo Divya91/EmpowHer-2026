@@ -1,20 +1,75 @@
 <nav class="navbar">
 
-  <a routerLink="/flights" class="brand">
+  <!-- BRAND -->
+
+  <a
+    [routerLink]="isAdmin() ? '/admin' : '/flights'"
+    class="brand">
+
     <span class="brand-icon">✈</span>
-    <span>Flyora</span>
+
+    <span>
+      {{ isAdmin() ? 'Flyora Admin' : 'Flyora' }}
+    </span>
+
   </a>
 
-  @if(isLoggedIn()){
 
-    <div class="nav-links">
+  @if(isLoggedIn()) {
 
-      <a routerLink="/flights">Flights</a>
+    <!-- ================= ADMIN NAVBAR ================= -->
 
-      <a routerLink="/my-trips">My Trips</a>
-      <a routerLink="/assistant">✈️ AI Assistant</a>
+    @if(isAdmin()) {
 
-    </div>
+      <div class="nav-links">
+
+       <a
+  routerLink="/admin"
+  (click)="goToSection('dashboard')">
+  Dashboard
+</a>
+
+<a
+  routerLink="/admin"
+  (click)="goToSection('flights')">
+  Flights
+</a>
+
+<a
+  routerLink="/admin"
+  (click)="goToSection('bookings')">
+  Bookings
+</a>
+
+      </div>
+
+    }
+
+
+    <!-- ================= USER NAVBAR ================= -->
+
+    @else {
+
+      <div class="nav-links">
+
+        <a routerLink="/flights">
+          Flights
+        </a>
+
+        <a routerLink="/my-trips">
+          My Trips
+        </a>
+
+        <a routerLink="/assistant">
+          ✈️ AI Assistant
+        </a>
+
+      </div>
+
+    }
+
+
+    <!-- ================= LOGOUT ================= -->
 
     <div class="nav-actions">
 
@@ -30,7 +85,8 @@
 
   }
 
-  @else{
+
+  @else {
 
     <div class="nav-actions">
 

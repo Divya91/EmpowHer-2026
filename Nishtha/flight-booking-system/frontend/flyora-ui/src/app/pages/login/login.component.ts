@@ -45,16 +45,19 @@ export class LoginComponent {
       password: this.password
     }).subscribe({
 
-      next: (response) => {
+     next: (response) => {
 
-        this.isLoading = false;
+  this.isLoading = false;
 
-        this.successMessage = response.message;
+  this.successMessage = response.message;
 
-        // Redirect to Flight Search after successful login
-        this.router.navigate(['/flights']);
+  if (response.role === 'ADMIN') {
+    this.router.navigate(['/admin']);
+  } else {
+    this.router.navigate(['/flights']);
+  }
 
-      },
+},
 
       error: (error) => {
 
