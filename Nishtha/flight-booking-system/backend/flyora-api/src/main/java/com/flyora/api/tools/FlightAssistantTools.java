@@ -4,6 +4,7 @@ import com.flyora.api.dto.response.FlightResponse;
 import com.flyora.api.enums.CabinClass;
 import com.flyora.api.service.FlightService;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -31,11 +32,20 @@ public class FlightAssistantTools {
             - airlines
             - available seats
 
-            Required information:
-            - departure city or airport
-            - destination city or airport
+            REQUIRED:
+            - departure airport/city
+            - destination airport/city
             - travel date
+
+            OPTIONAL:
             - cabin class
+
+            IMPORTANT:
+            If the user DOES NOT specify a cabin class,
+            search and return flights from ALL cabin classes.
+
+            NEVER assume Economy when the user did not specify
+            a cabin class.
 
             Valid cabin classes:
             ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST.
@@ -44,37 +54,76 @@ public class FlightAssistantTools {
             Never invent flight information.
             """)
     public List<FlightResponse> searchFlights(
+
+            @ToolParam(
+                    description = "Departure city or airport code, for example Delhi or DEL",
+                    required = true
+            )
             String from,
+
+            @ToolParam(
+                    description = "Destination city or airport code, for example Bangalore or BLR",
+                    required = true
+            )
             String to,
+
+            @ToolParam(
+                    description = "Travel date in YYYY-MM-DD format",
+                    required = true
+            )
             LocalDate travelDate,
+
+            @ToolParam(
+                    description = """
+                            Cabin class requested by the user.
+                            Valid values: ECONOMY, PREMIUM_ECONOMY,
+                            BUSINESS, FIRST.
+                            Leave this parameter EMPTY/null when the
+                            user did not specify a cabin class.
+                            """,
+                    required = false
+            )
             CabinClass cabinClass
     ) {
 
         String normalizedFrom = normalizeAirport(from);
         String normalizedTo = normalizeAirport(to);
 
-        // Get actual flights from the database
-        List<FlightResponse> allFlights = flightService.getAllFlights();
+        // Get ALL actual flights from the database
+        List<FlightResponse> allFlights =
+                flightService.getAllFlights();
 
-        // Filter in Java instead of relying on exact database strings.
         return allFlights.stream()
+
+                // Match travel date
                 .filter(flight ->
                         flight.getTravelDate() != null
                                 && flight.getTravelDate().equals(travelDate)
                 )
+
+                // Match departure
                 .filter(flight ->
                         normalizeAirport(flight.getFromAirport())
                                 .equalsIgnoreCase(normalizedFrom)
                 )
+
+                // Match destination
                 .filter(flight ->
                         normalizeAirport(flight.getToAirport())
                                 .equalsIgnoreCase(normalizedTo)
                 )
+
+                // IMPORTANT:
+                // Only filter cabin class if the user actually
+                // specified one.
                 .filter(flight ->
-                        flight.getCabinClass() == cabinClass
+                        cabinClass == null
+                                || flight.getCabinClass() == cabinClass
                 )
+
                 .toList();
     }
+
 
     @Tool(description = """
             Get the list of airports currently available in Flyora.
@@ -92,6 +141,7 @@ public class FlightAssistantTools {
         return flightService.getAirports();
     }
 
+
     @Tool(description = """
             Get the airlines currently available in Flyora.
 
@@ -106,6 +156,7 @@ public class FlightAssistantTools {
 
         return flightService.getAirlines();
     }
+
 
     @Tool(description = """
             Get the routes currently available in Flyora.
@@ -122,6 +173,7 @@ public class FlightAssistantTools {
         return flightService.getRoutes();
     }
 
+
     private String normalizeAirport(String airport) {
 
         if (airport == null || airport.isBlank()) {
@@ -134,22 +186,95 @@ public class FlightAssistantTools {
 
         return switch (value) {
 
-            // Delhi
+            // -------------------------
+            // DELHI
+            // -------------------------
             case "del",
                  "delhi",
                  "delhi airport",
                  "indira gandhi international airport",
                  "indira gandhi international",
-                 "indira gandhi airport" -> "Delhi";
+                 "indira gandhi airport" ->
+                    "Delhi";
 
-            // Mumbai
+
+            // -------------------------
+            // MUMBAI
+            // -------------------------
             case "bom",
                  "mumbai",
                  "mumbai airport",
                  "chhatrapati shivaji maharaj international airport",
                  "chhatrapati shivaji maharaj international",
-                 "chhatrapati shivaji airport" -> "Mumbai";
+                 "chhatrapati shivaji airport" ->
+                    "Mumbai";
 
+
+            // -------------------------
+            // BANGALORE
+            // -------------------------
+            case "blr",
+                 "bangalore",
+                 "bengaluru",
+                 "bangalore airport",
+                 "kempegowda international airport",
+                 "kempegowda airport" ->
+                    "Bangalore";
+
+
+            // -------------------------
+            // HYDERABAD
+            // -------------------------
+            case "hyd",
+                 "hyderabad",
+                 "hyderabad airport",
+                 "rajiv gandhi international airport" ->
+                    "Hyderabad";
+
+
+            // -------------------------
+            // CHENNAI
+            // -------------------------
+            case "maa",
+                 "chennai",
+                 "chennai airport",
+                 "chennai international airport" ->
+                    "Chennai";
+
+
+            // -------------------------
+            // KOLKATA
+            // -------------------------
+            case "ccu",
+                 "kolkata",
+                 "calcutta",
+                 "kolkata airport",
+                 "netaji subhas chandra bose international airport" ->
+                    "Kolkata";
+
+
+            // -------------------------
+            // PUNE
+            // -------------------------
+            case "pnq",
+                 "pune",
+                 "pune airport" ->
+                    "Pune";
+
+
+            // -------------------------
+            // GOA
+            // -------------------------
+            case "goi",
+                 "goa",
+                 "goa airport",
+                 "dabolim airport" ->
+                    "Goa";
+
+
+            // -------------------------
+            // DEFAULT
+            // -------------------------
             default ->
                     value.substring(0, 1).toUpperCase(Locale.ROOT)
                             + value.substring(1);

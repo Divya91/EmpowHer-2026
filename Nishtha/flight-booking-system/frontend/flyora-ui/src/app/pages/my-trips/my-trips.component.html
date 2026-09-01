@@ -2,7 +2,56 @@
 
     <h1>My Trips</h1>
 
-    @if(bookings.length === 0){
+    <div class="trip-tabs">
+
+        <button
+            type="button"
+            class="tab"
+            [class.active]="activeFilter === 'ALL'"
+            (click)="setFilter('ALL')">
+            All
+            <span class="tab-count">{{ filterCounts.ALL }}</span>
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            [class.active]="activeFilter === 'UPCOMING'"
+            (click)="setFilter('UPCOMING')">
+            Upcoming
+            <span class="tab-count">{{ filterCounts.UPCOMING }}</span>
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            [class.active]="activeFilter === 'PAST'"
+            (click)="setFilter('PAST')">
+            Past
+            <span class="tab-count">{{ filterCounts.PAST }}</span>
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            [class.active]="activeFilter === 'CONFIRMED'"
+            (click)="setFilter('CONFIRMED')">
+            Confirmed
+            <span class="tab-count">{{ filterCounts.CONFIRMED }}</span>
+        </button>
+
+        <button
+            type="button"
+            class="tab"
+            [class.active]="activeFilter === 'CANCELLED'"
+            (click)="setFilter('CANCELLED')">
+            Cancelled
+            <span class="tab-count">{{ filterCounts.CANCELLED }}</span>
+        </button>
+
+    </div>
+
+    @if(filteredBookings.length === 0){
 
         <div class="empty">
 
@@ -12,7 +61,7 @@
 
     }
 
-    @for(booking of bookings; track booking.id){
+    @for(booking of filteredBookings; track booking.id){
 
     <div class="trip-card">
 

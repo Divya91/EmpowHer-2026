@@ -1,58 +1,84 @@
-<div class="chatbot-container">
+<div class="chatbot-widget">
 
-  <div class="chat-header">
-    <div>
-      <h2>✈️ Flyora Assistant</h2>
-      <span>Your AI Flight Assistant</span>
+  <div
+    class="chat-panel"
+    [class.open]="isOpen"
+  >
+
+    <div class="chat-header">
+      <div>
+        <h2>✈️ Skye</h2>
+        <span>Your AI Flight Assistant</span>
+      </div>
+
+      <button
+        type="button"
+        class="close-btn"
+        (click)="toggleChat()"
+        aria-label="Close chat"
+      >
+        ✕
+      </button>
     </div>
-  </div>
 
-  <div class="chat-messages">
-
-    <div
-      *ngFor="let message of messages"
-      class="message-row"
-      [class.user-row]="message.sender === 'user'"
-      [class.bot-row]="message.sender === 'bot'"
-    >
+    <div class="chat-messages">
 
       <div
-        class="message"
-        [class.user-message]="message.sender === 'user'"
-        [class.bot-message]="message.sender === 'bot'"
+        *ngFor="let message of messages"
+        class="message-row"
+        [class.user-row]="message.sender === 'user'"
+        [class.bot-row]="message.sender === 'bot'"
       >
-        {{ message.text }}
+
+        <div
+          class="message"
+          [class.user-message]="message.sender === 'user'"
+          [class.bot-message]="message.sender === 'bot'"
+        >
+          {{ message.text }}
+        </div>
+
+      </div>
+
+      <div
+        *ngIf="loading"
+        class="message-row bot-row"
+      >
+        <div class="message bot-message typing">
+          Skye is thinking...
+        </div>
       </div>
 
     </div>
 
-    <div
-      *ngIf="loading"
-      class="message-row bot-row"
-    >
-      <div class="message bot-message typing">
-        Flyora Assistant is thinking...
-      </div>
+    <div class="chat-input-area">
+
+      <textarea
+        [(ngModel)]="message"
+        (keydown)="handleEnter($event)"
+        placeholder="Ask me about flights..."
+        rows="1"
+      ></textarea>
+
+      <button
+        (click)="sendMessage()"
+        [disabled]="loading || !message.trim()"
+      >
+        Send
+      </button>
+
     </div>
 
   </div>
 
-  <div class="chat-input-area">
-
-    <textarea
-      [(ngModel)]="message"
-      (keydown)="handleEnter($event)"
-      placeholder="Ask me about flights..."
-      rows="1"
-    ></textarea>
-
-    <button
-      (click)="sendMessage()"
-      [disabled]="loading || !message.trim()"
-    >
-      Send
-    </button>
-
-  </div>
+  <button
+    type="button"
+    class="launcher-btn"
+    [class.hidden]="isOpen"
+    (click)="toggleChat()"
+    aria-label="Open Skye, the Flyora assistant"
+  >
+    ✈️
+  </button>
 
 </div>

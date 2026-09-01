@@ -1,18 +1,19 @@
-/* ===== Flyora theme tokens (keep in sync with other components) ===== */
+/* ===== Flyora theme tokens (aligned with the rest of the app) ===== */
 :host {
-  --navy-dark: #0d1b2f;
-  --navy-mid: #14233c;
-  --gold: #c9974d;
-  --gold-soft: #e0b877;
-  --bg-page: #eef0f3;
+  --navy-dark: #0e1a2b;
+  --navy-mid: #16273d;
+  --gold: #b98a3d;
+  --gold-soft: #d8b876;
+  --bg-page: #f6f7f5;
+  --paper-dim: #ecefea;
   --card-bg: #ffffff;
-  --text-main: #1c2431;
-  --text-muted: #6b7280;
-  --border: #e2e5ea;
-  --error: #c0392b;
+  --text-main: #17222e;
+  --text-muted: #5c6773;
+  --border: #dadfe3;
+  --error: #b3261e;
   --success: #2e7d32;
   --radius: 10px;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-serif: 'Fraunces', Georgia, serif;
   --font-sans: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
@@ -23,6 +24,11 @@
   padding: 40px 20px 60px;
   max-width: 900px;
   margin: 0 auto;
+}
+
+.details-page *:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 /* ===== Back link ===== */
@@ -41,12 +47,23 @@
 
 /* ===== Top details card ===== */
 .details-card {
+  position: relative;
   background: var(--card-bg);
-  border-top: 3px solid var(--gold);
   border-radius: var(--radius);
   padding: 32px 36px;
   margin-bottom: 22px;
-  box-shadow: 0 10px 30px rgba(13, 27, 47, 0.06);
+  box-shadow: 0 20px 45px -28px rgba(14, 26, 43, 0.4), 0 0 0 1px var(--border);
+}
+
+.details-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
 }
 
 .details-top {
@@ -61,15 +78,14 @@
 
 .details-top .eyebrow {
   color: var(--gold);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
   margin: 0 0 6px;
 }
 
 .details-top h1 {
   font-family: var(--font-serif);
+  font-weight: 500;
   font-size: 26px;
   color: var(--navy-dark);
   margin: 0 0 6px;
@@ -95,11 +111,12 @@
 
 .details-top .price strong {
   font-family: var(--font-serif);
+  font-weight: 500;
   font-size: 28px;
   color: var(--navy-dark);
 }
 
-/* ===== Journey timeline ===== */
+/* ===== Journey timeline (matches search results + trip cards) ===== */
 .journey {
   display: flex;
   align-items: center;
@@ -113,9 +130,10 @@
 }
 
 .journey > div:not(.journey-line) strong {
+  font-family: var(--font-serif);
+  font-weight: 500;
   font-size: 22px;
   color: var(--navy-dark);
-  font-weight: 700;
 }
 
 .journey > div:not(.journey-line) span {
@@ -139,43 +157,53 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 0.4rem;
   padding-top: 4px;
 }
 
 .journey-line span {
   font-size: 12px;
-  color: var(--gold);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .journey-line div {
-  width: 100%;
-  height: 1px;
-  background: var(--border);
   position: relative;
+  width: 100%;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.journey-line div::before,
-.journey-line div::after {
+.journey-line div::before {
   content: '';
   position: absolute;
   top: 50%;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
+  left: 0;
+  right: 0;
+  height: 1px;
   transform: translateY(-50%);
+  background-image: linear-gradient(90deg, var(--border) 0 6px, transparent 6px 11px);
+  background-size: 11px 1px;
+  background-repeat: repeat-x;
 }
 
-.journey-line div::before { left: 0; }
-.journey-line div::after { right: 0; }
+.journey-line div::after {
+  content: '✈';
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+  background: var(--card-bg);
+  padding: 0 0.4rem;
+  color: var(--gold);
+  font-size: 0.85rem;
+}
 
 .journey-line small {
-  color: var(--text-muted);
-  font-size: 12px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 600;
 }
 
 /* ===== Metadata grid ===== */
@@ -191,12 +219,13 @@
   background: var(--card-bg);
   border-radius: var(--radius);
   padding: 24px 28px;
-  box-shadow: 0 6px 20px rgba(13, 27, 47, 0.06);
+  box-shadow: 0 6px 20px rgba(14, 26, 43, 0.08);
 }
 
 .metadata-grid h3,
 .fare-card h3 {
   font-family: var(--font-serif);
+  font-weight: 500;
   font-size: 17px;
   color: var(--navy-dark);
   margin: 0 0 16px;
@@ -234,13 +263,13 @@
 }
 
 .badges span {
-  background: #f4f0e6;
+  background: var(--paper-dim);
   color: var(--navy-dark);
   font-size: 12.5px;
   font-weight: 600;
   padding: 7px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--gold-soft);
+  border-radius: 999px;
+  border: 1px solid var(--border);
 }
 
 /* ===== Empty state ===== */
@@ -249,11 +278,12 @@
   background: var(--card-bg);
   border-radius: var(--radius);
   padding: 60px 30px;
-  box-shadow: 0 6px 20px rgba(13, 27, 47, 0.06);
+  box-shadow: 0 6px 20px rgba(14, 26, 43, 0.08);
 }
 
 .empty-state h2 {
   font-family: var(--font-serif);
+  font-weight: 500;
   color: var(--navy-dark);
   margin: 0 0 8px;
 }
@@ -277,13 +307,14 @@
   padding: 15px 40px;
   font-size: 15px;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .book-btn:hover {
-  background: var(--navy-mid);
+  background: var(--gold);
+  color: var(--navy-dark);
 }
 
 /* ===== Responsive ===== */
