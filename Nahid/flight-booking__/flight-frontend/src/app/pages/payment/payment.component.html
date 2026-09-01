@@ -1,0 +1,97 @@
+<div class="payment-page">
+  <header class="top-bar">
+    <a routerLink="/home" class="back-link">← Back to Search</a>
+    <span class="brand">SkySafar</span>
+  </header>
+
+  @if (flight) {
+    <div class="payment-layout">
+      <section class="summary-panel">
+        <p class="eyebrow">Trip Summary</p>
+        <h1>{{ flight.fromAirport }} → {{ flight.toAirport }}</h1>
+        <p class="airline">{{ flight.airlineName }} · {{ flight.airlineCode }}</p>
+
+        <div class="summary-grid">
+          <div>
+            <span class="label">Departure</span>
+            <strong>{{ flight.departureTime | date: 'MMM d, h:mm a' }}</strong>
+          </div>
+          <div>
+            <span class="label">Arrival</span>
+            <strong>{{ flight.arrivalTime | date: 'MMM d, h:mm a' }}</strong>
+          </div>
+          <div>
+            <span class="label">Duration</span>
+            <strong>{{ flight.durationMinutes }} min</strong>
+          </div>
+          <div>
+            <span class="label">Passengers</span>
+            <strong>{{ passengers }}</strong>
+          </div>
+        </div>
+
+        <div class="total-row">
+          <span>Total Payable</span>
+          <strong>₹{{ totalAmount | number: '1.0-0' }}</strong>
+        </div>
+      </section>
+
+      <section class="payment-panel">
+        <p class="eyebrow">Secure Checkout</p>
+        <h2>Choose Payment Method</h2>
+
+        <div class="method-tabs">
+          <button
+            type="button"
+            [class.active]="paymentMethod === 'CARD'"
+            (click)="paymentMethod = 'CARD'"
+          >
+            💳 Card
+          </button>
+          <button
+            type="button"
+            [class.active]="paymentMethod === 'UPI'"
+            (click)="paymentMethod = 'UPI'"
+          >
+            📱 UPI
+          </button>
+        </div>
+
+        @if (paymentMethod === 'CARD') {
+          <div class="form-block">
+            <label>Card Number</label>
+            <input type="text" placeholder="1234 5678 9012 3456" [(ngModel)]="cardNumber" maxlength="19" />
+
+            <label>Cardholder Name</label>
+            <input type="text" placeholder="Name on card" [(ngModel)]="cardHolder" />
+
+            <div class="row-2">
+              <div>
+                <label>Expiry (MM/YY)</label>
+                <input type="text" placeholder="MM/YY" [(ngModel)]="expiryDate" maxlength="5" />
+              </div>
+              <div>
+                <label>CVV</label>
+                <input type="password" placeholder="***" [(ngModel)]="cvv" maxlength="4" />
+              </div>
+            </div>
+          </div>
+        } @else {
+          <div class="form-block">
+            <label>UPI ID</label>
+            <input type="text" placeholder="yourname@upi" [(ngModel)]="upiId" />
+            <p class="hint">We support Google Pay, PhonePe, Paytm & all UPI apps</p>
+          </div>
+        }
+
+        <button class="pay-btn" (click)="payNow()" [disabled]="isLoading">
+          {{ isLoading ? 'Processing...' : 'Pay ₹' + totalAmount }}
+        </button>
+
+        <p class="secure-note">🔒 Your payment details are encrypted & never stored</p>
+      </section>
+    </div>
+  } @else {
+    <div class="loading">Loading flight details...</div>
+  }
+</div>

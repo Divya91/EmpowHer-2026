@@ -1,0 +1,167 @@
+.results-eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.results-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  color: #134e4a;
+  margin: 0.2rem 0 1.25rem;
+}
+
+.no-flights {
+  background: white;
+  border-radius: 16px;
+  padding: 3rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.flight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.flight-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1.5px solid #e2e8f0;
+  transition: box-shadow 0.2s;
+}
+
+.flight-card:hover {
+  box-shadow: 0 8px 30px rgba(15, 118, 110, 0.1);
+}
+
+.flight-card.cheapest {
+  border-color: #0f766e;
+}
+
+.tag {
+  display: inline-block;
+  background: #ecfdf5;
+  color: #0f766e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-body {
+  display: grid;
+  grid-template-columns: 140px 1fr 130px;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+}
+
+.airline-info strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #134e4a;
+}
+
+.airline-info small {
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.route-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.time-block {
+  text-align: center;
+}
+
+.code {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #134e4a;
+  display: block;
+}
+
+.time-block small {
+  color: #94a3b8;
+  font-size: 0.78rem;
+}
+
+.path {
+  flex: 1;
+  text-align: center;
+}
+
+.dur {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.line {
+  height: 2px;
+  background: linear-gradient(90deg, #0f766e, #ea580c);
+  margin: 0.3rem 0;
+  border-radius: 2px;
+}
+
+.stop {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.price-block {
+  text-align: right;
+}
+
+.price {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f766e;
+  display: block;
+}
+
+.price-block small {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.price-block button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  background: #0f766e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card-footer {
+  padding: 0.4rem 1.25rem;
+  background: #fafaf9;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .card-body {
+    grid-template-columns: 1fr;
+  }
+}

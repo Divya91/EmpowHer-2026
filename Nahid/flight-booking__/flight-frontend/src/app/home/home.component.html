@@ -1,0 +1,36 @@
+<header class="navbar">
+  <div class="logo">☁️ <span>SkySafar</span></div>
+  <nav>
+    <a routerLink="/home" class="active">Search</a>
+    <a routerLink="/my-bookings">My Bookings</a>
+  </nav>
+  <div class="user-section">
+    <span class="welcome">Hi, <strong>{{ userName }}</strong></span>
+    <button class="logout-btn" (click)="logout()">Sign Out</button>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Plan Your Escape</p>
+  <h1>Discover flights across India</h1>
+  <p class="hero-sub">Compare fares, filter by airline, and book in minutes with SkySafar</p>
+</section>
+
+<div class="page-container">
+  <app-flight-search
+    (flightsFound)="onFlightsFound($event)"
+    (passengersChanged)="onPassengersChanged($event)"
+  ></app-flight-search>
+
+  <div class="content">
+    <app-flight-filters
+      [airlines]="airlines"
+      [maxPriceLimit]="maxPriceLimit"
+      (filterChanged)="onFilterChanged($event)"
+    ></app-flight-filters>
+
+    <div class="results">
+      <app-flight-results [flights]="flights" [passengers]="passengers"></app-flight-results>
+    </div>
+  </div>
+</div>

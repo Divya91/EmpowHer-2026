@@ -1,0 +1,48 @@
+<div class="chatbot-root">
+  @if (isOpen) {
+    <div class="chat-panel">
+      <header class="chat-header">
+        <div>
+          <strong>SkyBot</strong>
+          <small>SkySafar Assistant</small>
+        </div>
+        <button type="button" class="close-btn" (click)="toggle()">✕</button>
+      </header>
+
+      <div class="messages" #messagesBox>
+        @for (msg of messages; track $index) {
+          <div class="bubble" [class.user]="msg.from === 'user'" [class.bot]="msg.from === 'bot'">
+            <p>{{ msg.text }}</p>
+          </div>
+        }
+        @if (isTyping) {
+          <div class="bubble bot typing">
+            <span></span><span></span><span></span>
+          </div>
+        }
+      </div>
+
+      @if (suggestions.length) {
+        <div class="suggestions">
+          @for (s of suggestions; track s) {
+            <button type="button" (click)="useSuggestion(s)">{{ s }}</button>
+          }
+        </div>
+      }
+
+      <div class="chat-input">
+        <input
+          type="text"
+          placeholder="Ask about flights, bookings, payment..."
+          [(ngModel)]="input"
+          (keydown)="onKeydown($event)"
+        />
+        <button type="button" (click)="send()" [disabled]="!input.trim() || isTyping">Send</button>
+      </div>
+    </div>
+  }
+
+  <button type="button" class="chat-fab" (click)="toggle()" [class.open]="isOpen">
+    {{ isOpen ? '✕' : '💬' }}
+  </button>
+</div>

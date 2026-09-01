@@ -1,0 +1,113 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #fafaf9;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #0f766e;
+  color: white;
+}
+
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: #ccfbf1;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+nav a.active {
+  color: white;
+  font-weight: 700;
+  border-bottom: 2px solid #ea580c;
+  padding-bottom: 2px;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.welcome {
+  font-size: 0.88rem;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+
+.hero {
+  background: linear-gradient(135deg, #0f766e 0%, #134e4a 60%, #1e3a3a 100%);
+  color: white;
+  padding: 2.5rem 2rem 3rem;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fdba74;
+  font-weight: 600;
+}
+
+.hero h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.hero-sub {
+  font-size: 0.95rem;
+  color: #ccfbf1;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: -2rem auto 0;
+  padding: 0 1.5rem 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+  nav {
+    display: none;
+  }
+}

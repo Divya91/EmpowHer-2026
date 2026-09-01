@@ -1,0 +1,41 @@
+<div class="signup-page">
+  <div class="signup-left">
+    <span class="icon">☁️</span>
+    <h1>Join SkySafar</h1>
+    <p>Create your free account and start exploring destinations across India</p>
+  </div>
+
+  <div class="signup-right">
+    <p class="eyebrow">New Account</p>
+    <h2>Get started</h2>
+    <p class="subtitle">Fill in your details to create a SkySafar account</p>
+
+    <div class="row-2">
+      <div>
+        <label>First name</label>
+        <input type="text" placeholder="First name" [(ngModel)]="firstName" />
+      </div>
+      <div>
+        <label>Last name</label>
+        <input type="text" placeholder="Last name" [(ngModel)]="lastName" />
+      </div>
+    </div>
+
+    <label>Email</label>
+    <input type="email" placeholder="you@email.com" [(ngModel)]="email" />
+
+    <label>Password</label>
+    <input type="password" placeholder="Min. 6 characters" [(ngModel)]="password" />
+
+    <label>Confirm password</label>
+    <input type="password" placeholder="Re-enter password" [(ngModel)]="confirmPassword" />
+
+    <button class="signup-btn" (click)="signup()" [disabled]="isLoading">
+      {{ isLoading ? 'Creating...' : 'Create Account' }}
+    </button>
+
+    <p class="login-link">
+      Already registered? <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>

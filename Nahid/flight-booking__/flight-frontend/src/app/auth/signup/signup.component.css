@@ -1,0 +1,128 @@
+.signup-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.signup-left {
+  background: linear-gradient(160deg, #ea580c, #c2410c);
+  color: white;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.signup-left h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.2rem;
+  margin: 0.5rem 0;
+}
+
+.signup-left p {
+  font-size: 0.95rem;
+  color: #fed7aa;
+  max-width: 280px;
+}
+
+.signup-right {
+  padding: 2.5rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.signup-right h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.65rem;
+  color: #134e4a;
+  margin: 0.4rem 0;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  margin: 0.85rem 0 0.3rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #0f766e;
+}
+
+.row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.signup-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.9rem;
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup-btn:disabled {
+  opacity: 0.6;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.login-link a {
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .signup-page {
+    grid-template-columns: 1fr;
+  }
+  .signup-left {
+    display: none;
+  }
+  .signup-right {
+    padding: 2rem;
+  }
+}
