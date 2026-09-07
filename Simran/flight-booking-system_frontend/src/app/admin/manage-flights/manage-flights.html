@@ -1,0 +1,325 @@
+<div class="page">
+
+  <header class="page-header">
+
+    <div>
+
+      <a
+        routerLink="/admin-dashboard"
+        class="back"
+      >
+        ← Dashboard
+      </a>
+
+      <h1>Manage Flights</h1>
+
+      <p>
+        Add, edit or delete flights
+      </p>
+
+    </div>
+
+    <button
+      class="add-button"
+      (click)="openAddForm()"
+    >
+      + Add Flight
+    </button>
+
+  </header>
+
+
+  <!-- FORM -->
+
+  @if (showForm) {
+
+    <div class="form-card">
+
+      <h2>
+        {{ editMode ? 'Edit Flight' : 'Add New Flight' }}
+      </h2>
+
+
+      <form
+        [formGroup]="flightForm"
+        (ngSubmit)="saveFlight()"
+      >
+
+        <div class="form-grid">
+
+
+          <div class="form-group">
+
+            <label>Flight ID</label>
+
+            <input
+              type="text"
+              formControlName="flightId"
+              placeholder="AA123"
+              [readonly]="editMode"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Airline</label>
+
+            <input
+              type="text"
+              formControlName="airline"
+              placeholder="American Airlines"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>From Airport</label>
+
+            <input
+              type="text"
+              formControlName="fromAirport"
+              placeholder="JFK"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>To Airport</label>
+
+            <input
+              type="text"
+              formControlName="toAirport"
+              placeholder="LAX"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Departure Time</label>
+
+            <input
+              type="text"
+              formControlName="departureTime"
+              placeholder="08:00 AM"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Arrival Time</label>
+
+            <input
+              type="text"
+              formControlName="arrivalTime"
+              placeholder="12:00 PM"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Duration (minutes)</label>
+
+            <input
+              type="number"
+              formControlName="duration"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Stops</label>
+
+            <input
+              type="number"
+              formControlName="stops"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Price</label>
+
+            <input
+              type="number"
+              formControlName="price"
+            />
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>Available Seats</label>
+
+            <input
+              type="number"
+              formControlName="availableSeats"
+            />
+
+          </div>
+
+        </div>
+
+
+        <div class="form-buttons">
+
+          <button
+            type="submit"
+            class="save-button"
+          >
+            {{ editMode ? 'Update Flight' : 'Add Flight' }}
+          </button>
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="cancelForm()"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  }
+
+
+  <!-- FLIGHT TABLE -->
+
+  <div class="table-card">
+
+    <h2>All Flights</h2>
+
+    @if (flights.length === 0) {
+
+      <div class="empty">
+        No flights available.
+      </div>
+
+    } @else {
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Flight</th>
+
+              <th>Airline</th>
+
+              <th>Route</th>
+
+              <th>Departure</th>
+
+              <th>Arrival</th>
+
+              <th>Stops</th>
+
+              <th>Price</th>
+
+              <th>Seats</th>
+
+              <th>Actions</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            @for (flight of flights; track flight.flightId) {
+
+              <tr>
+
+                <td>
+                  <strong>
+                    {{ flight.flightId }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ flight.airline }}
+                </td>
+
+                <td>
+                  {{ flight.fromAirport }}
+                  →
+                  {{ flight.toAirport }}
+                </td>
+
+                <td>
+                  {{ flight.departureTime }}
+                </td>
+
+                <td>
+                  {{ flight.arrivalTime }}
+                </td>
+
+                <td>
+                  {{ flight.stops }}
+                </td>
+
+                <td>
+                  ${{ flight.price }}
+                </td>
+
+                <td>
+                  {{ flight.availableSeats }}
+                </td>
+
+                <td>
+
+                  <button
+                    class="edit-button"
+                    (click)="editFlight(flight)"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    class="delete-button"
+                    (click)="deleteFlight(flight.flightId)"
+                  >
+                    Delete
+                  </button>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

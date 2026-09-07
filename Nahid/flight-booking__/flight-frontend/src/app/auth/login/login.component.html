@@ -1,0 +1,50 @@
+<div class="login-page">
+  <div class="login-left">
+    <div class="brand-block">
+      <span class="icon">☁️</span>
+      <h1>SkySafar</h1>
+      <p>Your gateway to seamless air travel across India</p>
+    </div>
+    <ul class="features">
+      <li>Instant flight search & compare</li>
+      <li>Secure card & UPI payments</li>
+      <li>Track all bookings in one place</li>
+    </ul>
+  </div>
+
+  <div class="login-right">
+    <p class="eyebrow">Member Login</p>
+    <h2>Welcome back</h2>
+    <p class="subtitle">Sign in to manage your trips and bookings</p>
+
+    <label>Email address</label>
+    <input type="email" placeholder="you@email.com" [(ngModel)]="email" />
+
+    <label>Password</label>
+    <div class="password-box">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Your password"
+        [(ngModel)]="password"
+      />
+      <button type="button" class="eye-btn" (click)="showPassword = !showPassword">
+        {{ showPassword ? 'Hide' : 'Show' }}
+      </button>
+    </div>
+
+    <div class="options">
+      <label class="remember">
+        <input type="checkbox" [(ngModel)]="rememberMe" />
+        Keep me signed in
+      </label>
+    </div>
+
+    <button class="login-btn" (click)="login()" [disabled]="isLoading">
+      {{ isLoading ? 'Signing in...' : 'Sign In' }}
+    </button>
+
+    <p class="signup-link">
+      Don't have an account? <a routerLink="/signup">Create one free</a>
+    </p>
+  </div>
+</div>

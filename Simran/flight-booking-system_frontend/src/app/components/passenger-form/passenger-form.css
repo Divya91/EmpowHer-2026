@@ -1,0 +1,136 @@
+/* MAIN CONTAINER */
+.passenger-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: #f4f7fb;
+  box-sizing: border-box;
+}
+
+
+/* FORM CARD */
+.form-card {
+  width: 100%;
+  max-width: 550px;
+  background: white;
+  padding: 35px 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+
+/* HEADING */
+.form-card h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #1f2937;
+  text-align: center;
+}
+
+
+/* SUBTITLE */
+.subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin: 10px 0 30px;
+  font-size: 15px;
+}
+
+
+/* FORM GROUP */
+.form-group {
+  margin-bottom: 20px;
+}
+
+
+/* LABEL */
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+
+/* INPUT */
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font-size: 15px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+/* INPUT FOCUS */
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* INVALID INPUT */
+.form-group input.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
+
+
+/* ERROR MESSAGE */
+.error {
+  display: block;
+  margin-top: 5px;
+  color: #dc2626;
+  font-size: 12px;
+}
+
+
+/* CONTINUE BUTTON */
+.continue-btn {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 7px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+
+/* BUTTON HOVER */
+.continue-btn:hover {
+  background: #1d4ed8;
+}
+
+
+/* BUTTON CLICK */
+.continue-btn:active {
+  transform: scale(0.99);
+}
+
+
+/* MOBILE */
+@media (max-width: 600px) {
+
+  .passenger-container {
+    padding: 20px 15px;
+  }
+
+  .form-card {
+    padding: 25px 20px;
+  }
+
+  .form-card h2 {
+    font-size: 24px;
+  }
+}

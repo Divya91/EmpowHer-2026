@@ -5,3 +5,7 @@
 <main class="page-content">
   <router-outlet></router-outlet>
 </main>
+
+@if (!hideLayout()) {
+  <app-chatbot></app-chatbot>
+}

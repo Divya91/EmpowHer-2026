@@ -1,0 +1,166 @@
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <h2>Flight Admin</h2>
+
+    <p class="admin-name">
+      Welcome, {{ adminName }}
+    </p>
+
+    <nav>
+
+      <a
+        routerLink="/admin-dashboard"
+        class="active"
+      >
+        Dashboard
+      </a>
+
+      <a routerLink="/admin/manage-flights">
+        Manage Flights
+      </a>
+
+      <a routerLink="/admin/manage-bookings">
+        Manage Bookings
+      </a>
+
+    </nav>
+
+    <button
+      class="logout-button"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT -->
+
+  <main class="main-content">
+
+    <h1>Admin Dashboard</h1>
+
+    <p class="subtitle">
+      Manage your flight booking system
+    </p>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats-container">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ✈
+        </div>
+
+        <div>
+          <h3>Total Flights</h3>
+
+          <p>
+            {{ totalFlights }}
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          📋
+        </div>
+
+        <div>
+          <h3>Total Bookings</h3>
+
+          <p>
+            {{ totalBookings }}
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ✓
+        </div>
+
+        <div>
+          <h3>Confirmed</h3>
+
+          <p>
+            {{ confirmedBookings }}
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          ✕
+        </div>
+
+        <div>
+          <h3>Cancelled</h3>
+
+          <p>
+            {{ cancelledBookings }}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- MANAGEMENT CARDS -->
+
+    <div class="management-container">
+
+      <div class="management-card">
+
+        <h2>Manage Flights</h2>
+
+        <p>
+          Add new flights, update flight details,
+          available seats and prices.
+        </p>
+
+        <a routerLink="/admin/manage-flights">
+          Manage Flights →
+        </a>
+
+      </div>
+
+
+      <div class="management-card">
+
+        <h2>Manage Bookings</h2>
+
+        <p>
+          View passenger bookings and cancel
+          bookings when required.
+        </p>
+
+        <a routerLink="/admin/manage-bookings">
+          Manage Bookings →
+        </a>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

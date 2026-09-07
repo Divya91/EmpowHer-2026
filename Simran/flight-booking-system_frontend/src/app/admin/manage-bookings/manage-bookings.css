@@ -1,0 +1,130 @@
+.page {
+  min-height: 100vh;
+
+  background: #f5f7fb;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+}
+
+
+.page-header {
+  margin-bottom: 25px;
+}
+
+
+.back {
+  color: #2563eb;
+
+  text-decoration: none;
+}
+
+
+.page-header h1 {
+  margin: 10px 0 5px;
+}
+
+
+.page-header p {
+  color: #6b7280;
+}
+
+
+.table-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 15px;
+}
+
+
+th,
+td {
+  padding: 14px;
+
+  text-align: left;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  white-space: nowrap;
+}
+
+
+th {
+  background: #f8fafc;
+}
+
+
+.status {
+  padding: 5px 10px;
+
+  border-radius: 15px;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+
+.status.confirmed {
+  background: #dcfce7;
+
+  color: #166534;
+}
+
+
+.status.cancelled {
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+
+.cancel-button {
+  background: #dc2626;
+
+  color: white;
+
+  border: none;
+
+  padding: 7px 12px;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+}
+
+
+.disabled-text {
+  color: #9ca3af;
+
+  font-size: 13px;
+}
+
+
+.empty {
+  text-align: center;
+
+  padding: 40px;
+
+  color: #6b7280;
+}

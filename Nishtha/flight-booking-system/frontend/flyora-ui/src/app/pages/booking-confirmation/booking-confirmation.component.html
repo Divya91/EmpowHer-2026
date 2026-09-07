@@ -1,100 +1,94 @@
-<div class="confirmation-container">
+<div class="confirmation-page">
+  <div class="confirmation-container">
 
-  <div class="success-icon">
-    ✔
-  </div>
+    <div class="success-icon">✔</div>
 
-  <h1>Booking Confirmed!</h1>
+    <span class="eyebrow">✈ Fly smarter with Flyora</span>
+    <h1>Booking Confirmed!</h1>
+    <p class="subtitle">Your flight has been booked successfully.</p>
 
-  <p class="subtitle">
-    Your flight has been booked successfully.
-  </p>
+    <div class="booking-card">
 
-  <div class="booking-card">
+      <div class="row">
+        <span>Booking ID</span>
+        <strong>{{ booking.bookingId }}</strong>
+      </div>
 
-    <div class="row">
-      <span>Booking ID</span>
-      <strong>{{ booking.bookingId }}</strong>
+      <div class="row">
+        <span>Passenger</span>
+        <strong>{{ booking.passengerName }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Airline</span>
+        <strong>{{ booking.airline }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Flight</span>
+        <strong>{{ booking.flightNumber }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Route</span>
+        <strong>
+          {{ booking.fromAirport }}
+          →
+          {{ booking.toAirport }}
+        </strong>
+      </div>
+
+      <div class="row">
+        <span>Date</span>
+        <strong>{{ booking.travelDate }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Departure</span>
+        <strong>{{ booking.departureTime }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Seat</span>
+        <strong>{{ booking.seatNumber }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Amount Paid</span>
+        <strong>₹{{ booking.amount }}</strong>
+      </div>
+
+      <div class="row">
+        <span>Payment</span>
+        <strong class="success">
+          {{ booking.paymentStatus }}
+        </strong>
+      </div>
+
+      <div class="row">
+        <span>Status</span>
+        <strong class="success">
+          {{ booking.bookingStatus }}
+        </strong>
+      </div>
+
     </div>
 
-    <div class="row">
-      <span>Passenger</span>
-      <strong>{{ booking.passengerName }}</strong>
+    <div class="buttons">
+
+      <button
+        routerLink="/"
+        class="home-btn">
+        Book Another Flight
+      </button>
+
+      <button
+        routerLink="/my-trips"
+        class="trip-btn">
+        My Trips
+      </button>
+
     </div>
-
-    <div class="row">
-      <span>Airline</span>
-      <strong>{{ booking.airline }}</strong>
-    </div>
-
-    <div class="row">
-      <span>Flight</span>
-      <strong>{{ booking.flightNumber }}</strong>
-    </div>
-
-    <div class="row">
-      <span>Route</span>
-      <strong>
-        {{ booking.fromAirport }}
-        →
-        {{ booking.toAirport }}
-      </strong>
-    </div>
-
-    <div class="row">
-      <span>Date</span>
-      <strong>{{ booking.travelDate }}</strong>
-    </div>
-
-    <div class="row">
-      <span>Departure</span>
-      <strong>{{ booking.departureTime }}</strong>
-    </div>
-
-    <div class="row">
-      <span>Seat</span>
-      <strong>{{ booking.seatNumber }}</strong>
-    </div>
-
-    <div class="row">
-      <span>Amount Paid</span>
-      <strong>₹{{ booking.amount }}</strong>
-    </div>
-
-    <div class="row">
-      <span>Payment</span>
-      <strong class="success">
-        {{ booking.paymentStatus }}
-      </strong>
-    </div>
-
-    <div class="row">
-      <span>Status</span>
-      <strong class="success">
-        {{ booking.bookingStatus }}
-      </strong>
-    </div>
-
-  </div>
-
-  <div class="buttons">
-
-    <button
-      routerLink="/"
-      class="home-btn">
-
-      Book Another Flight
-
-    </button>
-
-    <button
-      routerLink="/my-trips"
-      class="trip-btn">
-
-      My Trips
-
-    </button>
 
   </div>
-
 </div>

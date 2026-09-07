@@ -22,16 +22,22 @@ export class ChatbotComponent {
 
   message = '';
 
+  isOpen = false;
+
   messages: Message[] = [
     {
       sender: 'bot',
-      text: 'Hi! I’m Flyora Assistant ✈️ How can I help you today?'
+      text: 'Hi! I’m Skye ✈️ How can I help you today?'
     }
   ];
 
   loading = false;
 
   constructor(private chatService: ChatService) {}
+
+  toggleChat(): void {
+    this.isOpen = !this.isOpen;
+  }
 
   sendMessage(): void {
 
@@ -67,7 +73,7 @@ export class ChatbotComponent {
 
         this.messages.push({
           sender: 'bot',
-          text: 'Sorry, I’m unable to connect to Flyora Assistant right now.'
+          text: 'Sorry, I’m unable to connect to Skye right now.'
         });
 
         this.loading = false;

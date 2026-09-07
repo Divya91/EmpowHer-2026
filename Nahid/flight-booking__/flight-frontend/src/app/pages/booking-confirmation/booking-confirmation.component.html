@@ -1,0 +1,49 @@
+<div class="confirm-page">
+  @if (booking) {
+    <div class="confirm-card">
+      <div class="success-icon">✓</div>
+      <p class="eyebrow">Booking Confirmed</p>
+      <h1>You're all set!</h1>
+      <p class="sub">Your SkySafar ticket has been booked successfully.</p>
+
+      <div class="ref-box">
+        <span>Booking Reference</span>
+        <strong>{{ booking.bookingReference }}</strong>
+      </div>
+
+      <div class="ticket">
+        <div class="ticket-header">
+          <span>{{ booking.airlineName }}</span>
+          <span class="status">{{ booking.status }}</span>
+        </div>
+        <div class="route">
+          <div>
+            <h2>{{ booking.fromAirport }}</h2>
+            <small>{{ booking.departureTime | date: 'MMM d, h:mm a' }}</small>
+          </div>
+          <div class="arrow">→</div>
+          <div>
+            <h2>{{ booking.toAirport }}</h2>
+            <small>{{ booking.arrivalTime | date: 'MMM d, h:mm a' }}</small>
+          </div>
+        </div>
+        <div class="ticket-meta">
+          <span>Passengers: {{ booking.passengers }}</span>
+          <span>Paid via {{ booking.paymentMethod }}</span>
+          <span>{{ booking.paymentReference }}</span>
+        </div>
+        <div class="ticket-total">
+          <span>Amount Paid</span>
+          <strong>₹{{ booking.totalAmount | number: '1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a routerLink="/my-bookings" class="btn-primary">View My Bookings</a>
+        <a routerLink="/home" class="btn-secondary">Book Another Flight</a>
+      </div>
+    </div>
+  } @else {
+    <div class="loading">Loading confirmation...</div>
+  }
+</div>

@@ -1,0 +1,32 @@
+<div class="filter-card">
+  <p class="eyebrow">Refine Results</p>
+  <h3>Filters</h3>
+
+  <label>Airline</label>
+  <select [(ngModel)]="filters.airline" (ngModelChange)="applyFilters()">
+    <option value="">All carriers</option>
+    @for (airline of airlines; track airline.airlineCode) {
+      <option [value]="airline.airlineCode">{{ airline.airlineName }}</option>
+    }
+  </select>
+
+  <label>Max Budget — ₹{{ filters.maxPrice | number: '1.0-0' }}</label>
+  <input
+    type="range"
+    min="0"
+    [max]="maxPriceLimit"
+    step="100"
+    [(ngModel)]="filters.maxPrice"
+    (ngModelChange)="applyFilters()"
+  />
+
+  <label>Sort by</label>
+  <select [(ngModel)]="filters.sortBy" (ngModelChange)="applyFilters()">
+    <option value="priceLow">Cheapest first</option>
+    <option value="priceHigh">Most expensive</option>
+    <option value="departure">Earliest departure</option>
+    <option value="duration">Shortest flight</option>
+  </select>
+
+  <button class="reset-btn" (click)="resetFilters()">Clear filters</button>
+</div>

@@ -1,0 +1,335 @@
+.payment-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f5f7fb;
+}
+
+
+/* ========================= */
+/* PAYMENT CARD */
+/* ========================= */
+
+.payment-card {
+  max-width: 850px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.payment-card h2 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+
+/* ========================= */
+/* FLIGHT SUMMARY */
+/* ========================= */
+
+.flight-summary {
+  padding: 20px;
+  background: #f7f9fc;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.flight-summary h3 {
+  margin-bottom: 15px;
+}
+
+.summary-row,
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.total-row {
+  border-bottom: none;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+
+/* ========================= */
+/* FORM */
+/* ========================= */
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  box-sizing: border-box;
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+
+.payment-card button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 7px;
+  background: #1976d2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.payment-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  padding: 12px;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 7px;
+  margin-bottom: 15px;
+}
+
+
+/* ========================= */
+/* CONFIRMATION */
+/* ========================= */
+
+.confirmation-card {
+  max-width: 850px;
+  margin: auto;
+  background: white;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon,
+.popup-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #2e7d32;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  margin: 0 auto 15px;
+}
+
+.confirmation-card h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.confirmation-subtitle {
+  text-align: center;
+  color: #666;
+}
+
+
+/* ========================= */
+/* BOOKING REFERENCE */
+/* ========================= */
+
+.booking-reference {
+  margin: 25px 0;
+  padding: 18px;
+  background: #eef6ff;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.booking-reference span,
+.booking-reference strong {
+  display: block;
+}
+
+.booking-reference strong {
+  font-size: 24px;
+  margin-top: 5px;
+}
+
+
+/* ========================= */
+/* DETAILS */
+/* ========================= */
+
+.confirmation-section {
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.confirmation-section h3 {
+  margin-bottom: 18px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.details-grid span {
+  display: block;
+  color: #777;
+  font-size: 13px;
+}
+
+.details-grid strong {
+  display: block;
+  margin-top: 4px;
+}
+
+.passenger-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+
+/* ========================= */
+/* SEAT */
+/* ========================= */
+
+.seat-box {
+  margin-top: 20px;
+  padding: 18px;
+  background: #fff8e1;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.seat-box strong {
+  font-size: 20px;
+}
+
+
+/* ========================= */
+/* AMOUNT */
+/* ========================= */
+
+.amount-box {
+  margin-top: 15px;
+  padding: 20px;
+  background: #e8f5e9;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.amount-box strong {
+  color: #2e7d32;
+}
+
+.confirmation-note {
+  text-align: center;
+  margin-top: 25px;
+  color: #666;
+}
+
+
+/* ========================= */
+/* THANK YOU POPUP */
+/* ========================= */
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.thank-you-popup {
+  width: 90%;
+  max-width: 450px;
+  background: white;
+  border-radius: 15px;
+  padding: 35px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.thank-you-popup h2 {
+  margin-bottom: 10px;
+}
+
+.popup-booking,
+.popup-seat {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f5f7fb;
+  border-radius: 8px;
+}
+
+.popup-booking span,
+.popup-booking strong,
+.popup-seat span,
+.popup-seat strong {
+  display: block;
+}
+
+.popup-booking strong,
+.popup-seat strong {
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.thank-you-popup button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 7px;
+  background: #1976d2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+@media (max-width: 600px) {
+
+  .payment-page {
+    padding: 20px 10px;
+  }
+
+  .payment-card,
+  .confirmation-card {
+    padding: 20px;
+  }
+
+  .payment-row,
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

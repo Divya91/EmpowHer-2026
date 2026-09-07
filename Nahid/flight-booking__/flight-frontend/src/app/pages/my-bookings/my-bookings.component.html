@@ -1,0 +1,54 @@
+<header class="navbar">
+  <div class="logo">☁️ <span>SkySafar</span></div>
+  <nav>
+    <a routerLink="/home">Search Flights</a>
+    <a routerLink="/my-bookings" class="active">My Bookings</a>
+  </nav>
+  <button class="logout-btn" (click)="logout()">Sign Out</button>
+</header>
+
+<div class="page">
+  <p class="eyebrow">Your Travel History</p>
+  <h1>My Bookings</h1>
+  <p class="subtitle">All your confirmed SkySafar tickets in one place</p>
+
+  @if (isLoading) {
+    <div class="empty">Loading your bookings...</div>
+  } @else if (bookings.length === 0) {
+    <div class="empty">
+      <p>No bookings yet</p>
+      <a routerLink="/home" class="cta">Find a Flight</a>
+    </div>
+  } @else {
+    <div class="booking-list">
+      @for (b of bookings; track b.bookingId) {
+        <div class="booking-card">
+          <div class="card-top">
+            <span class="ref">{{ b.bookingReference }}</span>
+            <span class="badge">{{ b.status }}</span>
+          </div>
+          <div class="route">
+            <strong>{{ b.fromAirport }}</strong>
+            <span class="arrow">→</span>
+            <strong>{{ b.toAirport }}</strong>
+          </div>
+          <p class="airline">{{ b.airlineName }} · {{ b.departureTime | date: 'MMM d, yyyy · h:mm a' }}</p>
+          <div class="card-bottom">
+            <span>{{ b.passengers }} passenger(s)</span>
+            <span>{{ b.paymentMethod }} · {{ b.paymentReference }}</span>
+            <strong>₹{{ b.totalAmount | number: '1.0-0' }}</strong>
+          </div>
+          @if (b.status === 'CONFIRMED') {
+            <button
+              class="cancel-btn"
+              (click)="cancelBooking(b.bookingReference)"
+              [disabled]="cancellingRef === b.bookingReference"
+            >
+              {{ cancellingRef === b.bookingReference ? 'Cancelling...' : 'Cancel Booking' }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

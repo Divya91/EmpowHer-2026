@@ -1,0 +1,232 @@
+.container {
+  max-width: 1100px;
+
+  margin: 40px auto;
+
+  padding: 0 20px;
+
+  font-family: Arial, sans-serif;
+}
+
+
+.header-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 12px;
+
+  margin-bottom: 30px;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+
+.header-card h2 {
+  margin: 0 0 8px;
+}
+
+
+.header-card p {
+  color: #666;
+
+  margin: 0;
+}
+
+
+h3 {
+  margin-top: 30px;
+
+  margin-bottom: 15px;
+}
+
+
+.booking-card {
+  display: grid;
+
+  grid-template-columns: 2fr 1fr 1fr;
+
+  gap: 25px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  margin-bottom: 20px;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+
+.status {
+  display: inline-block;
+
+  background: #e8f5e9;
+
+  color: #2e7d32;
+
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+
+.left h2 {
+  margin-bottom: 5px;
+}
+
+
+.left p {
+  color: #666;
+}
+
+
+.time {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+
+.line {
+  width: 60px;
+
+  height: 1px;
+
+  background: #ccc;
+}
+
+
+.middle p {
+  margin-bottom: 4px;
+
+  margin-top: 10px;
+}
+
+
+.middle span {
+  color: #555;
+}
+
+
+.right p {
+  margin-bottom: 4px;
+}
+
+
+.right span {
+  color: #555;
+}
+
+
+.right h2 {
+  margin: 15px 0;
+}
+
+
+button {
+  font-family: inherit;
+}
+
+
+.primary,
+.danger {
+  display: block;
+
+  width: 100%;
+
+  padding: 10px;
+
+  margin-top: 10px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+
+.primary {
+  background: #1565c0;
+
+  color: white;
+
+  border: none;
+}
+
+
+.primary:hover {
+  background: #0d47a1;
+}
+
+
+.danger {
+  background: white;
+
+  color: #b3261e;
+
+  border: 1px solid #b3261e;
+}
+
+
+.danger:hover {
+  background: #b3261e;
+
+  color: white;
+}
+
+
+.past-card {
+  display: grid;
+
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+
+  align-items: center;
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 10px;
+
+  margin-bottom: 12px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+
+.past-card h4 {
+  margin: 0;
+}
+
+
+.past-card p {
+  color: #777;
+
+  margin: 5px 0 0;
+}
+
+
+.price {
+  font-weight: bold;
+}
+
+
+.no-bookings {
+  text-align: center;
+
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 10px;
+}

@@ -1,0 +1,60 @@
+.filter-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem;
+  border: 1.5px solid #e2e8f0;
+  position: sticky;
+  top: 1rem;
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.filter-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  color: #134e4a;
+  margin: 0.2rem 0 1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0.85rem 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  background: #fafaf9;
+}
+
+input[type='range'] {
+  width: 100%;
+  accent-color: #0f766e;
+  cursor: pointer;
+}
+
+.reset-btn {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.65rem;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 10px;
+  color: #475569;
+  font-size: 0.85rem;
+  cursor: pointer;
+}

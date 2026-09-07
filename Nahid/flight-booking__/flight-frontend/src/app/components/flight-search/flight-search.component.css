@@ -1,0 +1,71 @@
+.search-card {
+  background: white;
+  padding: 1.75rem 2rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(15, 118, 110, 0.1);
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.search-card h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  color: #134e4a;
+  margin: 0.3rem 0 1.25rem;
+}
+
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: #fafaf9;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #0f766e;
+  background: white;
+}
+
+.search-btn {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #ea580c, #f97316);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .search-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

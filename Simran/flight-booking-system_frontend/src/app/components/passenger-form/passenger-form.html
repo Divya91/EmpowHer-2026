@@ -1,0 +1,196 @@
+<app-navbar></app-navbar>
+<div class="passenger-count">
+  <h3>
+    Passenger Details
+  </h3>
+  <p>
+    Number of passengers:
+    <strong>{{ numberOfPassengers }}</strong>
+  </p>
+
+</div>
+<div class="passenger-container">
+  <div class="form-card">
+    <h2>Passenger Details</h2>
+    <p class="subtitle">
+      Enter the passenger information for your booking.
+    </p>
+
+    <form
+      [formGroup]="passengerForm"
+      (ngSubmit)="onPassengerSubmit()"
+    >
+
+      <!-- FIRST NAME -->
+      <div class="form-group">
+
+        <label for="firstName">
+          First Name
+        </label>
+
+        <input
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          placeholder="Enter first name"
+        />
+
+        @if (
+          passengerForm.get('firstName')?.invalid &&
+          passengerForm.get('firstName')?.touched
+        ) {
+          <small class="error">
+            @if (passengerForm.get('firstName')?.hasError('required')) {
+              First name is required.
+            }
+
+            @if (passengerForm.get('firstName')?.hasError('minlength')) {
+              First name must contain at least 2 characters.
+            }
+          </small>
+        }
+
+      </div>
+
+
+      <!-- LAST NAME -->
+      <div class="form-group">
+
+        <label for="lastName">
+          Last Name
+        </label>
+
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          placeholder="Enter last name"
+        />
+
+        @if (
+          passengerForm.get('lastName')?.invalid &&
+          passengerForm.get('lastName')?.touched
+        ) {
+          <small class="error">
+
+            @if (passengerForm.get('lastName')?.hasError('required')) {
+              Last name is required.
+            }
+
+            @if (passengerForm.get('lastName')?.hasError('minlength')) {
+              Last name must contain at least 2 characters.
+            }
+
+          </small>
+        }
+
+      </div>
+
+
+      <!-- DATE OF BIRTH -->
+      <div class="form-group">
+
+        <label for="dateOfBirth">
+          Date of Birth
+        </label>
+
+        <input
+          id="dateOfBirth"
+          type="date"
+          formControlName="dateOfBirth"
+        />
+
+        @if (
+          passengerForm.get('dateOfBirth')?.invalid &&
+          passengerForm.get('dateOfBirth')?.touched
+        ) {
+          <small class="error">
+            Date of birth is required.
+          </small>
+        }
+
+      </div>
+
+
+      <!-- EMAIL -->
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="example@email.com"
+        />
+
+        @if (
+          passengerForm.get('email')?.invalid &&
+          passengerForm.get('email')?.touched
+        ) {
+          <small class="error">
+
+            @if (passengerForm.get('email')?.hasError('required')) {
+              Email is required.
+            }
+
+            @if (passengerForm.get('email')?.hasError('email')) {
+              Please enter a valid email address.
+            }
+
+          </small>
+        }
+
+      </div>
+
+
+      <!-- MOBILE NUMBER -->
+      <div class="form-group">
+
+        <label for="mobileNumber">
+          Mobile Number
+        </label>
+
+        <input
+          id="mobileNumber"
+          type="tel"
+          formControlName="mobileNumber"
+          placeholder="10 digit mobile number"
+          maxlength="10"
+        />
+
+        @if (
+          passengerForm.get('mobileNumber')?.invalid &&
+          passengerForm.get('mobileNumber')?.touched
+        ) {
+          <small class="error">
+
+            @if (passengerForm.get('mobileNumber')?.hasError('required')) {
+              Mobile number is required.
+            }
+
+            @if (passengerForm.get('mobileNumber')?.hasError('pattern')) {
+              Enter a valid 10 digit mobile number.
+            }
+
+          </small>
+        }
+
+      </div>
+
+
+      <!-- SUBMIT -->
+      <button
+        type="submit"
+        class="continue-btn"
+      >
+        Continue to Payment
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

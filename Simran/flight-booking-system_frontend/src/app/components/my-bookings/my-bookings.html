@@ -1,0 +1,161 @@
+<app-navbar></app-navbar>
+<div class="my-bookings">
+  <h2>My Bookings</h2>
+
+
+  @if (loading) {
+
+  <div class="loading">
+    Loading your bookings...
+  </div>
+
+  }
+
+  @else if (errorMessage) {
+
+  <div class="error">
+    {{ errorMessage }}
+  </div>
+
+  }
+
+  @else if (bookings.length === 0) {
+
+  <div class="no-bookings">
+
+    <h3>No bookings found</h3>
+
+    <p>
+      You have not booked any flights yet.
+    </p>
+
+  </div>
+
+  }
+
+  @else {
+
+  @for (booking of bookings; track booking.id) {
+
+  <div class="booking-card">
+
+    <div class="booking-header">
+
+      <div>
+
+        <h3>
+          {{ booking.flight.airline }}
+        </h3>
+
+        <span>
+          {{ booking.flight.flightNumber }}
+        </span>
+
+      </div>
+
+
+      <span [class.confirmed]="booking.status === 'CONFIRMED'" [class.cancelled]="booking.status === 'CANCELLED'">
+        {{ booking.status }}
+      </span>
+
+    </div>
+
+
+    <div class="booking-reference">
+
+      Booking Reference:
+
+      <strong>
+        {{ booking.bookingReference }}
+      </strong>
+
+    </div>
+
+
+    <div class="flight-route">
+
+      <div>
+
+        <strong>
+          {{ booking.flight.departureTime }}
+        </strong>
+
+        <span>
+          {{ booking.flight.source }}
+        </span>
+
+      </div>
+
+
+      <div>
+        →
+      </div>
+
+
+      <div>
+
+        <strong>
+          {{ booking.flight.arrivalTime }}
+        </strong>
+
+        <span>
+          {{ booking.flight.destination }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="passenger">
+
+      <strong>
+        Passenger
+      </strong>
+
+      <p>
+        {{ booking.passenger.firstName }}
+        {{ booking.passenger.lastName }}
+      </p>
+
+    </div>
+
+
+    <div class="booking-details">
+
+      <span>
+        Seats: {{ booking.numberOfSeats }}
+      </span>
+
+      <span>
+        Seat No: {{ booking.seatNumbers }}
+      </span>
+
+      <span>
+        Total: ₹{{ booking.totalAmount }}
+      </span>
+
+    </div>
+
+
+    @if (booking.status === 'CONFIRMED') {
+
+    <button type="button" [disabled]="cancellingId === booking.id" (click)="cancelBooking(booking.id)">
+
+      @if (cancellingId === booking.id) {
+      Cancelling...
+      } @else {
+      Cancel Booking
+      }
+
+    </button>
+
+    }
+
+  </div>
+
+  }
+
+  }
+
+</div>

@@ -1,0 +1,53 @@
+<p class="results-eyebrow">Search Results</p>
+<h2 class="results-title">{{ flights.length }} flights found</h2>
+
+@if (flights.length === 0) {
+  <div class="no-flights">
+    <span class="empty-icon">🛩</span>
+    <p>No matching flights</p>
+    <small>Try different dates or airport codes</small>
+  </div>
+} @else {
+  <div class="flight-list">
+    @for (flight of flights; track flight.flightId) {
+      <div class="flight-card" [class.cheapest]="flight.basePrice === cheapestPrice">
+        @if (flight.basePrice === cheapestPrice) {
+          <span class="tag">Lowest Fare</span>
+        }
+
+        <div class="card-body">
+          <div class="airline-info">
+            <strong>{{ flight.airlineName }}</strong>
+            <small>{{ flight.airlineCode }}</small>
+          </div>
+
+          <div class="route-info">
+            <div class="time-block">
+              <span class="code">{{ flight.fromAirport }}</span>
+              <small>{{ flight.departureTime | date: 'h:mm a' }}</small>
+            </div>
+            <div class="path">
+              <span class="dur">{{ flight.durationMinutes }}m</span>
+              <div class="line"></div>
+              <span class="stop">{{ flight.stops === 0 ? 'Direct' : flight.stops + ' stop' }}</span>
+            </div>
+            <div class="time-block">
+              <span class="code">{{ flight.toAirport }}</span>
+              <small>{{ flight.arrivalTime | date: 'h:mm a' }}</small>
+            </div>
+          </div>
+
+          <div class="price-block">
+            <span class="price">₹{{ flight.basePrice | number: '1.0-0' }}</span>
+            <small>per person</small>
+            <button (click)="bookFlight(flight)">Select</button>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span>{{ flight.availableSeats }} seats left</span>
+        </div>
+      </div>
+    }
+  </div>
+}

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { ViewportScroller } from '@angular/common';
+
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -10,20 +10,8 @@ import { ViewportScroller } from '@angular/common';
 })
 export class NavbarComponent {
 
-  constructor(private router: Router , private viewportScroller: ViewportScroller) {}
-  goToSection(section: string): void {
+  constructor(private router: Router) {}
 
-  if (this.router.url.split('?')[0] !== '/admin') {
-    this.router.navigate(['/admin']).then(() => {
-      setTimeout(() => {
-        this.viewportScroller.scrollToAnchor(section);
-      }, 100);
-    });
-  } else {
-    this.viewportScroller.scrollToAnchor(section);
-  }
-
-}
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }

@@ -1,0 +1,167 @@
+<div class="page">
+
+  <header class="page-header">
+
+    <div>
+
+      <a
+        routerLink="/admin-dashboard"
+        class="back"
+      >
+        ← Dashboard
+      </a>
+
+      <h1>Manage Bookings</h1>
+
+      <p>
+        View and manage passenger bookings
+      </p>
+
+    </div>
+
+  </header>
+
+
+  <div class="table-card">
+
+    <h2>All Bookings</h2>
+
+
+    @if (bookings.length === 0) {
+
+      <div class="empty">
+        No bookings found.
+      </div>
+
+    } @else {
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Booking ID</th>
+
+              <th>Passenger</th>
+
+              <th>Email</th>
+
+              <th>Flight</th>
+
+              <th>Route</th>
+
+              <th>Booking Date</th>
+
+              <th>Amount</th>
+
+              <th>Status</th>
+
+              <th>Action</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            @for (
+              booking of bookings;
+              track booking.bookingId
+            ) {
+
+              <tr>
+
+                <td>
+                  <strong>
+                    {{ booking.bookingId }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ booking.passengerName }}
+                </td>
+
+                <td>
+                  {{ booking.email }}
+                </td>
+
+                <td>
+                  {{ booking.flightId }}
+                </td>
+
+                <td>
+                  {{ booking.fromAirport }}
+                  →
+                  {{ booking.toAirport }}
+                </td>
+
+                <td>
+                  {{ booking.bookingDate }}
+                </td>
+
+                <td>
+                  ${{ booking.amount }}
+                </td>
+
+                <td>
+
+                  <span
+                    class="status"
+                    [class.confirmed]="
+                      booking.status === 'CONFIRMED'
+                    "
+                    [class.cancelled]="
+                      booking.status === 'CANCELLED'
+                    "
+                  >
+                    {{ booking.status }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  @if (
+                    booking.status === 'CONFIRMED'
+                  ) {
+
+                    <button
+                      class="cancel-button"
+                      (click)="
+                        cancelBooking(
+                          booking.bookingId
+                        )
+                      "
+                    >
+                      Cancel
+                    </button>
+
+                  } @else {
+
+                    <span class="disabled-text">
+                      Cancelled
+                    </span>
+
+                  }
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
