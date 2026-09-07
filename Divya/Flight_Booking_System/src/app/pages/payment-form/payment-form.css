@@ -1,0 +1,432 @@
+:host {
+  display: block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  color: #1f2937;
+}
+
+.payment-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 32px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: color 150ms ease;
+}
+
+.back-link:hover {
+  color: #1d4ed8;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.page-header p {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+/* Grid Layout */
+.payment-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ===== Flight Summary Card ===== */
+.flight-summary-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.summary-badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: #2563eb;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.summary-header {
+  margin-bottom: 20px;
+}
+
+.summary-airline h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px;
+}
+
+.summary-flight-code {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.summary-route {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.route-point {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  min-width: 60px;
+}
+
+.route-time {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.route-code {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-top: 2px;
+}
+
+.route-middle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.route-duration {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.route-line-vis {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.r-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+
+.r-line {
+  flex: 1;
+  height: 2px;
+  background: #d1d5db;
+}
+
+.route-stops {
+  font-size: 12px;
+  font-weight: 600;
+  color: #d97706;
+}
+
+.route-stops.nonstop {
+  color: #059669;
+}
+
+/* ===== Payment Form Card ===== */
+.payment-form-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.payment-form-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.form-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 24px;
+}
+
+/* Method Selector */
+.method-selector {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.method-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.method-option input {
+  display: none;
+}
+
+.method-option.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.method-option:hover {
+  border-color: #93c5fd;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  height: 46px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 15px;
+  color: #111827;
+  background: #ffffff;
+  outline: none;
+  transition: all 150ms ease;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input.ng-invalid.ng-touched {
+  border-color: #dc2626;
+}
+
+.error-msg {
+  display: block;
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Form Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+/* Pay Button */
+.pay-btn {
+  width: 100%;
+  height: 52px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pay-btn span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pay-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.pay-btn:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.spinner-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.3);
+  border-left-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Order Summary Sidebar ===== */
+.order-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 88px;
+}
+
+.order-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.order-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-top: 2px solid #111827;
+  margin-bottom: 20px;
+}
+
+.order-total span:first-child {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.total-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.order-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.order-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.order-meta-row span:first-child {
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.order-meta-row span:last-child {
+  color: #374151;
+  font-weight: 600;
+}
+
+.secure-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #059669;
+  background: #f0fdf4;
+  border: 1px solid #dcfce7;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 860px) {
+  .payment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-card {
+    position: static;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .method-selector {
+    flex-direction: column;
+  }
+}

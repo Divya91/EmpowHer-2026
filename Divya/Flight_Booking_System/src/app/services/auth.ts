@@ -1,62 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User, UserRole } from '../model/user';
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
 
-  private users: User[] = [
-  {
-    id: 1,
-    fullName: 'Admin',
-    email: 'admin@gmail.com',
-    password: 'admin123',
-    phone: '9999999999',
-    role: UserRole.ADMIN
-  },
-  {
-    id: 2,
-    fullName: 'Divya',
-    email: 'user@gmail.com',
-    password: 'user123',
-    phone: '9876543210',
-    role: UserRole.USER
-  }
-  ];
+  private apiUrl = 'http://localhost:8080/api/auth';
+
   constructor(private http: HttpClient) {}
 
-
-  registerUser(user: User): boolean {
-
-    const existingUser = this.users.find(
-      u => u.email === user.email
-    );
-
-    if (existingUser) {
-      return false;
-    }
-
-    user.id = this.users.length + 1;
-
-    this.users.push(user);
-
-    return true;
+  registerUser(user: User): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, user);
   }
 
-  login(email: string, password: string, role: UserRole): User | null {
-
-    const user = this.users.find(
-      u =>
-        u.email === email &&
-        u.password === password &&
-        u.role === role
-    );
-
-    return user ?? null;
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 
-  getUsers(): User[] {
-    return this.users;
-  }
 }

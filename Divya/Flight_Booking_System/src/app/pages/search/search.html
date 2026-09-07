@@ -1,71 +1,230 @@
-<div class="search-page">
-  <div class="search-box">
-    <div class="field">
-      <label>From</label>
+<div class="search-layout">
 
-      <input type="text" placeholder="Departure Airport" [(ngModel)]="searchCriteria.fromAirport" />
+  <div class="search-page-container">
+    <!-- Header Hero Banner -->
+    <div class="search-hero">
+      <h1>Search Flights</h1>
+      <p>Find and compare the best flights across top airlines.</p>
     </div>
 
-    <div class="field">
-      <label>To</label>
-
-      <input type="text" placeholder="Arrival Airport" [(ngModel)]="searchCriteria.toAirport" />
-    </div>
-
-    <div class="field">
-      <label>Travel Date</label>
-
-      <input type="date" [(ngModel)]="searchCriteria.departureDate" />
-    </div>
-
-    <div class="field">
-      <label>Passengers</label>
-
-      <input type="number" min="1" [(ngModel)]="searchCriteria.passengers" />
-    </div>
-
-    <button class="search-btn" (click)="searchFlights()">
-      {{ loading ? 'Searching...' : 'Search Flights' }}
-    </button>
-  </div>
-
-  <div class="results">
-    <div class="flight-card" *ngFor="let flight of flights">
-      <div class="left">
-        <h2>{{ flight.airlineCode }}</h2>
-
-        <p>{{ flight.flightid }}</p>
-
-        <p>
-          {{ flight.fromAirport }}
-
-          →
-
-          {{ flight.toAirport }}
-        </p>
+    <!-- Search Fields Bar -->
+    <div class="search-bar-box">
+      <div class="field">
+        <label>FROM</label>
+        <select [(ngModel)]="searchCriteria.fromAirport">
+          <option *ngFor="let ap of airports" [value]="ap.airportCode">
+            {{ ap.city }} ({{ ap.airportCode }})
+          </option>
+        </select>
       </div>
 
-      <div class="center">
-        <h3>
-          {{ flight.departureTs | date: 'HH:mm' }}
-        </h3>
+      <button class="swap-btn" (click)="swapAirports()" title="Swap airports">
+        <svg class="swap-icon" viewBox="0 0 24 24" width="20" height="20">
+          <path fill="currentColor" d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/>
+        </svg>
+      </button>
 
-        <p>{{ flight.durationMins }} mins</p>
-
-        <h3>
-          {{ flight.arrivalTs | date: 'HH:mm' }}
-        </h3>
+      <div class="field">
+        <label>TO</label>
+        <select [(ngModel)]="searchCriteria.toAirport">
+          <option *ngFor="let ap of airports" [value]="ap.airportCode">
+            {{ ap.city }} ({{ ap.airportCode }})
+          </option>
+        </select>
       </div>
 
-      <div class="right">
-        <h2>₹{{ flight.basePrice }}</h2>
-
-        <p>
-          {{ flight.stops == 0 ? 'Non Stop' : flight.stops + ' Stop' }}
-        </p>
-
-        <button class="details-btn" (click)="viewDetails(flight.flightid)">Details</button>
+      <div class="field">
+        <label>DEPARTURE</label>
+        <input type="date" [ngModel]="searchCriteria.departureDate | date:'yyyy-MM-dd'" (ngModelChange)="searchCriteria.departureDate = $event" />
       </div>
+
+      <div class="field">
+        <label>PASSENGERS</label>
+        <input type="number" min="1" max="9" [(ngModel)]="searchCriteria.passengers" />
+      </div>
+
+      <div class="action-buttons">
+        <button class="search-btn-primary" (click)="searchFlights()">
+          {{ loading ? 'Searching...' : 'Search' }}
+        </button>
+        <button class="reset-btn-secondary" (click)="resetSearch()">Reset</button>
+      </div>
+    </div>
+
+    <!-- Main Results Grid with Sidebar -->
+    <div class="main-content-grid">
+      <!-- Sidebar Filters -->
+      <aside class="filters-sidebar">
+        <div class="filter-header">
+          <h2>Filters</h2>
+          <button class="reset-link" (click)="resetFilters()">Reset</button>
+        </div>
+
+        <!-- Stops Filter -->
+        <div class="filter-section">
+          <h3>Stops</h3>
+          <div class="filter-options">
+            <label class="radio-container">
+              <input type="radio" name="stops" value="all" [(ngModel)]="stopsFilter" (change)="applyFilters()">
+              <span class="radio-label">Any stops</span>
+              <span class="price-badge">{{ getMinPriceForStops(null) }}</span>
+            </label>
+            <label class="radio-container">
+              <input type="radio" name="stops" value="nonstop" [(ngModel)]="stopsFilter" (change)="applyFilters()">
+              <span class="radio-label">Nonstop</span>
+              <span class="price-badge">{{ getMinPriceForStops(0) }}</span>
+            </label>
+            <label class="radio-container">
+              <input type="radio" name="stops" value="1stop" [(ngModel)]="stopsFilter" (change)="applyFilters()">
+              <span class="radio-label">Up to 1 stop</span>
+              <span class="price-badge">{{ getMinPriceForStops(1) }}</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="filter-section">
+          <h3>Price</h3>
+          <div class="price-slider-container">
+            <input type="range"
+                   [min]="minPriceLimit"
+                   [max]="maxPriceLimit"
+                   [(ngModel)]="maxPriceFilter"
+                   (input)="applyFilters()"
+                   class="price-slider">
+            <div class="price-slider-labels">
+              <span>${{ minPriceLimit }}</span>
+              <span class="current-price">${{ maxPriceFilter }}</span>
+              <span>${{ maxPriceLimit }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Departure Time Filter -->
+        <div class="filter-section">
+          <h3>Departure Time</h3>
+          <div class="filter-options">
+            <label class="radio-container">
+              <input type="radio" name="depTime" value="all" [(ngModel)]="departureTimeFilter" (change)="applyFilters()">
+              <span class="radio-label">Any time</span>
+              <span class="time-meta">All day</span>
+            </label>
+            <label class="radio-container">
+              <input type="radio" name="depTime" value="morning" [(ngModel)]="departureTimeFilter" (change)="applyFilters()">
+              <span class="radio-label">Morning</span>
+              <span class="time-meta">5a - 12p</span>
+            </label>
+            <label class="radio-container">
+              <input type="radio" name="depTime" value="afternoon" [(ngModel)]="departureTimeFilter" (change)="applyFilters()">
+              <span class="radio-label">Afternoon</span>
+              <span class="time-meta">12p - 6p</span>
+            </label>
+            <label class="radio-container">
+              <input type="radio" name="depTime" value="evening" [(ngModel)]="departureTimeFilter" (change)="applyFilters()">
+              <span class="radio-label">Evening</span>
+              <span class="time-meta">6p - 11p</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Airlines Filter -->
+        <div class="filter-section">
+          <h3>Airlines</h3>
+          <div class="filter-options">
+            <label class="checkbox-container" *ngFor="let opt of airlineOptions">
+              <input type="checkbox" [checked]="selectedAirlines[opt.code]" (change)="toggleAirline(opt.code)">
+              <span class="checkbox-label">{{ opt.name }}</span>
+              <span class="count-badge">{{ opt.count }}</span>
+            </label>
+            <div *ngIf="airlineOptions.length === 0" class="no-options-text">
+              No airlines available
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Flight Results List -->
+      <main class="results-main">
+        <div class="results-subheader">
+          <div class="results-info">
+            <h2>{{ filteredFlights.length }} {{ filteredFlights.length === 1 ? 'flight' : 'flights' }} found</h2>
+            <p>Showing results for {{ searchCriteria.fromAirport }} to {{ searchCriteria.toAirport }}</p>
+          </div>
+
+          <div class="sort-container">
+            <label for="sort-select">Sort by</label>
+            <select id="sort-select" [(ngModel)]="sortBy" (change)="applyFilters()">
+              <option value="price-asc">Lowest price</option>
+              <option value="price-desc">Highest price</option>
+              <option value="duration">Duration</option>
+              <option value="departure">Departure time</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- No Results Msg -->
+        <div *ngIf="filteredFlights.length === 0" class="no-results-card">
+          <svg viewBox="0 0 24 24" width="48" height="48" class="no-results-icon">
+            <path fill="currentColor" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+          </svg>
+          <h3>No flights matches your filter criteria</h3>
+          <p>Try resetting some filters or modifying your departure airport/destination.</p>
+          <button class="reset-filters-btn" (click)="resetFilters()">Clear Filters</button>
+        </div>
+
+        <!-- Flight Cards List -->
+        <div class="flight-cards-list" *ngIf="filteredFlights.length > 0">
+          <div class="flight-card-modern" *ngFor="let flight of filteredFlights">
+            <!-- Left Info Panel -->
+            <div class="card-left">
+              <div class="airline-brand">
+                <span class="airline-name">{{ flight.airlineName }}</span>
+                <span class="flight-code">{{ flight.flightid }}</span>
+              </div>
+              <span class="aircraft-model">{{ flight.aircraft }}</span>
+            </div>
+
+            <!-- Center Schedule Timeline -->
+            <div class="card-center">
+              <div class="time-block departure">
+                <span class="time-val">{{ flight.departureTs | date:'HH:mm' }}</span>
+                <span class="airport-code">{{ flight.fromAirport }}</span>
+              </div>
+
+              <div class="timeline-route">
+                <span class="duration-text">{{ flight.durationMins | number }}m</span>
+                <div class="route-line-container">
+                  <div class="route-dot"></div>
+                  <div class="route-line"></div>
+                  <div class="route-dot"></div>
+                </div>
+                <span class="stops-text" [ngClass]="{'non-stop': flight.stops === 0, 'stops': flight.stops > 0}">
+                  {{ flight.stops === 0 ? 'Non-stop' : flight.stops + ' stop' }}
+                </span>
+              </div>
+
+              <div class="time-block arrival">
+                <span class="time-val">{{ flight.arrivalTs | date:'HH:mm' }}</span>
+                <span class="airport-code">{{ flight.toAirport }}</span>
+              </div>
+            </div>
+
+            <!-- Right Pricing Panel -->
+            <div class="card-right">
+              <div class="price-wrapper">
+                <span class="currency-symbol">$</span>
+                <span class="price-val">{{ flight.basePrice }}</span>
+              </div>
+              <span class="seats-left-badge">{{ flight.seatsLeft || 0 }} seats left</span>
+
+              <div class="card-actions">
+                <button class="select-btn" (click)="bookFlight(flight)">Book Now</button>
+                <button class="details-btn-outline" (click)="viewDetails(flight.flightid)">Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 </div>

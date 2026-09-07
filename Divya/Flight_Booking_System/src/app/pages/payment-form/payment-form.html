@@ -1,0 +1,204 @@
+<div class="payment-page" *ngIf="flight">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <a class="back-link" (click)="goBack()">
+      <svg viewBox="0 0 24 24" width="16" height="16">
+        <path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+      </svg>
+      Back to search
+    </a>
+    <h1>Complete Your Booking</h1>
+    <p>Review your flight and enter payment details to confirm.</p>
+  </div>
+
+  <div class="payment-grid">
+
+    <!-- Left: Flight Summary + Payment Form -->
+    <div class="payment-main">
+
+      <!-- Flight Summary Card -->
+      <div class="flight-summary-card">
+        <div class="summary-badge">FLIGHT SUMMARY</div>
+        <div class="summary-header">
+          <div class="summary-airline">
+            <h3>{{ flight.airlineName }}</h3>
+            <span class="summary-flight-code">{{ flight.flightid }} · {{ flight.aircraft }}</span>
+          </div>
+        </div>
+
+        <div class="summary-route">
+          <div class="route-point">
+            <span class="route-time">{{ flight.departureTs | date:'HH:mm' }}</span>
+            <span class="route-code">{{ flight.fromAirport }}</span>
+          </div>
+          <div class="route-middle">
+            <span class="route-duration">{{ flight.durationMins }}m</span>
+            <div class="route-line-vis">
+              <div class="r-dot"></div>
+              <div class="r-line"></div>
+              <div class="r-dot"></div>
+            </div>
+            <span class="route-stops" [class.nonstop]="flight.stops === 0">
+              {{ flight.stops === 0 ? 'Non-stop' : flight.stops + ' stop' }}
+            </span>
+          </div>
+          <div class="route-point">
+            <span class="route-time">{{ flight.arrivalTs | date:'HH:mm' }}</span>
+            <span class="route-code">{{ flight.toAirport }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Form -->
+      <div class="payment-form-card">
+        <h2>Payment Details</h2>
+        <p class="form-subtitle">Enter your card information to complete payment.</p>
+
+        <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+
+          <!-- Payment Method -->
+          <div class="method-selector">
+            <label class="method-option" [class.active]="paymentForm.get('paymentMethod')?.value === 'CARD'">
+              <input type="radio" formControlName="paymentMethod" value="CARD">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+              Credit / Debit Card
+            </label>
+            <label class="method-option" [class.active]="paymentForm.get('paymentMethod')?.value === 'UPI'">
+              <input type="radio" formControlName="paymentMethod" value="UPI">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              UPI
+            </label>
+          </div>
+
+          <!-- Card Details Section -->
+          <div *ngIf="paymentForm.get('paymentMethod')?.value === 'CARD'">
+            <!-- Card Holder Name -->
+            <div class="form-group">
+              <label>Card Holder Name</label>
+              <input type="text" formControlName="cardHolderName" placeholder="Enter name on card">
+              <span class="error-msg" *ngIf="paymentForm.get('cardHolderName')?.touched && paymentForm.get('cardHolderName')?.invalid">
+                Name is required (min 3 characters)
+              </span>
+            </div>
+
+            <!-- Card Number -->
+            <div class="form-group">
+              <label>Card Number</label>
+              <input type="text" formControlName="cardNumber" placeholder="1234 5678 9012 3456" maxlength="16">
+              <span class="error-msg" *ngIf="paymentForm.get('cardNumber')?.touched && paymentForm.get('cardNumber')?.invalid">
+                Enter a valid 16-digit card number
+              </span>
+            </div>
+
+            <!-- Expiry + CVV Row -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>Expiry Month</label>
+                <input type="text" formControlName="expiryMonth" placeholder="MM" maxlength="2">
+                <span class="error-msg" *ngIf="paymentForm.get('expiryMonth')?.touched && paymentForm.get('expiryMonth')?.invalid">
+                  Invalid month
+                </span>
+              </div>
+              <div class="form-group">
+                <label>Expiry Year</label>
+                <input type="text" formControlName="expiryYear" placeholder="YYYY" maxlength="4">
+                <span class="error-msg" *ngIf="paymentForm.get('expiryYear')?.touched && paymentForm.get('expiryYear')?.invalid">
+                  Invalid year
+                </span>
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="password" formControlName="cvv" placeholder="···" maxlength="3">
+                <span class="error-msg" *ngIf="paymentForm.get('cvv')?.touched && paymentForm.get('cvv')?.invalid">
+                  Invalid CVV
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- UPI Section -->
+          <div *ngIf="paymentForm.get('paymentMethod')?.value === 'UPI'">
+            <div class="form-group" style="text-align: center; margin-bottom: 20px;">
+              <img src="images/qr-placeholder.png" alt="UPI QR Code" style="width: 150px; height: 150px; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background: white;" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=flightbooking@upi&pn=FlightBookingSystem'">
+              <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Scan QR code with any UPI app</p>
+            </div>
+            
+            <div class="divider">
+              <span>OR</span>
+            </div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+              <label>Enter UPI ID</label>
+              <input type="text" placeholder="username@bank" style="margin-bottom: 5px;">
+              <p style="font-size: 0.85em; color: #888;">We'll send a payment request to this UPI ID.</p>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="pay-btn" [disabled]="processing">
+            <span *ngIf="!processing">
+              <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+              Pay ${{ grandTotal }}
+            </span>
+            <span *ngIf="processing" class="spinner-text">
+              <div class="btn-spinner"></div>
+              Processing...
+            </span>
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- Right: Order Summary Sidebar -->
+    <aside class="order-sidebar">
+      <div class="order-card">
+        <h3>Order Summary</h3>
+
+        <div class="order-rows">
+          <div class="order-row">
+            <span>Base fare × {{ passengers }}</span>
+            <span>${{ totalAmount }}</span>
+          </div>
+          <div class="order-row">
+            <span>Taxes &amp; fees</span>
+            <span>${{ taxes }}</span>
+          </div>
+        </div>
+
+        <div class="order-total">
+          <span>Total</span>
+          <span class="total-value">${{ grandTotal }}</span>
+        </div>
+
+        <div class="order-meta">
+          <div class="order-meta-row">
+            <span>Route</span>
+            <span>{{ flight.fromAirport }} → {{ flight.toAirport }}</span>
+          </div>
+          <div class="order-meta-row">
+            <span>Airline</span>
+            <span>{{ flight.airlineName }}</span>
+          </div>
+          <div class="order-meta-row">
+            <span>Date</span>
+            <span>{{ flight.departureTs | date:'MMM d, yyyy' }}</span>
+          </div>
+          <div class="order-meta-row">
+            <span>Passengers</span>
+            <span>{{ passengers }}</span>
+          </div>
+        </div>
+
+        <div class="secure-badge">
+          <svg viewBox="0 0 24 24" width="14" height="14">
+            <path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+          </svg>
+          Secured with 256-bit encryption
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>

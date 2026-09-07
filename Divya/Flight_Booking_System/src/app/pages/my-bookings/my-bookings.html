@@ -1,0 +1,141 @@
+<div class="bookings-page">
+  <!-- Page Header Card -->
+  <div class="page-header-card">
+    <h1>My Bookings</h1>
+    <p>Review upcoming and past bookings, or request a cancellation.</p>
+  </div>
+
+  <!-- Upcoming Bookings Section -->
+  <section class="bookings-section">
+    <h2 class="section-title">Upcoming bookings</h2>
+    <p class="section-subtitle">{{ upcomingBookings.length }} active booking(s)</p>
+
+    <div class="upcoming-cards">
+      <div class="upcoming-card" *ngFor="let booking of upcomingBookings">
+        <!-- Status badge -->
+        <div class="card-top-row">
+          <!-- <span class="status-badge" [ngClass]="getStatusClass(booking.status)">
+            {{ booking.status }}
+          </span> -->
+        </div>
+
+        <div class="card-body">
+          <!-- Left: Destination + route box -->
+          <div class="card-left-section">
+            <h3 class="destination-name">{{ booking.destination }}</h3>
+            <p class="date-range">{{ booking.dateRange }}</p>
+
+            <div class="route-box">
+              <div class="route-endpoint">
+                <span class="airport-code">{{ booking.fromAirport }}</span>
+                <span class="route-time">{{ booking.departureTime }}</span>
+              </div>
+              <div class="route-line-visual">
+                <div class="route-dash"></div>
+              </div>
+              <div class="route-endpoint right">
+                <span class="airport-code">{{ booking.toAirport }}</span>
+                <span class="route-time">{{ booking.arrivalTime }} {{ booking.arrivalOffset }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle: Metadata -->
+          <div class="card-meta-section">
+            <div class="meta-pair">
+              <span class="meta-label">AIRLINE</span>
+              <span class="meta-value">{{ booking.airline }}</span>
+            </div>
+            <div class="meta-pair">
+              <span class="meta-label">PASSENGERS</span>
+              <span class="meta-value">{{ booking.passengers }}</span>
+            </div>
+            <div class="meta-pair">
+              <span class="meta-label">REFUNDABLE</span>
+              <span class="meta-value">{{ booking.refundable ? 'Yes' : 'No' }}</span>
+            </div>
+          </div>
+
+          <div class="card-meta-section">
+            <div class="meta-pair">
+              <span class="meta-label">CONFIRMATION</span>
+              <span class="meta-value confirmation-code">{{ booking.confirmationCode }}</span>
+            </div>
+            <div class="meta-pair">
+              <span class="meta-label">FARE</span>
+              <span class="meta-value fare-value">${{ booking.fare | number }}</span>
+            </div>
+          </div>
+
+          <!-- Right: Actions -->
+          <div class="card-actions-section">
+            <!-- <button class="btn-itinerary" (click)="viewItinerary(booking)">View Itinerary</button> -->
+            <button class="btn-cancel" (click)="openCancelModal(booking)">Cancel Booking</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" *ngIf="upcomingBookings.length === 0">
+        <p>No upcoming bookings. Time to plan your next trip!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Bookings Section -->
+  <section class="bookings-section">
+    <h2 class="section-title">Past bookings</h2>
+    <p class="section-subtitle">Completed journeys from your account.</p>
+
+    <div class="past-cards">
+      <div class="past-card" *ngFor="let booking of pastBookings">
+        <div class="past-left">
+          <div class="past-dest-info">
+            <span class="past-destination">{{ booking.destination }}</span>
+            <span class="past-dates">{{ booking.dateRange }}</span>
+            <span class="past-conf">{{ booking.confirmationCode }}</span>
+          </div>
+        </div>
+
+        <div class="past-center">
+          <div class="past-time-block">
+            <span class="past-time">{{ booking.departureTime }}</span>
+            <span class="past-airport">{{ booking.fromAirport }}</span>
+          </div>
+
+          <div class="past-route-info">
+            <span class="past-airline">{{ booking.airline }}</span>
+            <div class="past-route-line">
+              <div class="past-dot"></div>
+              <div class="past-dash"></div>
+              <div class="past-dot"></div>
+            </div>
+            <span class="completed-badge">Completed</span>
+          </div>
+
+          <div class="past-time-block">
+            <span class="past-time">{{ booking.arrivalTime }}</span>
+            <span class="past-airport">{{ booking.toAirport }}</span>
+          </div>
+        </div>
+
+        <div class="past-right">
+          <span class="past-fare">${{ booking.fare }}</span>
+          <button class="btn-rebook" (click)="rebook(booking)">Rebook</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Cancel Booking Modal -->
+<div class="modal-overlay" *ngIf="showCancelModal" (click)="closeCancelModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <h3>Cancel Booking?</h3>
+    <p>Are you sure you want to cancel your booking to <strong>{{ cancellingBooking?.destination }}</strong>?</p>
+    <div class="modal-actions">
+      <button class="btn-modal-back" (click)="closeCancelModal()">No, Keep It</button>
+      <button class="btn-modal-confirm" (click)="confirmCancel()">Yes, Cancel</button>
+    </div>
+  </div>
+</div>

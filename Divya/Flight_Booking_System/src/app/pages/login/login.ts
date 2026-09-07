@@ -6,42 +6,35 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink,FormsModule],
+  imports: [RouterLink, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
   email: string = '';
   password: string = '';
-  role: UserRole = UserRole.USER;
-
-  UserRole = UserRole;
 
   constructor(
     private auth: Auth,
     private router: Router
   ) {}
 
+
+
   onLogin() {
-
-    const user = this.auth.login(
-      this.email,
-      this.password,
-      this.role
-    );
-
-    if (user) {
-
-      alert('Login Successful');
-
-      if (user.role === UserRole.ADMIN) {
-        this.router.navigate(['/admin-dashboard']);
-      } else {
-        this.router.navigate(['/user-dashboard']);
+    this.auth.login(this.email, this.password).subscribe({
+      next: (response: any) => {
+        if (response && response.userId) {
+          alert(`Login Successful! Welcome back, ${response.firstName} (${response.role})`);
+          this.router.navigate(['/home']);
+        } else {
+          alert('Invalid Response from Server');
+        }
+      },
+      error: (err: any) => {
+        console.error('Login error', err);
+        alert('Invalid Email or Password');
       }
-
-    } else {
-      alert('Invalid Email, Password or Role');
-    }
+    });
   }
 }

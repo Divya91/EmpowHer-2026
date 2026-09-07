@@ -1,6 +1,6 @@
 export interface SearchCriteria{
     fromAirport: string;
     toAirport: string;
-    departureDate: Date;
+    departureDate: Date | string;
     passengers: number;
 }

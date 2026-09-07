@@ -1,0 +1,48 @@
+<div class="auth-container">
+  <div class="hero-section">
+    <img
+      src="images/flight.avif"
+      alt="Flight Booking"
+      class="hero-image"
+    />
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>
+          Discover the World
+          <br>
+          With Confidence
+        </h1>
+        <p>
+          Book flights, manage reservations, and explore destinations
+          around the globe with a seamless travel experience.
+        </p>        
+      </div>
+    </div>
+  </div>
+  <div class="auth-card">
+    <h1>Welcome</h1>
+    <p class="subtitle">
+      Please select how you want to sign in to continue.
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 30px;">
+      <button class="btn-login" routerLink="/login">Sign In</button>
+    </div>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+      <button class="btn-login" style="background-color: #f0f0f0; color: #333; border: 1px solid #ccc;" routerLink="/signup">Register as User</button>
+      <button class="btn-login" style="background-color: #f0f0f0; color: #333; border: 1px solid #ccc;" routerLink="/admin-signup">Register as Admin</button>
+    </div>
+
+    <p class="bottom-text" style="visibility: hidden;">
+      Don't have an account?
+      <a routerLink="/signup">
+        Create Account
+      </a>
+    </p>
+  </div>
+</div>

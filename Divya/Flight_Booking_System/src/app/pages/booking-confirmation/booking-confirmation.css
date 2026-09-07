@@ -1,0 +1,289 @@
+:host {
+  display: block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f3f4f6;
+  min-height: calc(100vh - 64px);
+  color: #1f2937;
+}
+
+.confirmation-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: 40px 24px;
+}
+
+.confirmation-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 48px 40px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  animation: cardSlideUp 0.5s ease forwards;
+}
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Animated Checkmark */
+.success-icon-wrapper {
+  margin-bottom: 24px;
+}
+
+.success-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 8px 24px rgba(5, 150, 105, 0.3);
+  animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.checkmark-svg {
+  animation: drawCheck 0.5s ease 0.4s forwards;
+  opacity: 0;
+}
+
+@keyframes drawCheck {
+  0% { opacity: 0; stroke-dashoffset: 50; }
+  100% { opacity: 1; stroke-dashoffset: 0; }
+}
+
+.checkmark-path {
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: drawPath 0.6s ease 0.5s forwards;
+}
+
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+
+.confirmation-card h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.confirm-subtitle {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+/* Booking Reference Badge */
+.ref-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 14px 32px;
+  margin-bottom: 28px;
+}
+
+.ref-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ref-code {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: 2px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* Flight Summary */
+.confirm-summary {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.summary-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+}
+
+.item-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.amount-green {
+  color: #059669;
+  font-weight: 800;
+}
+
+/* Route row inside confirmation */
+.summary-route-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.route-pt {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  min-width: 50px;
+}
+
+.route-t {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.route-c {
+  font-size: 13px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.route-mid {
+  flex: 1;
+}
+
+.route-ln {
+  display: flex;
+  align-items: center;
+}
+
+.rd {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+
+.rl {
+  flex: 1;
+  height: 2px;
+  background: #d1d5db;
+}
+
+/* Action Buttons */
+.confirm-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .confirmation-card {
+    padding: 32px 20px;
+  }
+
+  .confirmation-card h1 {
+    font-size: 24px;
+  }
+
+  .ref-code {
+    font-size: 20px;
+  }
+
+  .summary-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

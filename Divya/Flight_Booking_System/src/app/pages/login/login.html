@@ -46,24 +46,7 @@
         <input type="password" name="password" [(ngModel)]="password" placeholder="Enter your password" required/>
 
       </div>
-      <div class="input-group">
 
-        <label>Login As</label>
-
-        <select name="role" [(ngModel)]="role" required>
-          <option [ngValue]="null"> Select Role</option>
-
-          <option [ngValue]="UserRole.USER">
-            User
-          </option>
-
-          <option [ngValue]="UserRole.ADMIN">
-            Admin
-          </option>
-
-        </select>
-
-      </div>
 
       <button type="submit" class="btn-login"> Login </button>
 
@@ -73,11 +56,10 @@
       <span>OR</span>
     </div>
 
-    <p class="bottom-text">
-      Don't have an account?
-      <a routerLink="/signup">
-        Create Account
-      </a>
+    <p class="bottom-text" style="display: flex; flex-direction: column; gap: 5px;">
+      <span>Don't have an account?</span>
+      <a routerLink="/signup">Create User Account</a>
+      <a routerLink="/admin-signup">Create Admin Account</a>
     </p>
 
   </div>

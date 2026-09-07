@@ -1,1 +1,170 @@
-<p>dashboard works!</p>
+<div class="home-page">
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-gradient"></div>
+      <div class="hero-particles">
+        <div class="particle p1"></div>
+        <div class="particle p2"></div>
+        <div class="particle p3"></div>
+        <div class="particle p4"></div>
+        <div class="particle p5"></div>
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-badge">✈️ Your Journey Starts Here</span>
+      <h1 class="hero-title">
+        Discover Your<br />
+        <span class="gradient-text">Next Adventure</span>
+      </h1>
+      <p class="hero-subtitle">
+        Search, compare, and book flights to destinations around the globe.
+        Experience seamless travel planning with SkyFlow.
+      </p>
+    </div>
+
+    <!-- Quick Search Card -->
+    <div class="search-card">
+      <div class="search-card-inner">
+        <div class="search-field">
+          <label>FROM</label>
+          <select [(ngModel)]="fromAirport">
+            <option value="" disabled selected>Select city</option>
+            <option *ngFor="let ap of airports" [value]="ap.code">
+              {{ ap.city }} ({{ ap.code }})
+            </option>
+          </select>
+        </div>
+
+        <div class="search-field">
+          <label>TO</label>
+          <select [(ngModel)]="toAirport">
+            <option value="" disabled selected>Select city</option>
+            <option *ngFor="let ap of airports" [value]="ap.code">
+              {{ ap.city }} ({{ ap.code }})
+            </option>
+          </select>
+        </div>
+
+        <div class="search-field">
+          <label>DEPARTURE</label>
+          <input type="date" [(ngModel)]="departureDate" />
+        </div>
+
+        <div class="search-field">
+          <label>PASSENGERS</label>
+          <input type="number" min="1" max="9" [(ngModel)]="passengers" />
+        </div>
+
+        <button class="search-cta" (click)="searchFlights()">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          Search Flights
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== POPULAR DESTINATIONS ===== -->
+  <section class="section destinations-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2>Popular Destinations</h2>
+        <p>Explore trending routes with the best prices</p>
+      </div>
+
+      <div class="destinations-grid">
+        <div
+          class="dest-card"
+          *ngFor="let dest of popularDestinations"
+          (click)="exploreDestination(dest.code)"
+        >
+          <div class="dest-emoji">{{ dest.emoji }}</div>
+          <div class="dest-info">
+            <h3>{{ dest.city }}</h3>
+            <span class="dest-country">{{ dest.country }}</span>
+          </div>
+          <div class="dest-price">
+            <span class="price-label">from</span>
+            <span class="price-value">${{ dest.price }}</span>
+          </div>
+          <div class="dest-arrow">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY SKYFLOW ===== -->
+  <section class="section features-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2>Why Choose SkyFlow?</h2>
+        <p>Travel smarter with features built for modern travelers</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let f of features">
+          <span class="feature-icon">{{ f.icon }}</span>
+          <h3>{{ f.title }}</h3>
+          <p>{{ f.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA BANNER ===== -->
+  <section class="cta-banner">
+    <div class="section-container">
+      <div class="cta-content">
+        <h2>Ready to Take Off?</h2>
+        <p>Find the perfect flight for your next trip. Best prices guaranteed.</p>
+        <button class="cta-btn" (click)="searchFlights()">
+          Search Flights Now
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <path fill="currentColor" d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="main-footer">
+    <div class="section-container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <svg viewBox="0 0 24 24" width="20" height="20" style="display:inline; vertical-align:-3px; margin-right:6px;">
+              <path fill="currentColor" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+            </svg>
+            SkyFlow
+          </h3>
+          <p>Your trusted flight booking partner. Search, compare, and book flights worldwide.</p>
+        </div>
+        <div class="footer-links-group">
+          <h4>Quick Links</h4>
+          <a routerLink="/home">Home</a>
+          <a routerLink="/search">Search Flights</a>
+          <a routerLink="/my-bookings">My Bookings</a>
+        </div>
+        <div class="footer-links-group">
+          <h4>Support</h4>
+          <a>Help Center</a>
+          <a>Contact Us</a>
+          <a>Privacy Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 SkyFlow. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
