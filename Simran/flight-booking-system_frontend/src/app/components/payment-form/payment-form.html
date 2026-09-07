@@ -1,0 +1,438 @@
+<app-navbar></app-navbar>
+<div class="payment-page">
+
+  <!-- ========================= -->
+  <!-- NORMAL PAYMENT FORM -->
+  <!-- ========================= -->
+
+  @if (!showConfirmation) {
+
+  <div class="payment-card">
+
+    <h2>Payment</h2>
+
+    <p class="subtitle">
+      Complete your payment to confirm your flight booking.
+    </p>
+
+
+    <!-- FLIGHT SUMMARY -->
+
+    <div class="flight-summary">
+
+  <h2>Payment Details</h2>
+
+  @if (flight) {
+
+    <div class="summary-row">
+      <span>Airline</span>
+      <strong>{{ flight.airline }}</strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Flight</span>
+      <strong>{{ flight.flightNumber }}</strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Route</span>
+      <strong>
+        {{ flight.source }} → {{ flight.destination }}
+      </strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Price per passenger</span>
+      <strong>₹{{ flight.price }}</strong>
+    </div>
+
+    <div class="summary-row">
+      <span>Number of passengers</span>
+      <strong>{{ numberOfPassengers }}</strong>
+    </div>
+
+    <div class="summary-row total-row">
+      <span>Total Amount</span>
+      <strong>₹{{ totalAmount }}</strong>
+    </div>
+
+  }
+
+</div>
+
+    
+
+
+    <!-- PAYMENT FORM -->
+
+    <form [formGroup]="paymentForm" (ngSubmit)="onPaymentSubmit()">
+
+      <div class="form-group">
+
+        <label>
+          Card Holder Name
+        </label>
+
+        <input type="text" formControlName="cardHolderName" placeholder="Enter card holder name" />
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Card Number
+        </label>
+
+        <input type="text" maxlength="16" formControlName="cardNumber" placeholder="Enter 16 digit card number" />
+
+      </div>
+
+
+      <div class="payment-row">
+
+        <div class="form-group">
+
+          <label>
+            Expiry Month
+          </label>
+
+          <input type="text" maxlength="2" formControlName="expiryMonth" placeholder="MM" />
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Expiry Year
+          </label>
+
+          <input type="text" maxlength="4" formControlName="expiryYear" placeholder="YYYY" />
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            CVV
+          </label>
+
+          <input type="password" maxlength="3" formControlName="cvv" placeholder="CVV" />
+
+        </div>
+
+      </div>
+
+
+      @if (errorMessage) {
+
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      }
+
+
+      <button type="submit" [disabled]="loading">
+
+        @if (loading) {
+
+        Processing Payment...
+
+        } @else {
+
+        Pay & Confirm Booking
+
+        }
+
+      </button>
+
+    </form>
+
+  </div>
+
+  }
+
+
+  <!-- ========================= -->
+  <!-- BOOKING CONFIRMATION -->
+  <!-- ========================= -->
+
+  @if (showConfirmation && confirmedBooking) {
+
+  <div class="confirmation-card">
+
+    <div class="success-icon">
+      ✓
+    </div>
+
+
+    <h1>
+      Booking Confirmed!
+    </h1>
+
+
+    <p class="confirmation-subtitle">
+      Your flight has been successfully booked.
+    </p>
+
+
+    <!-- BOOKING REFERENCE -->
+
+    <div class="booking-reference">
+
+      <span>
+        Booking Reference
+      </span>
+
+      <strong>
+        {{ confirmedBooking.bookingReference }}
+      </strong>
+
+    </div>
+
+
+    <!-- FLIGHT DETAILS -->
+
+    <div class="confirmation-section">
+
+      <h3>
+        Flight Details
+      </h3>
+
+
+      <div class="details-grid">
+
+        <div>
+
+          <span>Airline</span>
+
+          <strong>
+            {{ confirmedBooking.flight.airline }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>Flight Number</span>
+
+          <strong>
+            {{ confirmedBooking.flight.flightNumber }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>From</span>
+
+          <strong>
+            {{ confirmedBooking.flight.source }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>To</span>
+
+          <strong>
+            {{ confirmedBooking.flight.destination }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>Date</span>
+
+          <strong>
+            {{ confirmedBooking.flight.departureDate }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>Departure</span>
+
+          <strong>
+            {{ confirmedBooking.flight.departureTime }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>Arrival</span>
+
+          <strong>
+            {{ confirmedBooking.flight.arrivalTime }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>Duration</span>
+
+          <strong>
+            {{ confirmedBooking.flight.duration }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- PASSENGER -->
+
+    <div class="confirmation-section">
+
+      <h3>
+        Passenger Details
+      </h3>
+
+      <div class="passenger-details">
+
+        <strong>
+          {{ confirmedBooking.passenger.firstName }}
+          {{ confirmedBooking.passenger.lastName }}
+        </strong>
+
+        <span>
+          {{ confirmedBooking.passenger.email }}
+        </span>
+
+        <span>
+          {{ confirmedBooking.passenger.mobileNumber }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- SEAT DETAILS -->
+
+    <div class="seat-box">
+
+      <span>
+        Seat Number(s)
+      </span>
+
+      <strong>
+        {{ confirmedBooking.seatNumbers }}
+      </strong>
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div class="amount-box">
+
+      <span>
+        Amount Paid
+      </span>
+
+      <strong>
+        ₹{{ confirmedBooking.totalAmount }}
+      </strong>
+
+    </div>
+
+
+    <p class="confirmation-note">
+
+      Thank you for choosing our flight booking service.
+      Your booking details have been saved successfully.
+
+    </p>
+
+  </div>
+
+  }
+
+
+  <!-- ========================= -->
+  <!-- THANK YOU POPUP -->
+  <!-- ========================= -->
+
+  @if (showThankYouPopup) {
+
+  <div class="popup-overlay">
+
+    <div class="thank-you-popup">
+
+      <div class="popup-icon">
+        ✓
+      </div>
+
+
+      <h2>
+        Thank You!
+      </h2>
+
+
+      <p>
+        Thank you for your payment.
+      </p>
+
+
+      <p>
+        Your flight booking has been confirmed successfully.
+      </p>
+
+
+      <div class="popup-booking">
+
+        <span>
+          Booking Reference
+        </span>
+
+        <strong>
+          {{ confirmedBooking?.bookingReference }}
+        </strong>
+
+      </div>
+
+
+      <div class="popup-seat">
+
+        <span>
+          Seat
+        </span>
+
+        <strong>
+          {{ confirmedBooking?.seatNumbers }}
+        </strong>
+
+      </div>
+
+
+      <button type="button" (click)="goToMyBookings()">
+
+        View My Bookings
+
+      </button>
+
+    </div>
+
+  </div>
+
+  }
+
+</div>

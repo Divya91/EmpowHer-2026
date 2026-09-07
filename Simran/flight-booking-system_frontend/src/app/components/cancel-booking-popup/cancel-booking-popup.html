@@ -1,0 +1,121 @@
+<div class="popup-container">
+
+  <!-- CLOSE BUTTON -->
+
+  <button
+    class="close-btn"
+    type="button"
+    (click)="closeDialog()"
+  >
+    ✕
+  </button>
+
+
+  <!-- TITLE -->
+
+  <h2>
+    Cancel booking?
+  </h2>
+
+
+  <!-- BOOKING INFORMATION -->
+
+  <p class="subtitle">
+
+    {{ booking.from }},
+    {{ booking.to }}
+
+    •
+    
+    {{ booking.confirmation }}
+
+  </p>
+
+
+  <!-- REFUND INFORMATION -->
+
+  <div class="info">
+
+    <div class="box">
+
+      <small>
+        ESTIMATED REFUND
+      </small>
+
+      <h3>
+        $1,020
+      </h3>
+
+    </div>
+
+
+    <div class="box">
+
+      <small>
+        PROCESSING
+      </small>
+
+      <h3>
+        5–7 business days
+      </h3>
+
+    </div>
+
+  </div>
+
+
+  <!-- REASON -->
+
+  <label for="reason">
+    Reason
+  </label>
+
+
+  <select
+    id="reason"
+    [(ngModel)]="reason"
+  >
+
+    <option>
+      Changed travel plans
+    </option>
+
+    <option>
+      Medical Emergency
+    </option>
+
+    <option>
+      Price Issue
+    </option>
+
+    <option>
+      Other
+    </option>
+
+  </select>
+
+
+  <!-- BUTTONS -->
+
+  <div class="buttons">
+
+    <button
+      class="keep"
+      type="button"
+      (click)="keepBooking()"
+    >
+      Keep Booking
+    </button>
+
+
+    <button
+      class="cancel"
+      type="button"
+      (click)="confirmCancellation()"
+    >
+      Confirm Cancellation
+    </button>
+
+  </div>
+
+</div>

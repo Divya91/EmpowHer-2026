@@ -1,0 +1,171 @@
+<div class="flight-page">
+
+  <!-- ========================= -->
+  <!-- SEARCH BOX -->
+  <!-- ========================= -->
+
+  <div class="search-card">
+
+    <h2>Search With Filters</h2>
+
+    <p>
+      Search available flights based on your travel requirements.
+    </p>
+
+
+    <div class="search-form">
+
+
+      <!-- FROM -->
+
+      <div class="form-group">
+
+        <label>FROM</label>
+
+        <input
+          type="text"
+          [(ngModel)]="searchCriteria.fromAirport"
+          placeholder="From Airport"
+        />
+
+      </div>
+
+
+      <!-- TO -->
+
+      <div class="form-group">
+
+        <label>TO</label>
+
+        <input
+          type="text"
+          [(ngModel)]="searchCriteria.toAirport"
+          placeholder="To Airport"
+        />
+
+      </div>
+
+
+      <!-- DATE -->
+
+      <div class="form-group">
+
+        <label>DEPARTURE</label>
+
+        <input
+          type="date"
+          [(ngModel)]="searchCriteria.departureDate"
+        />
+
+      </div>
+
+
+      <!-- PASSENGERS -->
+
+      <div class="form-group">
+
+        <label>PASSENGERS</label>
+
+        <input
+          type="number"
+          min="1"
+          [(ngModel)]="searchCriteria.passengers"
+        />
+
+      </div>
+
+
+      <!-- SEARCH -->
+
+      <button
+        type="button"
+        (click)="searchFlights()"
+      >
+        Search
+      </button>
+
+
+      <!-- RESET -->
+
+      <button
+        type="button"
+        (click)="resetSearch()"
+      >
+        Reset
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- MAIN CONTENT -->
+  <!-- ========================= -->
+
+  <div class="results-layout">
+
+
+    <!-- ================= -->
+    <!-- LEFT FILTER PANEL -->
+    <!-- ================= -->
+
+    <aside class="filter-section">
+
+      <app-flight-filter-panel>
+      </app-flight-filter-panel>
+
+    </aside>
+
+
+    <!-- ================= -->
+    <!-- RIGHT RESULTS -->
+    <!-- ================= -->
+
+    <section class="results-section">
+
+
+      <!-- LOADING -->
+
+      @if (loading) {
+
+        <div class="loading-box">
+
+          <div class="spinner"></div>
+
+          <h3>Searching flights...</h3>
+
+          <p>
+            Please wait while we find the best flights.
+          </p>
+
+        </div>
+
+      }@else if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      } @else if (flightResults.length === 0) {
+        <div class="no-results">
+          <h3>No flights found</h3>
+          <p>Try changing your source, destination or departure date.</p>
+        </div>
+      }
+      <!-- RESULTS -->
+
+      @else {
+
+        <app-flight-results
+          [flightResults]="flightResults"
+          [numberOfPassengers]="searchCriteria.passengers">
+        </app-flight-results>
+        
+
+      }
+
+
+    </section>
+
+  </div>
+
+</div>

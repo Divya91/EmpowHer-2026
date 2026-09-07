@@ -1,0 +1,221 @@
+<div class="filter-panel">
+
+
+  <div class="filter-header">
+
+    <h2>
+      Filters
+    </h2>
+
+    <button
+      type="button"
+      class="reset-btn"
+      (click)="resetFilters()">
+
+      Reset
+
+    </button>
+
+  </div>
+
+
+
+  <!-- ================= -->
+  <!-- STOPS -->
+  <!-- ================= -->
+
+  <div class="section">
+
+    <h3>
+      Stops
+    </h3>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="stops"
+        value="all"
+        [(ngModel)]="selectedStops"
+        (change)="applyFilters()">
+
+      Any Stops
+
+    </label>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="stops"
+        value="0"
+        [(ngModel)]="selectedStops"
+        (change)="applyFilters()">
+
+      Non-stop
+
+    </label>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="stops"
+        value="1"
+        [(ngModel)]="selectedStops"
+        (change)="applyFilters()">
+
+      Up to 1 Stop
+
+    </label>
+
+  </div>
+
+
+
+  <!-- ================= -->
+  <!-- PRICE -->
+  <!-- ================= -->
+
+  <div class="section">
+
+    <h3>
+      Price
+    </h3>
+
+
+    <input
+      type="range"
+      min="300"
+      max="700"
+      step="10"
+      [(ngModel)]="maxPrice"
+      (input)="applyFilters()">
+
+
+    <div class="price-range">
+
+      <span>
+        $300
+      </span>
+
+      <strong>
+        ${{ maxPrice }}
+      </strong>
+
+      <span>
+        $700
+      </span>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ================= -->
+  <!-- DEPARTURE TIME -->
+  <!-- ================= -->
+
+  <div class="section">
+
+    <h3>
+      Departure Time
+    </h3>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="departure"
+        value="all"
+        [(ngModel)]="departureTime"
+        (change)="applyFilters()">
+
+      Any Time
+
+    </label>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="departure"
+        value="morning"
+        [(ngModel)]="departureTime"
+        (change)="applyFilters()">
+
+      Morning
+
+    </label>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="departure"
+        value="afternoon"
+        [(ngModel)]="departureTime"
+        (change)="applyFilters()">
+
+      Afternoon
+
+    </label>
+
+
+    <label>
+
+      <input
+        type="radio"
+        name="departure"
+        value="evening"
+        [(ngModel)]="departureTime"
+        (change)="applyFilters()">
+
+      Evening
+
+    </label>
+
+  </div>
+
+
+
+  <!-- ================= -->
+  <!-- AIRLINES -->
+  <!-- ================= -->
+
+  <div class="section">
+
+    <h3>
+      Airlines
+    </h3>
+
+
+    @for (
+      airline of airlines;
+      track airline.name
+    ) {
+
+      <label>
+
+        <input
+          type="checkbox"
+          [(ngModel)]="airline.checked"
+          (change)="applyFilters()">
+
+        {{ airline.name }}
+
+      </label>
+
+    }
+
+  </div>
+
+
+</div>

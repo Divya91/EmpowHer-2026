@@ -1,0 +1,109 @@
+<div class="results-container">
+
+  <!-- RESULTS HEADER -->
+
+  <div class="results-header">
+
+    <div>
+      <h2>Available Flights</h2>
+
+      <p>
+        {{ flightResults.length }} flights found
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- FLIGHT LIST -->
+
+  <div
+    class="flight-card"
+    *ngFor="let flight of flightResults"
+  >
+
+    <!-- AIRLINE -->
+
+    <div class="airline">
+
+      <strong>
+        {{ flight.airline }}
+      </strong>
+
+      <small>
+        {{ flight.flightNumber }}
+      </small>
+
+    </div>
+
+
+    <!-- DEPARTURE -->
+
+    <div class="time-section">
+
+      <strong>
+        {{ flight.departureTime }}
+      </strong>
+
+      <span>
+        {{ flight.source }}
+      </span>
+
+    </div>
+
+
+    <!-- DURATION / STOPS -->
+
+    <div class="duration">
+
+      <span>
+        {{ flight.duration }}
+      </span>
+
+      <div class="duration-line"></div>
+
+      <small>
+        {{ flight.stops === 0
+            ? 'Non-stop'
+            : flight.stops + ' stop(s)' }}
+      </small>
+
+    </div>
+
+
+    <!-- ARRIVAL -->
+
+    <div class="time-section">
+
+      <strong>
+        {{ flight.arrivalTime }}
+      </strong>
+
+      <span>
+        {{ flight.destination }}
+      </span>
+
+    </div>
+
+
+    <!-- PRICE -->
+
+    <div class="price">
+
+      <strong>
+        ₹{{ flight.price }}
+      </strong>
+
+      <small>
+        per passenger
+      </small>
+
+      <button type="button"(click)="selectFlight(flight)">
+        Select
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
