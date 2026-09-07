@@ -16,21 +16,41 @@
       <span class="brand-name">MERIDIAN</span>
     </a>
 
-    <!-- Center Nav Links: EXACTLY TWO OPTIONS (Search, My Bookings) -->
     <nav class="nav-links" [class.open]="isMenuOpen">
-      <a
-        routerLink="/flights"
-        routerLinkActive="active"
-        (click)="closeMenu()">
-        Search
-      </a>
-      <a
-        routerLink="/my-bookings"
-        routerLinkActive="active"
-        (click)="closeMenu()">
-        My Bookings
-      </a>
+      @if (isAdminPage) {
+        <span class="admin-topbar-pill">[ADMIN CONSOLE]</span>
+        <a
+          routerLink="/flights"
+          (click)="closeMenu()">
+          Public Flights
+        </a>
+      } @else {
+        <a
+          routerLink="/flights"
+          routerLinkActive="active"
+          (click)="closeMenu()">
+          Search
+        </a>
+        @if (!isAdminUser) {
+          <a
+            routerLink="/my-bookings"
+            routerLinkActive="active"
+            (click)="closeMenu()">
+            My Bookings
+          </a>
+        }
+        @if (authService.isLoggedIn() && isAdminUser) {
+          <a
+            routerLink="/admin"
+            routerLinkActive="active"
+            (click)="closeMenu()">
+            Admin Console
+          </a>
+        }
+      }
     </nav>
+
+
 
     <!-- Right-Side Actions -->
     <div class="navbar-actions">
@@ -52,14 +72,22 @@
                 <span class="profile-dropdown-name">{{ authService.currentUser()?.name }}</span>
                 <span class="profile-dropdown-email">{{ authService.currentUser()?.email }}</span>
               </div>
+              @if (isAdminUser) {
+                <a routerLink="/admin" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  Admin Console
+                </a>
+              }
               <a routerLink="/profile" class="profile-dropdown-item" (click)="isProfileOpen = false">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 10-16 0"/></svg>
                 Profile & Settings
               </a>
-              <a routerLink="/my-bookings" class="profile-dropdown-item" (click)="isProfileOpen = false">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                My Bookings
-              </a>
+              @if (!isAdminPage && !isAdminUser) {
+                <a routerLink="/my-bookings" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  My Bookings
+                </a>
+              }
               <div class="dropdown-divider"></div>
               <button type="button" class="profile-dropdown-item logout" (click)="logout()">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>

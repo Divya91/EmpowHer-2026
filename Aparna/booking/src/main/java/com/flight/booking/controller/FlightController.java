@@ -32,4 +32,10 @@ public class FlightController {
     public FlightResponse getFlight(@PathVariable String flightId) {
         return flightService.getFlightResponseOrThrow(flightId);
     }
+
+    @org.springframework.web.bind.annotation.PostMapping
+    public FlightResponse createFlight(@org.springframework.web.bind.annotation.RequestBody com.flight.booking.dto.CreateFlightRequest request) {
+        return flightService.createFlight(request);
+    }
 }
+

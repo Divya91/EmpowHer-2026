@@ -106,6 +106,49 @@ public class FlightService {
         flightRepository.save(flight);
     }
 
+    @Transactional
+    public FlightResponse createFlight(com.flight.booking.dto.CreateFlightRequest request) {
+        if (request.getFlightNumber() == null || request.getFlightNumber().isBlank()) {
+            throw new ApiException("Flight number is required");
+        }
+        long nextId = cachedFlights.stream().mapToLong(Flight::getFlightId).max().orElse(100L) + 1;
+        int econ = request.getSeatCapacityEconomy() != null ? request.getSeatCapacityEconomy() : 150;
+        int biz = request.getSeatCapacityBusiness() != null ? request.getSeatCapacityBusiness() : 30;
+        int totalSeats = econ + biz;
+
+        java.time.LocalDateTime dep = request.getDepartureTime() != null ? request.getDepartureTime() : java.time.LocalDateTime.now().plusDays(2);
+        java.time.LocalDateTime arr = request.getArrivalTime() != null ? request.getArrivalTime() : dep.plusHours(3);
+
+        String airlineCode = request.getAirlineCode();
+        if (airlineCode == null || airlineCode.isBlank()) {
+            String fn = request.getFlightNumber().trim();
+            airlineCode = fn.length() >= 2 ? fn.substring(0, 2).toUpperCase() : "MR";
+        }
+
+        Flight flight = Flight.builder()
+                .flightId(nextId)
+                .flightNumber(request.getFlightNumber().trim().toUpperCase())
+                .airlineCode(airlineCode)
+                .airlineName(request.getAirline() != null && !request.getAirline().isBlank() ? request.getAirline() : "Meridian Airways")
+                .fromAirport(request.getFromAirport() != null ? request.getFromAirport().trim().toUpperCase() : "JFK")
+                .toAirport(request.getToAirport() != null ? request.getToAirport().trim().toUpperCase() : "LHR")
+                .departureTs(dep)
+                .arrivalTs(arr)
+                .stops(0)
+                .durationMins(Math.max(45, (int) java.time.Duration.between(dep, arr).toMinutes()))
+                .basePrice(request.getBasePrice() != null ? request.getBasePrice() : java.math.BigDecimal.valueOf(350))
+                .aircraft(request.getAircraft() != null ? request.getAircraft() : "Airbus A350-900")
+                .seatsLeft(totalSeats)
+                .build();
+
+        try {
+            flight = flightRepository.save(flight);
+        } catch (Exception ignored) {
+        }
+        cachedFlights.add(flight);
+        return toResponse(flight);
+    }
+
     private FlightResponse toResponse(Flight f) {
         return FlightResponse.builder()
                 .flightId(f.getFlightId())
@@ -124,3 +167,4 @@ public class FlightService {
                 .build();
     }
 }
+

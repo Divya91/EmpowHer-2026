@@ -12,3 +12,18 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   return router.createUrlTree(['/auth'], { queryParams: { redirectTo: state.url } });
 };
+
+export const adminGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isLoggedIn() && authService.role() === 'admin') {
+    return true;
+  }
+
+  if (!authService.isLoggedIn()) {
+    return router.createUrlTree(['/auth'], { queryParams: { redirectTo: state.url } });
+  }
+
+  return router.createUrlTree(['/']);
+};

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home';
-import { authGuard } from './auth/auth.guard';
+import { authGuard, adminGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -47,8 +47,24 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'admin',
+    loadComponent: () =>
+      import('./admin/admin-dashboard.component').then(m => m.AdminDashboardComponent),
+    canActivate: [adminGuard]
+  },
+  {
+    path: 'admin-dashboard',
+    redirectTo: 'admin',
+    pathMatch: 'full'
+  },
+  {
+    path: 'admin/dashboard',
+    redirectTo: 'admin',
+    pathMatch: 'full'
+  },
+  {
     path: 'dashboard',
-    redirectTo: 'my-bookings',
+    redirectTo: 'admin',
     pathMatch: 'full'
   },
   {
@@ -56,3 +72,4 @@ export const routes: Routes = [
     redirectTo: ''
   }
 ];
+

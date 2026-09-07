@@ -1,0 +1,905 @@
+<div class="admin-layout" (click)="closeActionMenu()">
+
+  <!-- Toast Notification -->
+  @if (toastMessage()) {
+    <div class="toast-banner" [class.alert]="toastType() === 'alert'">
+      <span class="toast-indicator">[{{ toastType() === 'alert' ? 'NOTICE' : 'SUCCESS' }}]</span>
+      <span class="toast-text">{{ toastMessage() }}</span>
+    </div>
+  }
+
+  <!-- 1. SIDEBAR NAVIGATION -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <span class="system-tag">[DISPATCH CONSOLE]</span>
+      <h2 class="sidebar-title">MERIDIAN ADMIN</h2>
+      <div class="system-status-indicator">
+        <span class="status-dot"></span>
+        <span class="status-label">SYSTEM ONLINE</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'overview'"
+        (click)="setSection('overview')">
+        <span class="nav-code">01</span>
+        <span class="nav-text">Dashboard Overview</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'flights'"
+        (click)="setSection('flights')">
+        <span class="nav-code">02</span>
+        <span class="nav-text">Flight & Route Management</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'bookings'"
+        (click)="setSection('bookings')">
+        <span class="nav-code">03</span>
+        <span class="nav-text">Booking & Reservation Logs</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'users'"
+        (click)="setSection('users')">
+        <span class="nav-code">04</span>
+        <span class="nav-text">User & Permissions Control</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'finance'"
+        (click)="setSection('finance')">
+        <span class="nav-code">05</span>
+        <span class="nav-text">Payments & Financial Reports</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'promos'"
+        (click)="setSection('promos')">
+        <span class="nav-code">06</span>
+        <span class="nav-text">Promos & Marketing</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="activeSection() === 'support'"
+        (click)="setSection('support')">
+        <span class="nav-code">07</span>
+        <span class="nav-text">Customer Support Tickets</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="operator-chip">
+        <span class="operator-role">ROLE: SUPERADMIN</span>
+        <span class="operator-id">SYS-NODE: 01A</span>
+      </div>
+      <a routerLink="/flights" class="exit-link">RETURN TO PUBLIC PORTAL</a>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="admin-main">
+
+    <!-- TOP BAR -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <h1 class="page-heading">
+          @switch (activeSection()) {
+            @case ('overview') { Dashboard Overview }
+            @case ('flights') { Flight & Route Management }
+            @case ('bookings') { Booking & Reservation Logs }
+            @case ('users') { User & Permissions Control }
+            @case ('finance') { Payments & Financial Reports }
+            @case ('promos') { Promos & Marketing }
+            @case ('support') { Customer Support Tickets }
+          }
+        </h1>
+        <span class="sub-label">REAL-TIME TELEMETRY AND DISPATCH CONTROL</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button
+          type="button"
+          class="btn-action-primary"
+          (click)="openAddFlightModal()">
+          + Add New Flight
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB 1: DASHBOARD OVERVIEW -->
+    @if (activeSection() === 'overview') {
+
+      <!-- 2. MAIN OVERVIEW HERO (Top Cards) -->
+      <section class="hero-cards-grid">
+
+        <!-- Card 1: Total Bookings -->
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">TOTAL BOOKINGS</span>
+            <span class="badge-growth-green">+12% WoW</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-primary-number">{{ overview().totalBookings | number }}</span>
+          </div>
+          <div class="kpi-footer-note">
+            <span>Rolling 7-day average: 204 bookings/day</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Gross Revenue with Target Progress Bar -->
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">GROSS REVENUE</span>
+            <span class="badge-target">{{ overview().monthlyProgressPercent | number:'1.1-1' }}% TARGET</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-primary-number">₹{{ overview().grossRevenue | number }}</span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-bar-track">
+              <div
+                class="progress-bar-fill"
+                [style.width.%]="overview().monthlyProgressPercent">
+              </div>
+            </div>
+            <div class="progress-labels">
+              <span>Current: ₹{{ overview().grossRevenue | number }}</span>
+              <span>Target: ₹{{ overview().monthlyRevenueTarget | number }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Active Flights in the Air -->
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">ACTIVE FLIGHTS IN THE AIR</span>
+            <span class="badge-live-pulse">LIVE</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-primary-number">{{ overview().activeFlightsInAir }}</span>
+          </div>
+          <div class="kpi-footer-note">
+            <span>Airborne routes across Transatlantic & Pacific</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Pending Refund Requests -->
+        <div class="kpi-card alert-state">
+          <div class="kpi-header">
+            <span class="kpi-title">PENDING REFUND REQUESTS</span>
+            <span class="badge-alert-amber">ATTENTION REQUIRED</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-primary-number alert-text">{{ overview().pendingRefundRequests }}</span>
+          </div>
+          <div class="kpi-footer-note">
+            <button
+              type="button"
+              class="inline-action-link"
+              (click)="setSection('finance')">
+              REVIEW QUEUE [EXPEDITE]
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 3. DATA VISUALIZATION SECTION -->
+      <section class="visualizations-grid">
+
+        <!-- Line Chart: Booking Trends (30 Days) -->
+        <div class="chart-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">BOOKING TRENDS</h3>
+              <span class="panel-subtitle">Daily volume over past 30 days</span>
+            </div>
+            <div class="trend-summary-pill">
+              <span>PEAK: 92/DAY</span>
+            </div>
+          </div>
+
+          <div class="chart-viewport">
+            <svg
+              class="line-chart-svg"
+              viewBox="0 0 620 190"
+              preserveAspectRatio="none">
+
+              <defs>
+                <linearGradient id="bookingAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#B58A4A" stop-opacity="0.28" />
+                  <stop offset="100%" stop-color="#B58A4A" stop-opacity="0.0" />
+                </linearGradient>
+              </defs>
+
+              <!-- Grid Horizontal Lines -->
+              <line x1="25" y1="35" x2="595" y2="35" class="grid-line" />
+              <line x1="25" y1="85" x2="595" y2="85" class="grid-line" />
+              <line x1="25" y1="135" x2="595" y2="135" class="grid-line" />
+              <line x1="25" y1="165" x2="595" y2="165" class="baseline" />
+
+              <!-- Y-Axis Labels -->
+              <text x="28" y="32" class="chart-axis-label">95</text>
+              <text x="28" y="82" class="chart-axis-label">65</text>
+              <text x="28" y="132" class="chart-axis-label">40</text>
+
+              <!-- Gradient Area -->
+              <path [attr.d]="chartCoordinates().areaPath" fill="url(#bookingAreaGrad)" />
+
+              <!-- Trendline Path -->
+              <path
+                [attr.d]="chartCoordinates().path"
+                class="chart-line-stroke"
+                fill="none"
+              />
+
+              <!-- Interactive Points -->
+              @for (pt of chartCoordinates().points; track pt.data.date) {
+                <circle
+                  [attr.cx]="pt.x"
+                  [attr.cy]="pt.y"
+                  r="3.5"
+                  class="chart-point"
+                  (mouseenter)="hoveredTrendPoint.set(pt.data)"
+                  (mouseleave)="hoveredTrendPoint.set(null)"
+                />
+              }
+            </svg>
+
+            <!-- Chart Hover Tooltip -->
+            @if (hoveredTrendPoint(); as hover) {
+              <div class="chart-tooltip">
+                <span class="tooltip-date">{{ hover.dayLabel }}</span>
+                <span class="tooltip-val">{{ hover.bookings }} Bookings</span>
+              </div>
+            }
+          </div>
+
+          <div class="chart-timeline-labels">
+            <span>30 DAYS AGO</span>
+            <span>15 DAYS AGO</span>
+            <span>TODAY</span>
+          </div>
+        </div>
+
+        <!-- Bar Chart: Most Popular Flight Routes -->
+        <div class="chart-panel">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">MOST POPULAR FLIGHT ROUTES</h3>
+              <span class="panel-subtitle">Passenger volume & load performance</span>
+            </div>
+            <div class="trend-summary-pill">
+              <span>CAPACITY METRICS</span>
+            </div>
+          </div>
+
+          <div class="routes-bars-container">
+            @for (route of overview().popularRoutes; track route.route) {
+              <div class="route-bar-row">
+                <div class="route-meta">
+                  <div class="route-codes">
+                    <span class="code-origin">{{ route.origin }}</span>
+                    <span class="route-separator">TO</span>
+                    <span class="code-dest">{{ route.destination }}</span>
+                  </div>
+                  <div class="route-metrics-inline">
+                    <span class="metric-load">LOAD: {{ route.loadFactor }}</span>
+                    <span class="metric-vol">{{ route.volume }} Bookings</span>
+                  </div>
+                </div>
+
+                <div class="bar-track">
+                  <div
+                    class="bar-fill"
+                    [style.width.%]="route.percentage">
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="panel-footer-stat">
+            <span>Top Route: JFK to LHR leads overall demand with 486 bookings.</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 4. DATA TABLE (Recent Bookings) -->
+      <section class="table-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">RECENT BOOKINGS</h3>
+            <span class="panel-subtitle">5 most recent reservations logged across the network</span>
+          </div>
+          <div class="table-actions-strip">
+            <button
+              type="button"
+              class="btn-text-action"
+              (click)="setSection('bookings')">
+              VIEW ALL RESERVATION LOGS &gt;
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="scannable-table">
+            <thead>
+              <tr>
+                <th scope="col">BOOKING ID</th>
+                <th scope="col">PASSENGER</th>
+                <th scope="col">ROUTE</th>
+                <th scope="col">FLIGHT STATUS</th>
+                <th scope="col">PAYMENT STATUS</th>
+                <th scope="col" class="th-actions">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (b of overview().recentBookings; track b.bookingId) {
+                <tr>
+                  <!-- Booking ID -->
+                  <td>
+                    <span class="cell-id">{{ b.bookingId }}</span>
+                    <span class="cell-time">{{ b.bookedAt }}</span>
+                  </td>
+
+                  <!-- Passenger Name -->
+                  <td>
+                    <span class="cell-primary-text">{{ b.passengerName }}</span>
+                  </td>
+
+                  <!-- Route -->
+                  <td>
+                    <span class="cell-route">{{ b.route }}</span>
+                    <span class="cell-sub-code">{{ b.flightNumber }}</span>
+                  </td>
+
+                  <!-- Flight Status (Scheduled, Delayed, In-Air) -->
+                  <td>
+                    @switch (b.flightStatus) {
+                      @case ('In-Air') {
+                        <span class="status-pill status-in-air">[IN-AIR]</span>
+                      }
+                      @case ('Delayed') {
+                        <span class="status-pill status-delayed">[DELAYED]</span>
+                      }
+                      @case ('Scheduled') {
+                        <span class="status-pill status-scheduled">[SCHEDULED]</span>
+                      }
+                    }
+                  </td>
+
+                  <!-- Payment Status (Paid, Pending, Refunded) -->
+                  <td>
+                    @switch (b.paymentStatus) {
+                      @case ('Paid') {
+                        <span class="payment-pill payment-paid">PAID</span>
+                      }
+                      @case ('Pending') {
+                        <span class="payment-pill payment-pending">PENDING</span>
+                      }
+                      @case ('Refunded') {
+                        <span class="payment-pill payment-refunded">REFUNDED</span>
+                      }
+                    }
+                  </td>
+
+                  <!-- Actions (Three dots menu) -->
+                  <td class="td-actions">
+                    <div class="menu-wrapper">
+                      <button
+                        type="button"
+                        class="btn-dots-menu"
+                        [attr.aria-label]="'Actions for ' + b.bookingId"
+                        (click)="toggleActionMenu(b.bookingId, $event)">
+                        ···
+                      </button>
+
+                      @if (activeActionMenuBookingId() === b.bookingId) {
+                        <div class="action-dropdown" (click)="$event.stopPropagation()">
+                          <div class="dropdown-title">BOOKING ACTIONS</div>
+                          <button
+                            type="button"
+                            class="dropdown-option"
+                            (click)="showToast('Booking details displayed for ' + b.bookingId, 'success'); closeActionMenu()">
+                            View Full Dossier
+                          </button>
+                          <button
+                            type="button"
+                            class="dropdown-option"
+                            (click)="handleBookingAction(b.bookingId, 'resend')">
+                            Resend E-Ticket
+                          </button>
+                          <button
+                            type="button"
+                            class="dropdown-option"
+                            (click)="handleBookingAction(b.bookingId, 'refund')">
+                            Issue Refund
+                          </button>
+                          <div class="dropdown-divider"></div>
+                          <button
+                            type="button"
+                            class="dropdown-option text-danger"
+                            (click)="handleBookingAction(b.bookingId, 'cancel')">
+                            Cancel Flight Reservation
+                          </button>
+                        </div>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    }
+
+    <!-- TAB 2: FLIGHT & ROUTE MANAGEMENT -->
+    @if (activeSection() === 'flights') {
+      <section class="subview-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">ACTIVE NETWORK ROUTES</h3>
+            <span class="panel-subtitle">Frequency, fleet assignment, and capacity load</span>
+          </div>
+          <button
+            type="button"
+            class="btn-action-primary"
+            (click)="openAddFlightModal()">
+            + Add New Flight
+          </button>
+        </div>
+
+        <div class="table-container">
+          <table class="scannable-table">
+            <thead>
+              <tr>
+                <th scope="col">ROUTE ID</th>
+                <th scope="col">FLIGHT #</th>
+                <th scope="col">ORIGIN / DEST</th>
+                <th scope="col">AIRCRAFT</th>
+                <th scope="col">CAPACITY</th>
+                <th scope="col">DAILY FREQ</th>
+                <th scope="col">BASE FARE</th>
+                <th scope="col">STATUS</th>
+                <th scope="col">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of routes(); track r.routeId) {
+                <tr>
+                  <td><span class="cell-id">{{ r.routeId }}</span></td>
+                  <td><span class="cell-primary-text font-mono">{{ r.flightNumber }}</span></td>
+                  <td><span class="cell-route">{{ r.origin }} TO {{ r.destination }}</span></td>
+                  <td><span class="cell-sub-code">{{ r.aircraft }}</span></td>
+                  <td><span>{{ r.capacity }}</span></td>
+                  <td><span>{{ r.dailyFrequency }} Flights / Day</span></td>
+                  <td><span class="font-mono">₹{{ r.basePrice }}</span></td>
+                  <td>
+                    <span class="status-pill" [class.status-in-air]="r.status === 'Active'" [class.status-delayed]="r.status === 'Suspended'">
+                      [{{ r.status | uppercase }}]
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn-small-outline"
+                      (click)="toggleRoute(r.routeId)">
+                      {{ r.status === 'Active' ? 'Suspend' : 'Activate' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+
+    <!-- TAB 3: BOOKING & RESERVATION LOGS -->
+    @if (activeSection() === 'bookings') {
+      <section class="subview-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">RESERVATION AUDIT TRAIL</h3>
+            <span class="panel-subtitle">Complete ledger of all customer tickets and statuses</span>
+          </div>
+          <div class="filter-controls">
+            <div class="filter-pills">
+              <button
+                type="button"
+                class="filter-pill"
+                [class.active]="bookingFilter() === 'ALL'"
+                (click)="bookingFilter.set('ALL')">
+                ALL
+              </button>
+              <button
+                type="button"
+                class="filter-pill"
+                [class.active]="bookingFilter() === 'PAID'"
+                (click)="bookingFilter.set('PAID')">
+                PAID
+              </button>
+              <button
+                type="button"
+                class="filter-pill"
+                [class.active]="bookingFilter() === 'PENDING'"
+                (click)="bookingFilter.set('PENDING')">
+                PENDING
+              </button>
+              <button
+                type="button"
+                class="filter-pill"
+                [class.active]="bookingFilter() === 'REFUNDED'"
+                (click)="bookingFilter.set('REFUNDED')">
+                REFUNDED
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="scannable-table">
+            <thead>
+              <tr>
+                <th scope="col">BOOKING ID</th>
+                <th scope="col">PASSENGER NAME</th>
+                <th scope="col">ROUTE</th>
+                <th scope="col">FLIGHT #</th>
+                <th scope="col">PAYMENT</th>
+                <th scope="col">AMOUNT</th>
+                <th scope="col">TIMESTAMP</th>
+                <th scope="col">QUICK ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (b of filteredBookings(); track b.bookingId) {
+                <tr>
+                  <td><span class="cell-id">{{ b.bookingId }}</span></td>
+                  <td><span class="cell-primary-text">{{ b.passengerName }}</span></td>
+                  <td><span class="cell-route">{{ b.route }}</span></td>
+                  <td><span class="font-mono">{{ b.flightNumber }}</span></td>
+                  <td>
+                    <span class="payment-pill" [class.payment-paid]="b.paymentStatus === 'Paid'" [class.payment-pending]="b.paymentStatus === 'Pending'" [class.payment-refunded]="b.paymentStatus === 'Refunded'">
+                      {{ b.paymentStatus | uppercase }}
+                    </span>
+                  </td>
+                  <td><span class="font-mono">₹{{ b.amount }}</span></td>
+                  <td><span class="cell-time">{{ b.bookedAt }}</span></td>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn-small-outline"
+                      (click)="handleBookingAction(b.bookingId, 'refund')"
+                      [disabled]="b.paymentStatus === 'Refunded'">
+                      {{ b.paymentStatus === 'Refunded' ? 'Settled' : 'Refund' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+
+    <!-- TAB 4: USER & PERMISSIONS CONTROL -->
+    @if (activeSection() === 'users') {
+      <section class="subview-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">SYSTEM OPERATORS &amp; ROLES</h3>
+            <span class="panel-subtitle">Access control list and clearance verification</span>
+          </div>
+          <span class="trend-summary-pill">RBAC ENFORCED</span>
+        </div>
+
+        <div class="table-container">
+          <table class="scannable-table">
+            <thead>
+              <tr>
+                <th scope="col">USER ID</th>
+                <th scope="col">NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">ASSIGNED ROLE</th>
+                <th scope="col">CLEARANCE LEVEL</th>
+                <th scope="col">STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (u of users(); track u.userId) {
+                <tr>
+                  <td><span class="cell-id">{{ u.userId }}</span></td>
+                  <td><span class="cell-primary-text">{{ u.name }}</span></td>
+                  <td><span class="cell-sub-code">{{ u.email }}</span></td>
+                  <td>
+                    <span class="role-badge">{{ u.role | uppercase }}</span>
+                  </td>
+                  <td>
+                    <span class="status-pill" [class.status-in-air]="u.role === 'ADMIN'" [class.status-scheduled]="u.role !== 'ADMIN'">
+                      {{ u.role === 'ADMIN' ? '[LEVEL 3 ROOT]' : '[CUSTOMER LEVEL 1]' }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="status-pill" [class.status-in-air]="u.status === 'Active'" [class.status-delayed]="u.status === 'Inactive'">
+                      [{{ u.status | uppercase }}]
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+
+    <!-- TAB 5: PAYMENTS & FINANCIAL REPORTS -->
+    @if (activeSection() === 'finance') {
+      <section class="subview-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">GATEWAY SETTLEMENT REPORTS</h3>
+            <span class="panel-subtitle">Transaction distribution, payment processor volume, and refund claims</span>
+          </div>
+          <span class="trend-summary-pill">MONTH-TO-DATE: ₹{{ overview().grossRevenue | number }}</span>
+        </div>
+
+        <div class="table-container">
+          <table class="scannable-table">
+            <thead>
+              <tr>
+                <th scope="col">SETTLEMENT CHANNEL</th>
+                <th scope="col">TRANSACTION VOLUME</th>
+                <th scope="col">TOTAL SETTLED</th>
+                <th scope="col">SHARE PERCENT</th>
+                <th scope="col">BATCH STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (f of financials(); track f.category) {
+                <tr>
+                  <td><span class="cell-primary-text">{{ f.category }}</span></td>
+                  <td><span class="font-mono">{{ f.volume }} Txns</span></td>
+                  <td><span class="font-mono font-bold">₹{{ f.amount | number }}</span></td>
+                  <td><span class="font-mono">{{ f.sharePercent }}%</span></td>
+                  <td>
+                    <span class="status-pill" [class.status-in-air]="f.status === 'Settled'" [class.status-delayed]="f.status === 'Held'">
+                      [{{ f.status | uppercase }}]
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    }
+
+    <!-- TAB 6: PROMOS & MARKETING -->
+    @if (activeSection() === 'promos') {
+      <section class="subview-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">PROMOTIONAL CAMPAIGNS</h3>
+            <span class="panel-subtitle">Active rate discounts, voucher campaigns, and dynamic tariff rules</span>
+          </div>
+          <span class="trend-summary-pill">DATABASE SYNC: CONNECTED</span>
+        </div>
+
+        <div class="empty-state-card">
+          <div class="empty-state-tag">[NO PROMOTIONS CONFIGURED]</div>
+          <h4 class="empty-state-title">No Active Voucher Campaigns in Database</h4>
+          <p class="empty-state-description">
+            All {{ overview().totalFlights }} scheduled flight routes are operating under standard tariff rate schedules. No discount voucher rows are present in the current database schema.
+          </p>
+        </div>
+      </section>
+    }
+
+    <!-- TAB 7: CUSTOMER SUPPORT TICKETS -->
+    @if (activeSection() === 'support') {
+      <section class="subview-section">
+        <div class="panel-header">
+          <div>
+            <h3 class="panel-title">CUSTOMER SUPPORT TICKETS</h3>
+            <span class="panel-subtitle">Passenger service queries requiring manual verification</span>
+          </div>
+          <span class="badge-growth-green">[QUEUE CLEAR]</span>
+        </div>
+
+        <div class="empty-state-card">
+          <div class="empty-state-tag">[ZERO ESCALATIONS]</div>
+          <h4 class="empty-state-title">Support Escalation Queue is Clear</h4>
+          <p class="empty-state-description">
+            There are 0 unresolved dispatch or customer tickets logged in the database. All {{ overview().totalBookings }} bookings are processing normally.
+          </p>
+        </div>
+      </section>
+    }
+
+  </main>
+
+  <!-- 5. FLIGHT MANAGEMENT FORM (Quick Action Modal) -->
+  @if (isAddFlightModalOpen()) {
+    <div class="modal-backdrop" (click)="closeAddFlightModal()">
+      <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+
+        <div class="modal-header">
+          <div>
+            <span class="system-tag">[DISPATCH REGISTRY]</span>
+            <h3 class="modal-title">ADD NEW FLIGHT</h3>
+          </div>
+          <button
+            type="button"
+            class="btn-modal-close"
+            (click)="closeAddFlightModal()"
+            aria-label="Close dialog">
+            CLOSE [X]
+          </button>
+        </div>
+
+        <form [formGroup]="flightForm" (ngSubmit)="submitNewFlight()" class="flight-modal-form">
+
+          <div class="form-grid">
+
+            <!-- Flight Number -->
+            <div class="form-field">
+              <label for="flightNumber" class="field-label">FLIGHT NUMBER</label>
+              <input
+                id="flightNumber"
+                type="text"
+                class="field-input"
+                placeholder="e.g. MR-882"
+                formControlName="flightNumber"
+                required
+              />
+              @if (flightForm.get('flightNumber')?.touched && flightForm.get('flightNumber')?.invalid) {
+                <span class="field-error">Required (3-8 uppercase chars/hyphen)</span>
+              }
+            </div>
+
+            <!-- Airline -->
+            <div class="form-field">
+              <label for="airline" class="field-label">AIRLINE</label>
+              <input
+                id="airline"
+                type="text"
+                class="field-input"
+                placeholder="Meridian Airways"
+                formControlName="airline"
+                required
+              />
+            </div>
+
+            <!-- Departure Airport -->
+            <div class="form-field">
+              <label for="departureAirport" class="field-label">DEPARTURE AIRPORT (IATA)</label>
+              <input
+                id="departureAirport"
+                type="text"
+                class="field-input uppercase"
+                placeholder="JFK"
+                maxlength="3"
+                formControlName="departureAirport"
+                required
+              />
+              @if (flightForm.get('departureAirport')?.touched && flightForm.get('departureAirport')?.invalid) {
+                <span class="field-error">Must be 3-letter IATA code</span>
+              }
+            </div>
+
+            <!-- Arrival Airport -->
+            <div class="form-field">
+              <label for="arrivalAirport" class="field-label">ARRIVAL AIRPORT (IATA)</label>
+              <input
+                id="arrivalAirport"
+                type="text"
+                class="field-input uppercase"
+                placeholder="LHR"
+                maxlength="3"
+                formControlName="arrivalAirport"
+                required
+              />
+              @if (flightForm.get('arrivalAirport')?.touched && flightForm.get('arrivalAirport')?.invalid) {
+                <span class="field-error">Must be 3-letter IATA code</span>
+              }
+            </div>
+
+            <!-- Departure Time -->
+            <div class="form-field full-col">
+              <label for="departureTime" class="field-label">DEPARTURE DATE &amp; TIME</label>
+              <input
+                id="departureTime"
+                type="datetime-local"
+                class="field-input"
+                formControlName="departureTime"
+                required
+              />
+            </div>
+
+            <!-- Seat Capacity Economy -->
+            <div class="form-field">
+              <label for="seatCapacityEconomy" class="field-label">ECONOMY CAPACITY</label>
+              <input
+                id="seatCapacityEconomy"
+                type="number"
+                min="1"
+                class="field-input"
+                placeholder="180"
+                formControlName="seatCapacityEconomy"
+                required
+              />
+            </div>
+
+            <!-- Seat Capacity Business -->
+            <div class="form-field">
+              <label for="seatCapacityBusiness" class="field-label">BUSINESS CAPACITY</label>
+              <input
+                id="seatCapacityBusiness"
+                type="number"
+                min="0"
+                class="field-input"
+                placeholder="30"
+                formControlName="seatCapacityBusiness"
+                required
+              />
+            </div>
+
+            <!-- Base Price -->
+            <div class="form-field full-col">
+              <label for="basePrice" class="field-label">BASE PRICE (INR ₹)</label>
+              <input
+                id="basePrice"
+                type="number"
+                min="10"
+                class="field-input"
+                placeholder="450"
+                formControlName="basePrice"
+                required
+              />
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-text-secondary"
+              (click)="closeAddFlightModal()">
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn-action-primary"
+              [disabled]="flightForm.invalid">
+              Confirm &amp; Dispatch Flight
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  }
+
+</div>

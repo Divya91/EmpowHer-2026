@@ -18,8 +18,16 @@ export class NavbarComponent {
 
   constructor(
     protected readonly authService: AuthService,
-    private readonly router: Router
+    protected readonly router: Router
   ) {}
+
+  get isAdminPage(): boolean {
+    return this.router.url.startsWith('/admin');
+  }
+
+  get isAdminUser(): boolean {
+    return this.authService.role() === 'admin';
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
