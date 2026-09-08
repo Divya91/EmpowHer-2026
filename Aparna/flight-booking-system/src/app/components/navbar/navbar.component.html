@@ -1,52 +1,69 @@
 <header class="navbar">
   <div class="navbar-inner">
 
+    <!-- Brand Logo with Entrance Animation + Wordmark -->
     <a routerLink="/" class="brand" (click)="closeMenu()">
-      <img src="images/logo.png" alt="Meridian" class="brand-logo" />
+      <div class="logo-wrapper">
+        <img
+          src="images/logo.png"
+          class="logo-img"
+          appLogoAnimation
+          alt="Meridian Logo"
+          width="36"
+          height="36"
+        />
+      </div>
       <span class="brand-name">MERIDIAN</span>
     </a>
 
     <nav class="nav-links" [class.open]="isMenuOpen">
-      <a
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        (click)="closeMenu()">
-        Home
-      </a>
-      <a
-        routerLink="/flights"
-        routerLinkActive="active"
-        (click)="closeMenu()">
-        Flights
-      </a>
-      <a
-        routerLink="/flights/search-with-filters"
-        routerLinkActive="active"
-        (click)="closeMenu()">
-        Search with Filters
-      </a>
-      @if (authService.isLoggedIn()) {
+      @if (isAdminPage) {
+        <span class="admin-topbar-pill">[ADMIN CONSOLE]</span>
         <a
-          routerLink="/dashboard"
+          routerLink="/flights"
+          (click)="closeMenu()">
+          Public Flights
+        </a>
+      } @else {
+        <a
+          routerLink="/flights"
           routerLinkActive="active"
           (click)="closeMenu()">
-          Dashboard
+          Search
         </a>
+        @if (!isAdminUser) {
+          <a
+            routerLink="/my-bookings"
+            routerLinkActive="active"
+            (click)="closeMenu()">
+            My Bookings
+          </a>
+        }
+        @if (authService.isLoggedIn() && isAdminUser) {
+          <a
+            routerLink="/admin"
+            routerLinkActive="active"
+            (click)="closeMenu()">
+            Admin Console
+          </a>
+        }
       }
     </nav>
 
+
+
+    <!-- Right-Side Actions -->
     <div class="navbar-actions">
 
       @if (authService.isLoggedIn()) {
 
         <div class="profile-menu">
-          <button type="button" class="profile-trigger" (click)="toggleProfile()">
+          <button type="button" class="profile-trigger" (click)="toggleProfile()" aria-label="Profile and Settings Menu">
             <span class="avatar">{{ initials(authService.currentUser()?.name) }}</span>
             <span class="profile-label">
               <span class="profile-name">{{ authService.currentUser()?.name }}</span>
-              <span class="profile-role">{{ authService.currentUser()?.role }}</span>
             </span>
+            <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
           </button>
 
           @if (isProfileOpen) {
@@ -55,11 +72,26 @@
                 <span class="profile-dropdown-name">{{ authService.currentUser()?.name }}</span>
                 <span class="profile-dropdown-email">{{ authService.currentUser()?.email }}</span>
               </div>
-              <a routerLink="/dashboard" class="profile-dropdown-item" (click)="isProfileOpen = false">
-                Dashboard
+              @if (isAdminUser) {
+                <a routerLink="/admin" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  Admin Console
+                </a>
+              }
+              <a routerLink="/profile" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+                Profile & Settings
               </a>
+              @if (!isAdminPage && !isAdminUser) {
+                <a routerLink="/my-bookings" class="profile-dropdown-item" (click)="isProfileOpen = false">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  My Bookings
+                </a>
+              }
+              <div class="dropdown-divider"></div>
               <button type="button" class="profile-dropdown-item logout" (click)="logout()">
-                Logout
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-icon"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Sign Out
               </button>
             </div>
           }

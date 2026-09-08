@@ -1,0 +1,138 @@
+:host {
+    min-height: 100vh;
+    display: block;
+    padding: 48px 18px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(40, 120, 255, 0.16), transparent 32%),
+        linear-gradient(135deg, #eef5ff 0%, #f7fafc 48%, #fff8f0 100%);
+    color: #1f2937;
+}
+
+h2 {
+    width: min(560px, 100%);
+    margin: 0 auto 18px;
+    font-size: 30px;
+    line-height: 1.2;
+    text-align: center;
+    color: #102a43;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin: 12px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #2563eb, #f59e0b);
+}
+
+form {
+    width: min(560px, 100%);
+    margin: auto;
+    padding: 28px;
+    box-sizing: border-box;
+    border: 1px solid rgba(148, 163, 184, 0.32);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: #334155;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 13px 14px;
+    margin-bottom: 6px;
+    box-sizing: border-box;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #111827;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+input:hover,
+select:hover {
+    border-color: #94a3b8;
+    background: #ffffff;
+}
+
+input:focus,
+select:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border-color: #ef4444;
+    background: #fff7f7;
+}
+
+small {
+    display: block;
+    margin-top: 4px;
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+button {
+    width: 100%;
+    padding: 14px 18px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.34);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+button:disabled {
+    background: #94a3b8;
+    color: #e2e8f0;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.85;
+}
+
+@media (max-width: 520px) {
+    :host {
+        padding: 28px 14px;
+    }
+
+    h2 {
+        font-size: 25px;
+    }
+
+    form {
+        padding: 22px 18px;
+    }
+}

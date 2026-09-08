@@ -106,34 +106,18 @@
           <h4>Price</h4>
 
           <input
-    type="range"
-    min="1000"
-    [max]="selectedMaxPrice"
-    step="500"
-    [(ngModel)]="selectedMaxPrice"
-    [ngModelOptions]="{ standalone: true }"
-    (input)="applyFilters()"
->
-
-<div class="price-range">
-
-    <span>
-
-        ₹1000
-
-    </span>
-
-    <strong>
-
-        Under ₹{{selectedMaxPrice}}
-
-    </strong>
-
-</div>
+            type="range"
+            min="1000"
+            [max]="selectedMaxPrice"
+            step="500"
+            [(ngModel)]="selectedMaxPrice"
+            [ngModelOptions]="{ standalone: true }"
+            (input)="applyFilters()"
+          >
 
           <div class="price-range">
             <span>₹1000</span>
-            <strong>₹{{ selectedMaxPrice }}</strong>
+            <strong>Under ₹{{ selectedMaxPrice }}</strong>
           </div>
         </div>
 

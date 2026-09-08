@@ -49,6 +49,18 @@ const FLIGHTS: Flight[] = [
     basePrice: 300,
     durationMins: 240,
   },
+  {
+  flightId: 'DL456',
+  airlineCode: 'DL',
+  fromAirport: 'JFK',
+  toAirport: 'LAX',
+  arrivalTs: new Date('2024-06-01T15:00:00Z'),
+  departureTs: new Date('2024-06-01T10:00:00Z'),
+  stops: 1,
+  availableSeats: 30,
+  basePrice: 250,
+  durationMins: 300,
+},
 ];
 
 const FLIGHT_RESULTS: FlightResults[] = [
@@ -69,7 +81,20 @@ export class FlightService {
   constructor() {}
 
   searchFlights(criteria: SearchCriteria): Observable<FlightResults[]> {
-    console.log('Searching flights with criteria:', criteria);
-    return of(FLIGHT_RESULTS).pipe(delay(1000));
-  }
+  console.log('Searching flights with criteria:', criteria);
+
+  const selectedDate = new Date(criteria.departureDate).toDateString();
+
+  const filteredFlights = FLIGHT_RESULTS.filter((flight) => {
+    const flightDate = new Date(flight.departureTs).toDateString();
+
+    return (
+      flight.fromAirport.toLowerCase() === criteria.fromAirport.toLowerCase() &&
+      flight.toAirport.toLowerCase() === criteria.toAirport.toLowerCase() &&
+      flightDate === selectedDate
+    );
+  });
+
+  return of(filteredFlights).pipe(delay(100));
+}
 }

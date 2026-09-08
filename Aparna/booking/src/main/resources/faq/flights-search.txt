@@ -1,0 +1,9 @@
+Frequently Asked Questions — Flights & Search:
+Q: How do I filter for nonstop flights?
+A: Select the "Nonstop" radio button in the filters panel on the Search Flights page.
+
+Q: Can I change my cabin class after searching?
+A: Yes, you can choose between Economy, Premium Economy, and Business Class during seat selection.
+
+Q: What baggage is included?
+A: Each standard ticket includes one carry-on bag and one checked bag up to 23kg.

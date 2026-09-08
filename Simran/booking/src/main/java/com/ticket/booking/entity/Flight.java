@@ -1,15 +1,10 @@
 package com.ticket.booking.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "flights")
@@ -20,18 +15,37 @@ import java.time.LocalDateTime;
 public class Flight {
 
     @Id
-    private String flightId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
+    @Column(nullable = false, unique = true)
     private String flightNumber;
-    private String airlineCode;
-    private String airlineName;
-    private String fromAirport;
-    private String toAirport;
-    private LocalDateTime departureTs;
-    private LocalDateTime arrivalTs;
-    private int stops;
-    private int durationMins;
-    private BigDecimal basePrice;
-    private String aircraft;
-    private int seatsLeft;
+
+    @Column(nullable = false)
+    private String airline;
+
+    @Column(nullable = false)
+    private String source;
+
+    @Column(nullable = false)
+    private String destination;
+
+    @Column(nullable = false)
+    private LocalDate departureDate;
+
+    @Column(nullable = false)
+    private LocalTime departureTime;
+
+    @Column(nullable = false)
+    private LocalTime arrivalTime;
+
+    private String duration;
+
+    private Integer stops;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
+    private Integer availableSeats;
 }

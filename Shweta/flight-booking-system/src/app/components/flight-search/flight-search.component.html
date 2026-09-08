@@ -1,25 +1,28 @@
 <div class="flight-search">
   <label for="fromAirport">
+    Source
     <input
       type="text"
       id="fromAirport"
       name="fromAirport"
-      placeholder="From Airport"
+      placeholder="Source Airport"
       [(ngModel)]="searchCriteria.fromAirport"
     />
   </label>
 
   <label for="toAirport">
+    Destination
     <input
       type="text"
       id="toAirport"
       name="toAirport"
-      placeholder="To Airport"
+      placeholder="Destination Airport"
       [(ngModel)]="searchCriteria.toAirport"
     />
   </label>
 
   <label for="departureDate">
+    Departure Date
     <input
       type="date"
       id="departureDate"
@@ -29,6 +32,7 @@
   </label>
 
   <label for="passengers">
+    Passengers
     <input
       type="number"
       id="passengers"
@@ -38,13 +42,15 @@
     />
   </label>
 
-  <button (click)="searchFlights()">Search Flights</button>
+  <button type="button" (click)="searchFlights()">
+    Filter Flights
+  </button>
 
   @if (loading) {
     <div class="loading-message">Loading data...</div>
   } @else {
     <app-flight-results
-        [flightResults]="flightResults"
+      [flightResults]="flightResults"
     ></app-flight-results>
   }
 </div>

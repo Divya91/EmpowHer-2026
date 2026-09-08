@@ -1,12 +1,13 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/services/auth';
+import { ImageAnimationDirective } from '../../directives/image-animation.directive';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, ImageAnimationDirective],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -17,8 +18,16 @@ export class NavbarComponent {
 
   constructor(
     protected readonly authService: AuthService,
-    private readonly router: Router
+    protected readonly router: Router
   ) {}
+
+  get isAdminPage(): boolean {
+    return this.router.url.startsWith('/admin');
+  }
+
+  get isAdminUser(): boolean {
+    return this.authService.role() === 'admin';
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -39,7 +48,6 @@ export class NavbarComponent {
   }
 
   initials(name: string | undefined): string {
-
     if (!name) {
       return 'M';
     }
@@ -49,18 +57,14 @@ export class NavbarComponent {
     const second = parts.length > 1 ? parts[parts.length - 1][0] : '';
 
     return (first + second).toUpperCase();
-
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-
     const target = event.target as HTMLElement;
 
     if (!target.closest('.profile-menu')) {
       this.isProfileOpen = false;
     }
-
   }
-
 }

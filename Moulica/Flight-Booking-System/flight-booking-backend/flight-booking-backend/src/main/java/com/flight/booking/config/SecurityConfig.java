@@ -22,7 +22,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/api/flights/**"
+                                "/api/flights/**",
+                                "/api/passengers/**",
+                                "/api/payments/**",
+                                "/api/bookings/**"
                         ).permitAll()
 
                         .anyRequest().authenticated()

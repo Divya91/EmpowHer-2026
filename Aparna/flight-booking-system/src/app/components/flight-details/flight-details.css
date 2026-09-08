@@ -1,24 +1,41 @@
-.flight-details {
-  margin-top: 1rem;
-  padding: 0.75rem 0;
-  border-top: 1px dashed #e5e7eb;
+:host {
+  display: block;
 }
 
-.details-line {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.9rem;
-  color: #334155;
-  margin: 0.25rem 0;
-  line-height: 1.6;
+.flight-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  background: var(--md-surface-container, #F8FAFC);
+  border-radius: 8px;
+  border-left: 3px solid var(--md-gold, #B58A4A);
 }
 
-.summary-label {
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-label {
+  font-size: 11px;
   font-weight: 700;
-  color: #312e81;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--md-on-surface-variant, #64748B);
 }
 
-.details-line.seats {
-  color: #92400e;
-  font-weight: 700;
-  margin-top: 0.5rem;
+.detail-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--md-primary, #101A2B);
+}
+
+.detail-val.highlight {
+  color: var(--md-gold-text, #926A2E);
+}
+
+.detail-val.policy {
+  color: #059669;
 }

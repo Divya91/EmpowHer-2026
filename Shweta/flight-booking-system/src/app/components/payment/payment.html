@@ -1,0 +1,125 @@
+<h2>Payment</h2>
+
+<form [formGroup]="paymentForm">
+
+<h3>Total Amount : ₹{{fare}}</h3>
+
+<label>Select Payment Method</label>
+
+<div>
+
+<input
+type="radio"
+value="Credit Card"
+formControlName="paymentMethod">
+
+Credit Card
+
+</div>
+
+<div>
+
+<input
+type="radio"
+value="Debit Card"
+formControlName="paymentMethod">
+
+Debit Card
+
+</div>
+
+<div>
+
+<input
+type="radio"
+value="UPI"
+formControlName="paymentMethod">
+
+UPI
+
+</div>
+
+<div>
+
+<input
+type="radio"
+value="Net Banking"
+formControlName="paymentMethod">
+
+Net Banking
+
+</div>
+
+<br>
+
+@if(paymentForm.value.paymentMethod=='Credit Card' ||
+paymentForm.value.paymentMethod=='Debit Card'){
+
+<label>Card Holder Name</label>
+
+<input
+type="text"
+formControlName="cardHolderName">
+
+<label>Card Number</label>
+
+<input
+type="text"
+formControlName="cardNumber">
+
+<label>Expiry Date</label>
+
+<input
+type="month"
+formControlName="expiryDate">
+
+<label>CVV</label>
+
+<input
+type="password"
+formControlName="cvv">
+
+}
+
+@if(paymentForm.value.paymentMethod=='UPI'){
+
+<label>UPI ID</label>
+
+<input
+type="text"
+formControlName="upiId"
+placeholder="example@upi">
+
+}
+
+@if(paymentForm.value.paymentMethod=='Net Banking'){
+
+<label>Select Bank</label>
+
+<select formControlName="bankName">
+
+<option value="">Choose Bank</option>
+
+<option>SBI</option>
+
+<option>HDFC</option>
+
+<option>ICICI</option>
+
+<option>Axis Bank</option>
+
+</select>
+
+}
+
+<br>
+
+<button
+type="button"
+(click)="payNow()">
+
+Pay Now
+
+</button>
+
+</form>

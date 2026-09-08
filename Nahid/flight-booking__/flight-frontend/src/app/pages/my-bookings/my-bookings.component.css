@@ -1,0 +1,186 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: #0f766e;
+  color: white;
+}
+
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: #ccfbf1;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+nav a.active {
+  color: white;
+  font-weight: 700;
+  border-bottom: 2px solid #ea580c;
+  padding-bottom: 2px;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.page h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  color: #134e4a;
+  margin: 0.25rem 0;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 16px;
+  color: #64748b;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #0f766e;
+  color: white;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.booking-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid #0f766e;
+  box-shadow: 0 4px 20px rgba(15, 118, 110, 0.06);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.ref {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  color: #0f766e;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+}
+
+.badge {
+  background: #ecfdf5;
+  color: #0f766e;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.route {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  color: #134e4a;
+}
+
+.arrow {
+  color: #ea580c;
+}
+
+.airline {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  margin: 0.4rem 0 0.75rem;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #64748b;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.card-bottom strong {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  color: #0f766e;
+}
+
+.cancel-btn {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.55rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.badge.cancelled {
+  background: #fef2f2;
+  color: #dc2626;
+}

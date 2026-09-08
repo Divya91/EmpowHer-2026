@@ -1,0 +1,9 @@
+Frequently Asked Questions — Bookings & Tickets:
+Q: How can I cancel a flight booking?
+A: Go to "My Bookings", locate your upcoming trip card, click "Cancel Booking", and confirm the cancellation modal.
+
+Q: What happens when I cancel a booking?
+A: Your ticket status updates to CANCELLED and your seats are returned to the flight's available seat pool.
+
+Q: Where can I see my ticket reference number?
+A: Your ticket reference number is displayed on the Booking Confirmation page and listed on your "My Bookings" page cards.

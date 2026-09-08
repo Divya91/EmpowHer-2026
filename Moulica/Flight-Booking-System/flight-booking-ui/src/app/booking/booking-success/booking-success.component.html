@@ -1,0 +1,228 @@
+<div class="success-page">
+  <!-- SUCCESS HEADER -->
+  <div class="success-header">
+    <div class="success-icon">✓</div>
+
+    <div class="success-text">
+      <h1>Booking Confirmed!</h1>
+      <p>Your flight has been booked successfully.</p>
+    </div>
+  </div>
+
+  <!-- BOOKING CODE -->
+  <div class="booking-code-card">
+    <div>
+      <span class="small-label">BOOKING CODE</span>
+
+      <h2>
+        {{ booking?.bookingCode }}
+      </h2>
+    </div>
+
+    <div class="booking-status">
+      <span>
+        {{ booking?.status }}
+      </span>
+    </div>
+  </div>
+
+  <!-- FLIGHT SUMMARY -->
+  <div class="section">
+    <h2 class="section-title">✈ Flight Summary</h2>
+
+    <div class="flight-card">
+      <div class="airline-info">
+        <h2>IndiGo</h2>
+        <span>6E 2451</span>
+      </div>
+
+      <div class="flight-route">
+        <div class="location">
+          <strong>BLR</strong>
+          <span>08:30 AM</span>
+        </div>
+
+        <div class="flight-line">
+          <span>✈</span>
+        </div>
+
+        <div class="location">
+          <strong>DEL</strong>
+          <span>11:15 AM</span>
+        </div>
+      </div>
+
+      <div class="flight-price">₹{{ booking?.totalAmount }}</div>
+    </div>
+  </div>
+
+  <!-- DETAILS -->
+  <div class="details-grid">
+    <!-- BOOKING DETAILS -->
+    <div class="info-card">
+      <div class="card-title">
+        <span class="card-icon">🎫</span>
+
+        <h2>Booking Details</h2>
+      </div>
+
+      <div class="info-row">
+        <span>Booking ID</span>
+        <strong> #{{ booking?.bookingId }} </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Booking Code</span>
+        <strong>
+          {{ booking?.bookingCode }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Flight ID</span>
+        <strong>
+          {{ booking?.flightId }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Booking Status</span>
+
+        <span class="status success">
+          {{ booking?.status }}
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span>Payment Status</span>
+
+        <span class="status success">
+          {{ booking?.paymentStatus }}
+        </span>
+      </div>
+
+      <div class="info-row total-row">
+        <span>Total Amount</span>
+
+        <strong> ₹{{ booking?.totalAmount }} </strong>
+      </div>
+    </div>
+
+    <!-- PASSENGER DETAILS -->
+    <div class="info-card">
+      <div class="card-title">
+        <span class="card-icon">👤</span>
+
+        <h2>Passenger Details</h2>
+      </div>
+
+      <div class="info-row">
+        <span>Name</span>
+
+        <strong>
+          {{ passenger?.title }}
+          {{ passenger?.firstName }}
+          {{ passenger?.lastName }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Gender</span>
+
+        <strong>
+          {{ passenger?.gender }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Date of Birth</span>
+
+        <strong>
+          {{ passenger?.dateOfBirth }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Email</span>
+
+        <strong>
+          {{ passenger?.email }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Phone</span>
+
+        <strong>
+          {{ passenger?.phoneNumber }}
+        </strong>
+      </div>
+    </div>
+
+    <!-- PAYMENT DETAILS -->
+    <div class="info-card">
+      <div class="card-title">
+        <span class="card-icon">💳</span>
+
+        <h2>Payment Details</h2>
+      </div>
+
+      <div class="info-row">
+        <span>Payment ID</span>
+
+        <strong> #{{ payment?.paymentId }} </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Payment Method</span>
+
+        <strong>
+          {{ payment?.paymentMethod }}
+        </strong>
+      </div>
+
+      <div class="info-row transaction">
+        <span>Transaction ID</span>
+
+        <strong>
+          {{ payment?.transactionId }}
+        </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Amount Paid</span>
+
+        <strong> ₹{{ payment?.amount }} </strong>
+      </div>
+
+      <div class="info-row">
+        <span>Payment Status</span>
+
+        <span class="status success">
+          {{ payment?.paymentStatus }}
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span>Payment Date</span>
+
+        <strong>
+          {{ payment?.paymentDate | date: "medium" }}
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button type="button" class="download-btn" (click)="downloadTicket()">
+      ↓ Download Ticket
+    </button>
+
+    <button type="button" class="home-btn" (click)="goHome()">
+      Back to Home
+    </button>
+  </div>
+
+  <p class="footer-note">Thank you for booking with Let's Fly ✈</p>
+</div>

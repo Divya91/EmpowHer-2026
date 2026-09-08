@@ -1,0 +1,219 @@
+:host {
+  display: block;
+}
+
+.profile-page {
+  min-height: calc(100vh - 76px);
+  padding: 40px 24px 80px;
+  background: var(--md-background);
+}
+
+.profile-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--md-gold-dark);
+}
+
+.title {
+  margin: 0 0 6px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--md-primary);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--md-on-surface-variant);
+}
+
+.auth-card {
+  text-align: center;
+  padding: 60px 24px;
+  background: var(--md-surface);
+  border-radius: var(--md-radius-lg);
+  border: 1px solid var(--md-outline-variant);
+  box-shadow: var(--md-shadow);
+  max-width: 480px;
+  margin: 40px auto;
+}
+
+.btn-primary {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  border-radius: var(--md-radius-sm);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.user-badge-card {
+  background: var(--md-surface);
+  border-radius: var(--md-radius-lg);
+  border: 1px solid var(--md-outline-variant);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--md-shadow);
+}
+
+.avatar-large {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  color: var(--md-gold-light);
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.user-badge-card h2 {
+  margin: 0 0 4px;
+  font-size: 19px;
+  color: var(--md-primary);
+}
+
+.user-badge-card p {
+  margin: 0 0 16px;
+  font-size: 13px;
+  color: var(--md-on-surface-variant);
+}
+
+.role-chip {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(181, 138, 74, 0.12);
+  color: var(--md-gold-dark);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-card {
+  background: var(--md-surface);
+  border-radius: var(--md-radius-md);
+  border: 1px solid var(--md-outline-variant);
+  padding: 28px;
+  box-shadow: var(--md-shadow);
+}
+
+.section-card h3 {
+  margin: 0 0 20px;
+  font-size: 17px;
+  color: var(--md-primary);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--md-primary);
+}
+
+.form-field input, .form-field select {
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: var(--md-radius-sm);
+  background: var(--md-background);
+  font-size: 14px;
+  color: var(--md-on-surface);
+  outline: none;
+  font-family: var(--font-sans);
+}
+
+.form-field input:focus, .form-field select:focus {
+  border-color: var(--md-gold);
+  box-shadow: 0 0 0 3px rgba(181, 138, 74, 0.15);
+  background: var(--md-surface);
+}
+
+.readonly-input {
+  background: #f1f3f7 !important;
+  color: #71757e !important;
+  cursor: not-allowed;
+}
+
+.success-banner {
+  padding: 12px 18px;
+  background: rgba(26, 107, 60, 0.1);
+  border: 1px solid rgba(26, 107, 60, 0.3);
+  border-radius: var(--md-radius-sm);
+  color: #1A6B3C;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.action-row {
+  text-align: right;
+}
+
+.btn-save {
+  padding: 13px 28px;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  border: none;
+  border-radius: var(--md-radius-sm);
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-save:hover {
+  background: #1a2942;
+}
+
+@media (max-width: 800px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

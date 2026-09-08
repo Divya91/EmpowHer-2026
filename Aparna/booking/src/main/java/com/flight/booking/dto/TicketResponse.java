@@ -17,7 +17,7 @@ public class TicketResponse {
     private Long userId;
     private String userFirstName;
     private String userLastName;
-    private String flightId;
+    private Long flightId;
     private String flightNumber;
     private String fromAirport;
     private String toAirport;

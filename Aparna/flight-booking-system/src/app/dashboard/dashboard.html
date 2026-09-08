@@ -21,6 +21,40 @@
         </p>
       </div>
 
+      <div class="trips-section">
+
+        <div class="trips-header">
+          <h2 class="trips-title">My Trips</h2>
+          <a routerLink="/flights" class="book-link">Book a new flight</a>
+        </div>
+
+        @if (loadingTickets) {
+          <p class="trips-status">Loading your trips...</p>
+        } @else if (ticketsError) {
+          <p class="trips-status error">{{ ticketsError }}</p>
+        } @else if (tickets.length === 0) {
+          <p class="trips-status">You haven't booked any flights yet.</p>
+        } @else {
+          <div class="trips-list">
+            @for (ticket of tickets; track ticket.ticketId) {
+              <div class="trip-card">
+                <div class="trip-main">
+                  <span class="trip-route">{{ ticket.fromAirport }} &#8594; {{ ticket.toAirport }}</span>
+                  <span class="trip-flight">{{ ticket.flightNumber }}</span>
+                </div>
+                <div class="trip-meta">
+                  <span>{{ ticket.departureTs | date: 'MMM d, y, h:mm a' }}</span>
+                  <span>{{ ticket.numberOfSeats }} traveler{{ ticket.numberOfSeats > 1 ? 's' : '' }}</span>
+                  <span class="trip-status" [class.confirmed]="ticket.status === 'CONFIRMED'">{{ ticket.status }}</span>
+                </div>
+                <span class="trip-price">₹{{ ticket.totalPrice }}</span>
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+
     }
 
   </div>

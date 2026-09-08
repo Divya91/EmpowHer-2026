@@ -1,0 +1,124 @@
+<h2>Passenger Details</h2>
+
+<form [formGroup]="passengerForm">
+
+  <label>First Name</label>
+
+  <input
+    type="text"
+    formControlName="firstName">
+
+  @if(passengerForm.get('firstName')?.touched &&
+      passengerForm.get('firstName')?.hasError('required')){
+
+      <small>First Name is required</small>
+
+  }
+
+  <br><br>
+
+  <label>Last Name</label>
+
+  <input
+    type="text"
+    formControlName="lastName">
+
+  @if(passengerForm.get('lastName')?.touched &&
+      passengerForm.get('lastName')?.hasError('required')){
+
+      <small>Last Name is required</small>
+
+  }
+
+  <br><br>
+
+  <label>Gender</label>
+
+  <select formControlName="gender">
+
+      <option value="">Select Gender</option>
+
+      <option>Male</option>
+
+      <option>Female</option>
+
+      <option>Other</option>
+
+  </select>
+
+  @if(passengerForm.get('gender')?.touched &&
+      passengerForm.get('gender')?.hasError('required')){
+
+      <small>Please select gender</small>
+
+  }
+
+  <br><br>
+
+  <label>Mobile Number</label>
+
+  <input
+    type="text"
+    formControlName="mobileNumber">
+
+  @if(passengerForm.get('mobileNumber')?.hasError('pattern')){
+
+      <small>Enter a valid 10-digit mobile number</small>
+
+  }
+
+  <br><br>
+
+  <label>Email</label>
+
+  <input
+    type="email"
+    formControlName="emailId">
+
+  @if(passengerForm.get('emailId')?.hasError('email')){
+
+      <small>Enter a valid email</small>
+
+  }
+
+  <br><br>
+
+  <label>Date of Birth</label>
+
+  <input
+    type="date"
+    formControlName="dateOfBirth">
+
+  @if(passengerForm.get('dateOfBirth')?.touched &&
+      passengerForm.get('dateOfBirth')?.hasError('required')){
+
+      <small>Date of Birth is required</small>
+
+  }
+
+  <br><br>
+
+  <label>Aadhaar Number</label>
+
+  <input
+    type="text"
+    formControlName="aadharNumber">
+
+  @if(passengerForm.get('aadharNumber')?.hasError('pattern')){
+
+      <small>Aadhaar Number must be 12 digits</small>
+
+  }
+
+  <br><br>
+
+  <button
+    type="button"
+    (click)="savePassenger()"
+    [disabled]="passengerForm.invalid">
+
+    Continue
+
+  </button>
+
+</form>

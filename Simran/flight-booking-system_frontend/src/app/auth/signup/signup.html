@@ -1,0 +1,228 @@
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <h1>Flight Booking</h1>
+
+    <h2>Create Account</h2>
+
+    <p class="subtitle">
+      Sign up to book your flights
+    </p>
+
+
+    <form
+      [formGroup]="signupForm"
+      (ngSubmit)="onSignup()"
+    >
+
+
+      <!-- NAME -->
+
+      <div class="form-group">
+
+        <label for="name">
+          Full Name
+        </label>
+
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter your full name"
+        />
+
+        @if (
+          signupForm.get('name')?.touched &&
+          signupForm.get('name')?.invalid
+        ) {
+
+          <div class="error">
+
+            @if (
+              signupForm.get('name')?.errors?.['required']
+            ) {
+              Name is required
+            }
+
+            @if (
+              signupForm.get('name')?.errors?.['minlength']
+            ) {
+              Name must contain at least 2 characters
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- EMAIL -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+        />
+
+        @if (
+          signupForm.get('email')?.touched &&
+          signupForm.get('email')?.invalid
+        ) {
+
+          <div class="error">
+
+            @if (
+              signupForm.get('email')?.errors?.['required']
+            ) {
+              Email is required
+            }
+
+            @if (
+              signupForm.get('email')?.errors?.['email']
+            ) {
+              Please enter a valid email
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- PASSWORD -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter password"
+        />
+
+        @if (
+          signupForm.get('password')?.touched &&
+          signupForm.get('password')?.invalid
+        ) {
+
+          <div class="error">
+
+            @if (
+              signupForm.get('password')?.errors?.['required']
+            ) {
+              Password is required
+            }
+
+            @if (
+              signupForm.get('password')?.errors?.['minlength']
+            ) {
+              Password must contain at least 6 characters
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- CONFIRM PASSWORD -->
+
+      <div class="form-group">
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="Confirm your password"
+        />
+
+        @if (
+          signupForm.get('confirmPassword')?.touched &&
+          signupForm.get('confirmPassword')?.invalid
+        ) {
+
+          <div class="error">
+            Please confirm your password
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- ERROR -->
+
+      @if (errorMessage) {
+
+        <div class="error-box">
+          {{ errorMessage }}
+        </div>
+
+      }
+
+
+      <!-- SUCCESS -->
+
+      @if (successMessage) {
+
+        <div class="success-box">
+          {{ successMessage }}
+        </div>
+
+      }
+
+
+      <!-- SIGNUP BUTTON -->
+
+      <button
+        type="submit"
+        [disabled]="isLoading"
+      >
+
+        @if (isLoading) {
+          Creating Account...
+        } @else {
+          Sign Up
+        }
+
+      </button>
+
+    </form>
+
+
+    <!-- LOGIN LINK -->
+
+    <p class="login-text">
+
+      Already have an account?
+
+      <a
+        (click)="goToLogin()"
+      >
+        Login
+      </a>
+
+    </p>
+
+  </div>
+
+</div>

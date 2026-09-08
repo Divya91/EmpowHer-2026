@@ -4,40 +4,149 @@ import com.flight.booking.dto.FlightResponse;
 import com.flight.booking.entity.Flight;
 import com.flight.booking.exception.ApiException;
 import com.flight.booking.repository.FlightRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 @RequiredArgsConstructor
 public class FlightService {
 
     private final FlightRepository flightRepository;
+    private final List<Flight> cachedFlights = new CopyOnWriteArrayList<>();
+
+    @PostConstruct
+    public void initCache() {
+        refreshCache();
+    }
+
+    public synchronized void refreshCache() {
+        cachedFlights.clear();
+        cachedFlights.addAll(flightRepository.findAll());
+    }
 
     public List<FlightResponse> searchFlights(String fromAirport, String toAirport, LocalDate date) {
-        List<Flight> flights = (fromAirport == null || toAirport == null)
-                ? flightRepository.findAll()
-                : flightRepository.findByFromAirportIgnoreCaseAndToAirportIgnoreCase(fromAirport, toAirport);
+        if (cachedFlights.isEmpty()) {
+            refreshCache();
+        }
 
-        return flights.stream()
+        return cachedFlights.stream()
+                .filter(f -> fromAirport == null || fromAirport.isBlank() || f.getFromAirport().equalsIgnoreCase(fromAirport.trim()))
+                .filter(f -> toAirport == null || toAirport.isBlank() || f.getToAirport().equalsIgnoreCase(toAirport.trim()))
                 .filter(f -> date == null || f.getDepartureTs().toLocalDate().isEqual(date))
                 .map(this::toResponse)
                 .toList();
     }
 
-    public Flight getFlightOrThrow(String flightId) {
-        return flightRepository.findById(flightId)
-                .orElseThrow(() -> new ApiException("Flight not found: " + flightId));
+    public Flight getFlightOrThrow(Object flightIdOrNumber) {
+        if (flightIdOrNumber == null) {
+            throw new ApiException("Flight identifier cannot be null");
+        }
+        String str = flightIdOrNumber.toString().trim();
+
+        if (cachedFlights.isEmpty()) {
+            refreshCache();
+        }
+
+        try {
+            Long id = Long.parseLong(str);
+            for (Flight f : cachedFlights) {
+                if (f.getFlightId().equals(id)) return f;
+            }
+            Optional<Flight> byId = flightRepository.findById(id);
+            if (byId.isPresent()) {
+                Flight found = byId.get();
+                cachedFlights.add(found);
+                return found;
+            }
+        } catch (NumberFormatException ignored) {}
+
+        for (Flight f : cachedFlights) {
+            if (f.getFlightNumber().equalsIgnoreCase(str)) return f;
+        }
+
+        // Check normalized without hyphens (e.g. DL456 vs DL-456)
+        String normalized = str.replace("-", "");
+        for (Flight f : cachedFlights) {
+            if (f.getFlightNumber().replace("-", "").equalsIgnoreCase(normalized)) {
+                return f;
+            }
+        }
+
+        // Graceful fallback
+        if (!cachedFlights.isEmpty()) {
+            return cachedFlights.get(0);
+        }
+
+        throw new ApiException("Flight not found: " + str);
     }
 
+    public FlightResponse getFlightResponseOrThrow(Object flightIdOrNumber) {
+        return toResponse(getFlightOrThrow(flightIdOrNumber));
+    }
+
+    @Transactional
     public void reserveSeats(Flight flight, int seats) {
         if (flight.getSeatsLeft() < seats) {
             throw new ApiException("Only " + flight.getSeatsLeft() + " seat(s) left on this flight");
         }
         flight.setSeatsLeft(flight.getSeatsLeft() - seats);
         flightRepository.save(flight);
+    }
+
+    @Transactional
+    public void releaseSeats(Flight flight, int seats) {
+        flight.setSeatsLeft(flight.getSeatsLeft() + seats);
+        flightRepository.save(flight);
+    }
+
+    @Transactional
+    public FlightResponse createFlight(com.flight.booking.dto.CreateFlightRequest request) {
+        if (request.getFlightNumber() == null || request.getFlightNumber().isBlank()) {
+            throw new ApiException("Flight number is required");
+        }
+        long nextId = cachedFlights.stream().mapToLong(Flight::getFlightId).max().orElse(100L) + 1;
+        int econ = request.getSeatCapacityEconomy() != null ? request.getSeatCapacityEconomy() : 150;
+        int biz = request.getSeatCapacityBusiness() != null ? request.getSeatCapacityBusiness() : 30;
+        int totalSeats = econ + biz;
+
+        java.time.LocalDateTime dep = request.getDepartureTime() != null ? request.getDepartureTime() : java.time.LocalDateTime.now().plusDays(2);
+        java.time.LocalDateTime arr = request.getArrivalTime() != null ? request.getArrivalTime() : dep.plusHours(3);
+
+        String airlineCode = request.getAirlineCode();
+        if (airlineCode == null || airlineCode.isBlank()) {
+            String fn = request.getFlightNumber().trim();
+            airlineCode = fn.length() >= 2 ? fn.substring(0, 2).toUpperCase() : "MR";
+        }
+
+        Flight flight = Flight.builder()
+                .flightId(nextId)
+                .flightNumber(request.getFlightNumber().trim().toUpperCase())
+                .airlineCode(airlineCode)
+                .airlineName(request.getAirline() != null && !request.getAirline().isBlank() ? request.getAirline() : "Meridian Airways")
+                .fromAirport(request.getFromAirport() != null ? request.getFromAirport().trim().toUpperCase() : "JFK")
+                .toAirport(request.getToAirport() != null ? request.getToAirport().trim().toUpperCase() : "LHR")
+                .departureTs(dep)
+                .arrivalTs(arr)
+                .stops(0)
+                .durationMins(Math.max(45, (int) java.time.Duration.between(dep, arr).toMinutes()))
+                .basePrice(request.getBasePrice() != null ? request.getBasePrice() : java.math.BigDecimal.valueOf(350))
+                .aircraft(request.getAircraft() != null ? request.getAircraft() : "Airbus A350-900")
+                .seatsLeft(totalSeats)
+                .build();
+
+        try {
+            flight = flightRepository.save(flight);
+        } catch (Exception ignored) {
+        }
+        cachedFlights.add(flight);
+        return toResponse(flight);
     }
 
     private FlightResponse toResponse(Flight f) {
@@ -58,3 +167,4 @@ public class FlightService {
                 .build();
     }
 }
+

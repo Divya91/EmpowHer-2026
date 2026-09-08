@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FlightSearchComponent } from './components/flight-search/flight-search.component';
+import { MyBookingsComponent } from './components/booking/booking';
 
 @Component({
   selector: 'app-root',
-  imports: [ FlightSearchComponent],
+  standalone: true,
+  imports: [MyBookingsComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
   protected readonly title = signal('flight-booking-system');

@@ -5,6 +5,7 @@ import com.flight.booking.service.FlightService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,4 +27,15 @@ public class FlightController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return flightService.searchFlights(from, to, date);
     }
+
+    @GetMapping("/{flightId}")
+    public FlightResponse getFlight(@PathVariable String flightId) {
+        return flightService.getFlightResponseOrThrow(flightId);
+    }
+
+    @org.springframework.web.bind.annotation.PostMapping
+    public FlightResponse createFlight(@org.springframework.web.bind.annotation.RequestBody com.flight.booking.dto.CreateFlightRequest request) {
+        return flightService.createFlight(request);
+    }
 }
+

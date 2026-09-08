@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class FlightResponse {
-    private String flightId;
+    private Long flightId;
     private String flightNumber;
     private String airlineCode;
     private String airlineName;

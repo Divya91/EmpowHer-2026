@@ -1,72 +1,100 @@
 import { Injectable } from '@angular/core';
-import { SearchCriteria } from '../models/searchCriteria';
-import { delay,of,Observable } from 'rxjs';
-import { FlightResults } from '../models/flightResults';
-import { Airline } from '../models/airline';
-import { Flight } from '../models/flight';
-import { Airport } from '../models/airport';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 
-const AIRPORTS: Airport[] = [
-  {
-    airportCode: 'JFK',
-    city: 'New York',
-    country: 'USA',
-    name: 'John F. Kennedy International Airport',
-  },
-  {
-    airportCode: 'LAX',
-    city: 'Los Angeles',
-    country: 'USA',
-    name: 'Los Angeles International Airport',
-  }
-]
-const AIRLINES: Airline[] = [
-  {
-    airlineCode: 'AA',
-    name: 'American Airlines',
-  },
-  {
-    airlineCode: 'DL',
-    name: 'Delta Airlines',
-  },
-  {
-    airlineCode: 'UA',
-    name: 'United Airlines',
-  },
-];
-const FLIGHTS: Flight[] = [
-  {
-    flightId: 'AA123',
-    airlineCode: 'AA',
-    fromAirport: 'JFK',
-    toAirport: 'LAX',
-    arrivalTs: new Date('2024-06-01T12:00:00Z'),
-    departureTs: new Date('2024-06-01T08:00:00Z'),
-    stops: 0,
-    availableSeats: 50,
-    basePrice: 300,
-    durationMins: 240,
-  },
-];
-const FLIGHT_RESULTS: FlightResults[] = [
-  ...FLIGHTS.map((flight) => {
-    const airline = AIRLINES.find((a) => a.airlineCode === flight.airlineCode);
-    return {
-      ...flight,
-      airlineName: airline ? airline.name : 'Unknown Airline',
-    };
-  }
-)
-];
+import { SearchCriteria } from '../models/searchCriteria';
+import { FlightResults } from '../models/flightResults';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FlightServices {
-  constructor(){}
 
-  searchFlights(criteria: SearchCriteria): Observable<FlightResults[]>{
-    console.log('Searching flights with criteria: ',criteria);
-    return of(FLIGHT_RESULTS).pipe(delay(100));
+  private apiUrl = 'http://localhost:8080/api/flights';
+
+  constructor(
+    private http: HttpClient
+  ) {}
+
+  searchFlights(
+    criteria: SearchCriteria
+  ): Observable<FlightResults[]> {
+
+    const params = new HttpParams()
+      .set(
+        'src',
+        criteria.fromAirport.trim().toUpperCase()
+      )
+      .set(
+        'dest',
+        criteria.toAirport.trim().toUpperCase()
+      )
+      .set(
+        'date',
+        this.formatDate(criteria.departureDate)
+      );
+
+    console.log(
+      'Calling API:',
+      `${this.apiUrl}?${params.toString()}`
+    );
+
+    return this.http
+      .get<FlightResults[]>(
+        this.apiUrl,
+        { params }
+      )
+      .pipe(
+
+        catchError((error) => {
+
+          console.error(
+            'Flight API Error:',
+            error
+          );
+
+          return throwError(
+            () => error
+          );
+        })
+
+      );
+  }
+
+  getAllFlights(): Observable<FlightResults[]> {
+
+    return this.http.get<FlightResults[]>(
+      `${this.apiUrl}/all`
+    );
+  }
+
+  getFlightById(
+    id: number
+  ): Observable<FlightResults> {
+
+    return this.http.get<FlightResults>(
+      `${this.apiUrl}/${id}`
+    );
+  }
+
+  private formatDate(
+    date: Date | string
+  ): string {
+
+    if (typeof date === 'string') {
+      return date.substring(0, 10);
+    }
+
+    const year = date.getFullYear();
+
+    const month = String(
+      date.getMonth() + 1
+    ).padStart(2, '0');
+
+    const day = String(
+      date.getDate()
+    ).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 }

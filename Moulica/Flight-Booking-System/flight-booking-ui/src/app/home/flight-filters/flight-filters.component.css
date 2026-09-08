@@ -52,15 +52,3 @@
 
   cursor: pointer;
 }
-.price-value {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f5fbf;
-  margin-bottom: 10px;
-}
-
-input[type="range"] {
-  width: 100%;
-  cursor: pointer;
-  accent-color: #1f5fbf;
-}

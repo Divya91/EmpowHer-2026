@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home';
+import { authGuard, adminGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -13,8 +14,8 @@ export const routes: Routes = [
   },
   {
     path: 'flights/search-with-filters',
-    loadComponent: () =>
-      import('./components/search-with-filters/search-with-filters').then(m => m.SearchWithFilters)
+    redirectTo: 'flights',
+    pathMatch: 'full'
   },
   {
     path: 'auth',
@@ -22,12 +23,53 @@ export const routes: Routes = [
       import('./auth/auth').then(m => m.AuthComponent)
   },
   {
-    path: 'dashboard',
+    path: 'booking/:flightId',
     loadComponent: () =>
-      import('./dashboard/dashboard').then(m => m.DashboardComponent)
+      import('./booking/booking').then(m => m.BookingComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'booking-confirmation/:ticketId',
+    loadComponent: () =>
+      import('./booking/booking-confirmation/booking-confirmation').then(m => m.BookingConfirmationComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'my-bookings',
+    loadComponent: () =>
+      import('./booking/my-bookings/my-bookings').then(m => m.MyBookingsComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./profile/profile').then(m => m.ProfileComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./admin/admin-dashboard.component').then(m => m.AdminDashboardComponent),
+    canActivate: [adminGuard]
+  },
+  {
+    path: 'admin-dashboard',
+    redirectTo: 'admin',
+    pathMatch: 'full'
+  },
+  {
+    path: 'admin/dashboard',
+    redirectTo: 'admin',
+    pathMatch: 'full'
+  },
+  {
+    path: 'dashboard',
+    redirectTo: 'admin',
+    pathMatch: 'full'
   },
   {
     path: '**',
     redirectTo: ''
   }
 ];
+

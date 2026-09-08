@@ -90,3 +90,28 @@
 .results {
   min-height: 500px;
 }
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-btn:hover {
+  background: #1976d2;
+  color: white;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #1976d2;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  background: #e3f2fd;
+  color: #0d47a1;
+}

@@ -1,0 +1,9 @@
+Frequently Asked Questions — Account & Payments:
+Q: Will my real credit card be charged?
+A: No, Meridian uses a test/mock payment gateway. No actual financial transactions or charges occur.
+
+Q: How do I update my passport number or contact info?
+A: Click on your avatar/name in the top right navbar, select "Profile & Settings", update your information, and click "Save Profile Changes".
+
+Q: How do I log out of my account?
+A: Open the user dropdown menu in the top right navbar and click "Sign Out".

@@ -67,11 +67,12 @@ export class AuthComponent {
     request$.subscribe({
       next: () => {
         this.isLoading = false;
-        this.router.navigate(['/']);
+        const redirectTo = this.route.snapshot.queryParamMap.get('redirectTo');
+        this.router.navigateByUrl(redirectTo || '/');
       },
-      error: () => {
+      error: (err) => {
         this.isLoading = false;
-        this.errorMessage = 'Something went wrong. Please try again.';
+        this.errorMessage = err?.error?.message || 'Something went wrong. Please try again.';
       }
     });
 

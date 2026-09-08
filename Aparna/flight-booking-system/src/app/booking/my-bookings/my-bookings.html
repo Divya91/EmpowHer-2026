@@ -1,0 +1,150 @@
+<section class="my-bookings-page">
+  <div class="my-bookings-inner">
+
+    <div class="page-header">
+      <div class="header-text">
+        <p class="eyebrow">Travel Management</p>
+        <h1 class="title">My Bookings</h1>
+        <p class="subtitle">Manage your flight itineraries, view booking details, or issue cancellations.</p>
+      </div>
+      <a routerLink="/flights" class="btn-book-new">+ Book New Flight</a>
+    </div>
+
+    <!-- Ticket Cancelled Feedback Toast Banner -->
+    @if (cancelledSuccessMessage) {
+      <div class="cancellation-toast">
+        <span class="toast-badge">&#10003;</span>
+        <div class="toast-content">
+          <strong>Ticket Cancelled</strong>
+          <p>{{ cancelledSuccessMessage }}</p>
+        </div>
+        <button type="button" class="btn-toast-dismiss" (click)="cancelledSuccessMessage = ''" aria-label="Dismiss">&times;</button>
+      </div>
+    }
+
+    @if (!authService.isLoggedIn()) {
+      <div class="auth-prompt-card">
+        <h2>Authentication Required</h2>
+        <p>Please sign in to view your travel bookings.</p>
+        <a routerLink="/auth" class="btn-primary">Sign In to Continue</a>
+      </div>
+    } @else if (loading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Fetching your bookings...</p>
+      </div>
+    } @else {
+
+      <!-- Category Filter Tabs -->
+      <div class="tabs-container">
+        <button type="button" class="tab-btn" [class.active]="activeTab === 'all'" (click)="activeTab = 'all'">
+          All Trips ({{ tickets.length }})
+        </button>
+        <button type="button" class="tab-btn" [class.active]="activeTab === 'upcoming'" (click)="activeTab = 'upcoming'">
+          Upcoming
+        </button>
+        <button type="button" class="tab-btn" [class.active]="activeTab === 'past'" (click)="activeTab = 'past'">
+          Past
+        </button>
+        <button type="button" class="tab-btn" [class.active]="activeTab === 'cancelled'" (click)="activeTab = 'cancelled'">
+          Cancelled
+        </button>
+      </div>
+
+      @if (filteredTickets.length === 0) {
+        <div class="empty-state">
+          <h3>No Bookings Found</h3>
+          <p>You don't have any {{ activeTab !== 'all' ? activeTab : '' }} trips recorded yet.</p>
+          <a routerLink="/flights" class="btn-ghost">Search Available Flights</a>
+        </div>
+      } @else {
+        <div class="tickets-grid">
+          @for (ticket of filteredTickets; track ticket.ticketId) {
+            <div class="ticket-card" [class.cancelled]="ticket.status === 'CANCELLED'">
+              
+              <div class="ticket-card-header">
+                <div class="route-title">
+                  <h2>{{ ticket.fromAirport }} &rarr; {{ ticket.toAirport }}</h2>
+                  <span class="flight-no">{{ ticket.flightNumber }}</span>
+                </div>
+                
+                <div class="status-badge" [class.cancelled]="ticket.status === 'CANCELLED'" [class.confirmed]="ticket.status === 'CONFIRMED'">
+                  <span class="status-dot"></span>
+                  {{ ticket.status === 'CANCELLED' ? 'CANCELLED' : ticket.status }}
+                </div>
+              </div>
+
+              <div class="ticket-card-body">
+                <div class="info-group">
+                  <span class="info-label">Departure</span>
+                  <span class="info-val">{{ ticket.departureTs | date: 'EEE, MMM d, y @ h:mm a' }}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Passenger</span>
+                  <span class="info-val">{{ ticket.userFirstName }} {{ ticket.userLastName }}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Seats</span>
+                  <span class="info-val">{{ ticket.numberOfSeats }} Traveler{{ ticket.numberOfSeats > 1 ? 's' : '' }}</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Total Price</span>
+                  <span class="info-val price">₹{{ ticket.totalPrice.toLocaleString('en-IN') }}</span>
+                </div>
+              </div>
+
+              <div class="ticket-card-footer">
+                <span class="ticket-ref">Ref #{{ ticket.ticketId }}</span>
+
+                @if (isUpcoming(ticket)) {
+                  <button type="button" class="btn-cancel" (click)="openCancelModal(ticket)">
+                    Cancel Booking
+                  </button>
+                } @else if (ticket.status === 'CANCELLED') {
+                  <span class="cancelled-note">&#10007; Ticket Cancelled</span>
+                }
+              </div>
+
+            </div>
+          }
+        </div>
+      }
+
+    }
+
+    <!-- Interactive Cancellation Modal -->
+    @if (ticketToCancel) {
+      <div class="modal-backdrop" (click)="closeCancelModal()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          
+          <div class="modal-header">
+            <h3>Cancel Flight Booking?</h3>
+            <button type="button" class="close-btn" (click)="closeCancelModal()">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <p>Are you sure you want to cancel your flight reservation from <strong>{{ ticketToCancel.fromAirport }}</strong> to <strong>{{ ticketToCancel.toAirport }}</strong>?</p>
+            
+            <div class="cancel-summary">
+              <div><span>Booking Ref:</span> <strong>#{{ ticketToCancel.ticketId }}</strong></div>
+              <div><span>Flight:</span> <strong>{{ ticketToCancel.flightNumber }}</strong></div>
+              <div><span>Departure:</span> <strong>{{ ticketToCancel.departureTs | date: 'MMM d, y @ h:mm a' }}</strong></div>
+              <div><span>Seats to Release:</span> <strong>{{ ticketToCancel.numberOfSeats }}</strong></div>
+            </div>
+
+            <p class="warning-text">This action will return the reserved seats back to the flight inventory and update your ticket status to CANCELLED.</p>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-modal-secondary" (click)="closeCancelModal()" [disabled]="cancelling">Keep Booking</button>
+            <button type="button" class="btn-modal-danger" (click)="confirmCancellation()" [disabled]="cancelling">
+              {{ cancelling ? 'Cancelling...' : 'Confirm Cancellation' }}
+            </button>
+          </div>
+
+        </div>
+      </div>
+    }
+
+  </div>
+</section>

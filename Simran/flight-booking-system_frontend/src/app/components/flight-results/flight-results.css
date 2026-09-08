@@ -1,0 +1,248 @@
+.results-page {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 20px;
+
+  max-width: 1100px;
+
+  margin: 20px auto;
+
+  padding: 0 20px;
+}
+
+
+/* FILTER */
+
+.filter-column {
+  width: 240px;
+}
+
+
+/* RESULTS */
+
+.results-container {
+  min-width: 0;
+}
+
+
+/* HEADER */
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.results-header h2 {
+  margin: 0;
+
+  font-size: 24px;
+}
+
+.results-header p {
+  margin: 5px 0;
+
+  color: #777;
+}
+
+
+.sort-select {
+  padding: 8px 12px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 6px;
+
+  background: white;
+}
+
+
+
+/* FLIGHT CARD */
+
+.flight-card {
+
+  display: grid;
+
+  grid-template-columns:
+    1.3fr
+    0.8fr
+    1.3fr
+    0.8fr
+    1fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+  background: white;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+  margin-bottom: 12px;
+
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.05);
+}
+
+
+/* AIRLINE */
+
+.airline {
+  display: flex;
+  flex-direction: column;
+}
+
+.airline strong {
+  font-size: 16px;
+}
+
+.airline small {
+  color: #777;
+
+  margin-top: 4px;
+}
+
+
+/* TIME */
+
+.time-section {
+
+  display: flex;
+
+  flex-direction: column;
+
+  text-align: center;
+}
+
+.time-section strong {
+  font-size: 18px;
+}
+
+.time-section span {
+  color: #777;
+
+  margin-top: 4px;
+}
+
+
+/* DURATION */
+
+.duration {
+  text-align: center;
+}
+
+.duration span {
+  color: #666;
+}
+
+.duration-line {
+
+  height: 2px;
+
+  background: #ddd;
+
+  margin: 8px 0;
+}
+
+.duration small {
+  color: #16855b;
+}
+
+
+/* PRICE */
+
+.price {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+}
+
+.price strong {
+  font-size: 20px;
+}
+
+.price small {
+
+  color: #777;
+
+  margin: 4px 0 10px;
+}
+
+
+.price button {
+
+  padding: 8px 18px;
+
+  border: 1px solid #1673c9;
+
+  background: white;
+
+  color: #1673c9;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+}
+
+.price button:hover {
+
+  background: #1673c9;
+
+  color: white;
+}
+
+
+/* NO RESULTS */
+
+.no-results {
+
+  background: white;
+
+  padding: 40px;
+
+  text-align: center;
+
+  border-radius: 10px;
+
+  border: 1px solid #ddd;
+}
+
+
+.no-results p {
+  color: #777;
+}
+
+
+@media (max-width: 800px) {
+
+  .results-page {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-column {
+    width: 100%;
+  }
+
+  .flight-card {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+  }
+
+  .price {
+    align-items: center;
+  }
+
+}

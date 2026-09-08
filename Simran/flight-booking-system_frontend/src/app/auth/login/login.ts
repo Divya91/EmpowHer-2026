@@ -1,40 +1,168 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+
+import { Component, OnInit } from '@angular/core';
+
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+
 import { Router } from '@angular/router';
-import { Auth } from '../services/auth';
+
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
-  standalone: true, 
-  imports: [CommonModule, FormsModule],
+
+  standalone: true,
+
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
+
   templateUrl: './login.html',
-  styleUrl: './login.css',
+
+  styleUrl: './login.css'
 })
-export class Login {
-  email = '';
-  password= '';
+export class Login implements OnInit {
+
+  loginForm!: FormGroup;
+
   isLoading = false;
-  constructor( private authService: Auth, private router: Router) {}
-  onSubmit() {
-  console.log("Submit button clicked");
 
-  this.router.navigate(['/flight-search']);
+  errorMessage = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+
+    this.loginForm = this.fb.group({
+
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email
+        ]
+      ],
+
+      password: [
+        '',
+        [
+          Validators.required
+        ]
+      ]
+
+    });
+  }
+
+  onLogin(): void {
+
+    // Clear previous error
+    this.errorMessage = '';
+
+    // Check form validation
+    if (this.loginForm.invalid) {
+
+      this.loginForm.markAllAsTouched();
+
+      return;
+    }
+
+    this.isLoading = true;
+
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    console.log('Login request started');
+
+    this.authService.login(email, password).subscribe({
+
+      // =========================
+      // LOGIN SUCCESS
+      // =========================
+      next: (user) => {
+
+        console.log('Login successful:', user);
+
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify(user)
+        );
+
+        this.isLoading = false;
+
+        // ADMIN
+        if (user.role === 'ADMIN') {
+
+          this.router.navigate(['/admin-dashboard']);
+
+        }
+
+        // PASSENGER
+        else {
+
+          this.router.navigate(['/flight-search']);
+
+        }
+      },
+
+      // =========================
+      // LOGIN FAILED
+      // =========================
+      error: (error) => {
+
+        console.error('Login failed:', error);
+
+        // VERY IMPORTANT
+        // Stop loading immediately
+        this.isLoading = false;
+
+        // Wrong email/password
+        if (error.status === 401) {
+
+          this.errorMessage =
+            'Incorrect email or password. Please try again.';
+
+        }
+
+        // Other server errors
+        else if (error.status === 400) {
+
+          this.errorMessage =
+            'Invalid login request. Please check your details.';
+
+        }
+
+        // Backend not running / connection problem
+        else if (error.status === 0) {
+
+          this.errorMessage =
+            'Unable to connect to the server. Please make sure Spring Boot is running.';
+
+        }
+
+        // Any unexpected error
+        else {
+
+          this.errorMessage =
+            'Something went wrong. Please try again.';
+        }
+      }
+
+    });
+  }
+
+  goToSignup(): void {
+
+    this.router.navigate(['/auth/signup']);
+
+  }
 }
-//   onSubmit() {
-//   this.isLoading = true;
-
-//   this.authService.login(this.email, this.password).subscribe({
-//     next: (user) => {
-//       console.log('Login successful');
-//       this.isLoading = false;
-//       this.router.navigate(['/flight-search']);
-//     },
-//     error: (err) => {
-//       console.log(err);
-//       this.isLoading = false;
-//     }
-//   });
-// }
-
-} 

@@ -1,17 +1,119 @@
 <nav class="navbar">
-  <a routerLink="/" class="brand">
+
+  <!-- BRAND -->
+
+  <a
+    [routerLink]="isAdmin() ? '/admin' : '/flights'"
+    class="brand">
+
     <span class="brand-icon">✈</span>
-    <span>Flyora</span>
+
+    <span>
+      {{ isAdmin() ? 'Flyora Admin' : 'Flyora' }}
+    </span>
+
   </a>
 
-  <div class="nav-links">
-    <a routerLink="/">Home</a>
-    <a routerLink="/flights">Flights</a>
-    <a routerLink="/flights">My Trips</a>
-  </div>
 
-  <div class="nav-actions">
-    <a routerLink="/login" class="login-link">Login</a>
-    <a routerLink="/register" class="register-btn">Sign up</a>
-  </div>
+  @if(isLoggedIn()) {
+
+    <!-- ================= ADMIN NAVBAR ================= -->
+
+    @if(isAdmin()) {
+
+      <div class="nav-links">
+
+        <a
+          routerLink="/admin"
+          routerLinkActive="active">
+          Dashboard
+        </a>
+
+        <a
+          routerLink="/admin"
+          fragment="flights"
+          routerLinkActive="active">
+
+          Flights
+
+        </a>
+
+        <a
+          routerLink="/admin"
+          fragment="bookings"
+          routerLinkActive="active">
+
+          Bookings
+
+        </a>
+
+      </div>
+
+    }
+
+
+    <!-- ================= USER NAVBAR ================= -->
+
+    @else {
+
+      <div class="nav-links">
+
+        <a
+          routerLink="/flights"
+          routerLinkActive="active">
+          Flights
+        </a>
+
+        <a
+          routerLink="/my-trips"
+          routerLinkActive="active">
+          My Trips
+        </a>
+
+      </div>
+
+    }
+
+
+    <!-- ================= LOGOUT ================= -->
+
+    <div class="nav-actions">
+
+      <button
+        class="logout-btn"
+        (click)="logout()">
+
+        Logout
+
+      </button>
+
+    </div>
+
+  }
+
+
+  @else {
+
+    <div class="nav-actions">
+
+      <a
+        routerLink="/login"
+        class="login-link">
+
+        Login
+
+      </a>
+
+      <a
+        routerLink="/register"
+        class="register-btn">
+
+        Sign Up
+
+      </a>
+
+    </div>
+
+  }
+
 </nav>

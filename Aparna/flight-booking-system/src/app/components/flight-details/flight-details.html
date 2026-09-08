@@ -1,9 +1,31 @@
-<div class="flight-details">
-  <p class="details-line">
-    {{ flight.flightId }} &middot; {{ flight.airlineCode }} &middot; {{ durationLabel }}
-    &middot; {{ flight.stops === 0 ? 'Non-stop' : flight.stops + ' stop' }}
-  </p>
-  <p class="details-line seats">
-    {{ flight.availableSeats }} seat{{ flight.availableSeats === 1 ? '' : 's' }} left at this price
-  </p>
+<div class="flight-details-grid">
+  <div class="detail-item">
+    <span class="detail-label">Aircraft</span>
+    <span class="detail-val">{{ flight.aircraft || 'Airbus A320neo' }}</span>
+  </div>
+
+  <div class="detail-item">
+    <span class="detail-label">Flight Type</span>
+    <span class="detail-val">{{ stopLabel }}</span>
+  </div>
+
+  <div class="detail-item">
+    <span class="detail-label">Total Duration</span>
+    <span class="detail-val">{{ durationLabel }}</span>
+  </div>
+
+  <div class="detail-item">
+    <span class="detail-label">Available Inventory</span>
+    <span class="detail-val highlight">{{ seatsAvailable }} seats remaining</span>
+  </div>
+
+  <div class="detail-item">
+    <span class="detail-label">Baggage Allowance</span>
+    <span class="detail-val">7 kg Cabin + 15 kg Check-in</span>
+  </div>
+
+  <div class="detail-item">
+    <span class="detail-label">Cancellation</span>
+    <span class="detail-val policy">Instant self-service cancellation</span>
+  </div>
 </div>

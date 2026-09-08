@@ -1,16 +1,19 @@
 @if (flightResults.length === 0) {
-  <p class="empty-message">No flights found</p>
+  <p>No flights found</p>
 } @else {
-  <div class="results-list">
-    @for (result of flightResults; track $index) {
-      <div class="flight-card">
-        <div class="airline-name">{{ result.airlineName }}</div>
-        <div class="flight-details">
-          <span>Departure: {{ result.departureTs }}</span>
-          <span>Arrival: {{ result.arrivalTs }}</span>
-          <span>Price: {{ result.basePrice }}</span>
-        </div>
-      </div>
-    }
-  </div>
+  @for (result of flightResults; track result.flightId) {
+    <div class="flight-card">
+      <h3>{{ result.airlineName }}</h3>
+
+      <p>Flight ID: {{ result.flightId }}</p>
+      <p>From: {{ result.fromAirport }}</p>
+      <p>To: {{ result.toAirport }}</p>
+      <p>Departure: {{ result.departureTs }}</p>
+      <p>Arrival: {{ result.arrivalTs }}</p>
+      <p>Stops: {{ result.stops }}</p>
+      <p>Seats Available: {{ result.availableSeats }}</p>
+      <p>Price: {{ result.basePrice }}</p>
+      <p>Duration: {{ result.durationMins }} minutes</p>
+    </div>
+  }
 }
